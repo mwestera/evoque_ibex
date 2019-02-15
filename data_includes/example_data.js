@@ -1,4 +1,5 @@
-var shuffleSequence = seq("intro", sepWith("sep", seq("practice", rshuffle("s1", "s2"))), sepWith("sep", rshuffle("q1", "q2")));
+// var shuffleSequence = seq("sel", "intro", sepWith("sep", seq("practice", rshuffle("s1", "s2"))), sepWith("sep", rshuffle("q1", "q2")));
+var shuffleSequence = seq("sel");   // For now, the only thing to test is the selection controller
 var practiceItemTypes = ["practice"];
 
 var defaults = [
@@ -30,6 +31,10 @@ var defaults = [
 ];
 
 var items = [
+
+    ["sel", "Form", {
+        html: { include: "get_selection.html" },
+    }],
 
     // New in Ibex 0.3-beta-9. You can now add a '__SendResults__' controller in your shuffle
     // sequence to send results before the experiment has finished. This is NOT intended to allow
