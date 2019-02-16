@@ -1,8 +1,14 @@
 // var shuffleSequence = seq("sel", "intro", sepWith("sep", seq("practice", rshuffle("s1", "s2"))), sepWith("sep", rshuffle("q1", "q2")));
-var shuffleSequence = seq("sel");   // For now, the only thing to test is the selection controller
+var shuffleSequence = seq("fragment");   // For now, the only thing to test
 var practiceItemTypes = ["practice"];
 
+var globalBuffer = "INIT";
+
 var defaults = [
+    "SelectorForm", {
+        continueOnReturn: true,
+        saveReactionTime: true
+    },
     "Separator", {
         transfer: 1000,
         normalMessage: "Please wait for the next sentence.",
@@ -32,8 +38,20 @@ var defaults = [
 
 var items = [
 
-    ["sel", "Form", {
-        html: { include: "get_selection.html" },
+    ["fragment", "SelectorForm", {
+            // Fragment beginning only
+            // TODO more principled way of cutting fragment, layout, printing 'to be continued', etc.
+            fragment: "Friday is Mrs. Judson’s, her marble-topped table that refuses to give up its smudges no matter how hard I polish. I used to sing along to my Walkman until someone on the 23 bus made off with my purse. Now I make up my own songs. I sing them on my knees to the walnut baseboards until their shine sings back to me. <br><br>[...to be continued...] ",
+            form: {include: "selector_form_for_fragment_start.html"},
+            validators: {   // These are defined within the form html file, for lack of a better place.
+			    question: function (s) { return qualityControlQuestion(s); },
+			    selected_text: function (s) { return qualityControlSelection(s); },
+            }
+        }, "SelectorForm", {
+            // Fragment plus ending
+            fragment: "Friday is Mrs. Judson’s, her marble-topped table that refuses to give up its smudges no matter how hard I polish. I used to sing along to my Walkman until someone on the 23 bus made off with my purse. Now I make up my own songs. I sing them on my knees to the walnut baseboards until their shine sings back to me. <br><br>I sing through lunch, a shot of whiskey I cadge from the liquor Mrs. Judson will never miss. When I clean the bedroom, Mr. Judson smiles up at me from the glass where he’s drowning. He approves.",
+            form: {include: "selector_form_for_fragment_end.html"},
+            // TODO other validators
     }],
 
     // New in Ibex 0.3-beta-9. You can now add a '__SendResults__' controller in your shuffle
