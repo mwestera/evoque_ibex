@@ -1,5 +1,5 @@
 // var shuffleSequence = seq("sel", "intro", sepWith("sep", seq("practice", rshuffle("s1", "s2"))), sepWith("sep", rshuffle("q1", "q2")));
-var shuffleSequence = seq("fragment");   // For now, the only thing to test
+var shuffleSequence = seq("test");   // For now, the only thing to test
 var practiceItemTypes = ["practice"];
 
 var globalBuffer = "INIT";
@@ -38,6 +38,16 @@ var defaults = [
 
 var items = [
 
+    ["test", "FragmentForm", {
+        fragment_start: "Friday is Mrs. Judson’s, her marble-topped table that refuses to give up its smudges no matter how hard I polish. I used to sing along to my Walkman until someone on the 23 bus made off with my purse. Now I make up my own songs. I sing them on my knees to the walnut baseboards until their shine sings back to me.",
+        fragment_cont: "I sing through lunch, a shot of whiskey I cadge from the liquor Mrs. Judson will never miss. When I clean the bedroom, Mr. Judson smiles up at me from the glass where he’s drowning. He approves.",
+        html: {include: "form_for_fragment.html"},
+        validators: {   // These are defined within the form html file, for lack of a better place.
+            question: function (s) { return qualityControlQuestion(s); },
+            selected_text: function (s) { return qualityControlSelection(s); },
+        },
+    }],
+
     ["fragment", "SelectorForm", {
             // Fragment beginning only
             // TODO more principled way of cutting fragment, layout, printing 'to be continued', etc.
@@ -46,7 +56,8 @@ var items = [
             validators: {   // These are defined within the form html file, for lack of a better place.
 			    question: function (s) { return qualityControlQuestion(s); },
 			    selected_text: function (s) { return qualityControlSelection(s); },
-            }
+            },
+            continueMessage: "Click to reveal the rest of the fragment.",
         }, "SelectorForm", {
             // Fragment plus ending
             fragment: "Friday is Mrs. Judson’s, her marble-topped table that refuses to give up its smudges no matter how hard I polish. I used to sing along to my Walkman until someone on the 23 bus made off with my purse. Now I make up my own songs. I sing them on my knees to the walnut baseboards until their shine sings back to me. <br><br>I sing through lunch, a shot of whiskey I cadge from the liquor Mrs. Judson will never miss. When I clean the bedroom, Mr. Judson smiles up at me from the glass where he’s drowning. He approves.",
