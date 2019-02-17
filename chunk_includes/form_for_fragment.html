@@ -1,0 +1,193 @@
+<script>
+
+    // NOTE: Other crucial scripts (for selection) defined in Selector.js controller.
+
+    // Called when clicking a button, to clear highlighting
+//function clearSelection() {
+//    document.getElementById("selection_start").value = "";
+//    document.getElementById("selection_end").value = "";
+//    document.getElementById("selected_text").value = "";
+//    document.getElementById("highlighter1").innerHTML = document.getElementById("selector").innerHTML;
+//};
+
+
+// For showing form fields depending on whether the fragment evokes a question
+function toggleQuestionRadio(element) {
+    // TODO this function seems unnecessarily messy...
+    if (( element.id == "q1toggleyes" && !element.checked ) || (element.id == "q1toggleno" && element.checked)) {
+        document.getElementById("q1").readOnly = true;
+        document.getElementById("q1hiddencopy").innerHTML = document.getElementById("q1").value;
+        document.getElementById("q1").value = "";
+        document.getElementById("highlighter1").style.visibility = "hidden";
+        document.getElementById("question4").style.visibility = "hidden";
+    } else {
+        document.getElementById("q1").readOnly = false;
+        document.getElementById("q1").value = document.getElementById("q1hiddencopy").innerHTML;
+        document.getElementById("q1hiddencopy").innerHTML = "";
+        document.getElementById("highlighter1").style.visibility = "visible";
+        document.getElementById("question4").style.visibility = "visible";
+    }
+}
+
+// These are called by the "validator" option, passed on from the experiment definition. I thought they'd fit here.
+function qualityControlQuestion(s) {
+    if ( document.getElementById("q1toggleyes").checked && s == "" ) return "In item 3, please enter a question or select 'no'.";
+    // TODO More sophisticated quality control, e.g., spellcheck, min length, question mark?
+
+    return true;
+}
+
+function qualityControlSelection(s) {
+    if ( document.getElementById("q1toggleyes").checked && s == "" ) return "For item 4, please highlight a phrase in the fragment.";
+    // TODO More sophisticated quality control, e.g., min words, max words?
+    return true;
+};
+
+function showFragmentStart() {
+    document.getElementById("highlighter1").innerHTML = fragmentstart;
+    document.getElementById("selector1").innerHTML = fragmentstart;
+    document.getElementById("showbutton1").style.visibility = "hidden";
+    document.getElementById("showbutton2").style.visibility = "visible";
+};
+
+function showFragmentCont() {
+    document.getElementById("highlighter2").innerHTML = fragmentcont;
+    document.getElementById("selector2").innerHTML = fragmentcont;
+    document.getElementById("showbutton2").style.visibility = "hidden";
+};
+
+// returns selection, but only when it exists wholly inside the "selector" field
+function getSelection() {
+
+    var selection = document.getSelection();
+
+    if (selection.anchorNode == null) return null;
+
+    if (
+        selection.anchorNode.parentNode.id == "selector1" &&
+        selection.focusNode.parentNode.id == "selector1" &&
+        selection.anchorOffset != selection.focusOffset
+    ) {
+        // determine start and end character based on anchor (where you click) and focus (where you release)
+        start = Math.min(selection.anchorOffset, selection.focusOffset);
+        end = Math.max(selection.anchorOffset, selection.focusOffset);
+
+        // TODO: Select only whole words.
+
+        // clear selection:
+        if (selection.removeAllRanges) {
+            selection.removeAllRanges();
+        } else if (selection.empty) {
+            selection.empty();
+        }
+
+        return [start, end];
+
+    }
+    return null;
+};
+
+// Called whenever mouse is released
+document.onmouseup = document.onkeyup = function() {
+
+    var sel = getSelection();
+
+    // Only do something if you've actually selected something:
+    if ( sel != null ) {
+
+        var text = document.getElementById("selector1").innerHTML;
+
+        document.getElementById("selection_start").value = sel[0];
+        document.getElementById("selection_end").value = sel[1];
+        document.getElementById("selected_text").value = text.substring(sel[0], sel[1]);
+
+        // Add highlighting, store in "highlighter" field displayed behind the "selector".
+        document.getElementById("highlighter1").innerHTML =
+            text.substring(0, sel[0]) +
+            '<mark style="color: transparent">' + text.substring(sel[0], sel[1]) + "</mark>" +
+            text.substring(sel[1], text.length);
+
+    }
+};
+
+
+</script>
+
+<!--
+<center><button onclick="clearSelection()">clear highlighting</button></center> -->
+
+<div style="width: 40em;">
+
+
+    <hr>
+        <div style="height: 70pt">  <!-- TODO More principled way of choosing height -->
+            <div id="showbutton1" style="position: absolute"><button onclick="showFragmentStart()">Show fragment.</button></div>
+            <div id="highlighter1" style="color:transparent; position: absolute; width: 400pt; display: inline-block"></div>
+            <div id="selector1" style="position: relative; width: 400pt; display: inline-block"></div>
+        </div>
+        <div style="height: 40pt">  <!-- TODO More principled way of choosing height -->
+            <div id="showbutton2" style="position: absolute; visibility: hidden"><button onclick="showFragmentCont()" disabled>Show continuation.</button> <i>(You need to fill in the form first.)</i></div>
+            <div id="highlighter2" style="color:transparent; position: absolute; width: 400pt; display: inline-block"></div>
+            <div id="selector2" style="position: relative; width: 400pt; display: inline-block"></div>
+        </div>
+    <hr>
+
+    <p>
+        <b>1. How grammatical is this fragment?</b><br>
+        <!--<label class="error" for="grammatical"></label><br>-->
+        <i>Not grammatical at all.</i>
+        <input name="item 1: grammaticality" type="radio" value="1" class="obligatory">1</input>
+        <input name="item 1: grammaticality" type="radio" value="2" >2</input>
+        <input name="item 1: grammaticality" type="radio" value="3" >3</input>
+        <input name="item 1: grammaticality" type="radio" value="4" >4</input>
+        <input name="item 1: grammaticality" type="radio" value="5" >5</input>
+        <i>Completely grammatical.</i>
+    </p>
+
+    <p>
+        <b>2. How coherent is this fragment?</b>
+        <!--<label class="error" for="coherent"></label>-->
+        <br>
+        <i>Not coherent at all.</i>
+        <input name="item 2: coherence" type="radio" value="1" class="obligatory">1</input>
+        <input name="item 2: coherence" type="radio" value="2">2</input>
+        <input name="item 2: coherence" type="radio" value="3">3</input>
+        <input name="item 2: coherence" type="radio" value="4">4</input>
+        <input name="item 2: coherence" type="radio" value="5">5</input>
+        <i>Completely coherent.</i>
+    </p>
+
+    <p>
+        <b>3. Does this fragment evoke a question for you?</b>
+        <!--<label class="error" for="question"></label>-->
+        <br>
+        <!-- (List up to three questions; leave <i>blank</i> if it does not evoke any questions.) <br> -->
+        <input name="q1toggle" id="q1toggleyes" type="radio" value="yes" onchange="toggleQuestionRadio(this)" checked="checked"><i>Yes, namely:</i>
+        <input name="question" id="q1" type="text" style="width: 33em">
+        <input name="q1toggle" id="q1toggleno" type="radio" value="no" onchange="toggleQuestionRadio(this)"><i>No, it doesn't really evoke any question for me.</i>
+        <div id="q1hiddencopy" style="display: none"></div>
+        <!-- <input name="q2" type="text" style="width: 40em"></input><br>
+        <input name="q3" type="text" style="width: 40em"></input><br> -->
+    </p>
+
+    <div id="question4"><p>
+        <b>4. Which phrase in the fragment primarily evokes this question?</b>
+        <!--<label class="error" for="selected_text"></label><br>-->
+        <ul>
+            <li>Please <mark>highlight</mark> a phrase in the fragment above (cursor selection).</li>
+            <li>To change the highlighting just make a new selection.</li>
+            <!-- <li>There's also a button to <i>clear</i> the current highlighting.</li>
+            <li>If no phrase seems suitable for marking, do not select anything.</li> -->
+        </ul>
+<!-- below are invisible form fields to which the selection is saved. -->
+        <div style="display: none">
+        Selected text:
+            <input id="selected_text" name="selected_text" type="text" style="width: 32em">
+            <textarea id="selection_start" name="selection_start" rows="1" cols="10"></textarea>
+            <textarea id="selection_end" name="selection_end" rows="1" cols="10"></textarea>
+        </div>
+    </p></div>
+
+    <label class="error" for="__ALL_FIELDS__"></label>
+
+</div>
