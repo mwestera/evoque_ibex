@@ -1,6 +1,8 @@
 /* This software is licensed under a BSD license; see the LICENSE file for details. */
 
-var fragment = ""
+// TODO Communicating stuff through global vars is probably not the proper way... these are used in the html form.
+var fragmentstart = "";
+var fragmentcont = "";
 
 define_ibex_controller({
 name: "FragmentForm",
@@ -12,6 +14,10 @@ jqueryWidget: {
         this.utils = this.options._utils;
 
         this.html = dget(this.options, "html");
+
+        // TODO Communicating these through global vars is probably not the proper way
+        fragmentstart = dget(this.options, "fragment_start")
+        fragmentcont = dget(this.options, "fragment_cont")
 
         this.continueOnReturn = dget(this.options, "continueOnReturn", false);
         this.continueMessage = dget(this.options, "continueMessage", "Click here to continue");
