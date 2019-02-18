@@ -76,7 +76,7 @@ jqueryWidget: {
 
         function handleClick(dom) {
             return function (e) {
-                FinalQualityCheck();    // To be implemented in the form's html!
+                FinalQualityCheck();    // TODO This is probably ugly: it refers to the a function defined in the form's html file...
 
                 var answerTime = new Date().getTime();
 
