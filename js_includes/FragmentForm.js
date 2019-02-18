@@ -76,6 +76,8 @@ jqueryWidget: {
 
         function handleClick(dom) {
             return function (e) {
+                FinalQualityCheck();    // To be implemented in the form's html!
+
                 var answerTime = new Date().getTime();
 
                 e.preventDefault();

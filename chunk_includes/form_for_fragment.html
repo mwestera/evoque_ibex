@@ -17,9 +17,17 @@ async function showFragmentStart() {
 async function showFragmentCont(e) {
 
     // TODO form completion and quality check
-    if (!qualityCheck()) return;
+    if (!qualityCheckFirstPart()) return;
 
     fragment_phase = 2;
+
+    // First some cleaning
+    if (document.getElementById("question").value == "") {
+        // If no question was given, remove highlighting made to avoid polluting the results file.
+        document.getElementById("question_selection_start").value = "";
+        document.getElementById("question_selection_end").value = "";
+        document.getElementById("question_selection").value = "";
+    }
 
     // Slowly scroll to top
     $("html, body").animate({ scrollTop: 0 }, "slow");
@@ -31,9 +39,12 @@ async function showFragmentCont(e) {
     // Dim the colors of the first part of the fragment
     await sleep(500)
     document.getElementById("fragment_colorizer").innerHTML = '<font color="#bbbbbb">' + fragmentstart + "</font>";
-    document.getElementById("highlight1").style.backgroundColor = "#ffff88";
+    if (document.getElementById("question").value != "") {
+        // this "highlight1" object only exists if a question was entered before.
+        document.getElementById("highlight1").style.backgroundColor = "#ffff88";
+    }
 
-    // Now display the rest of the fragment
+    // Now load the rest of the fragment
     await sleep(500);
     document.getElementById("fragment_highlighter1").innerHTML += "  " + fragmentcont;
     document.getElementById("fragment_selector").innerHTML += " " + fragmentcont;
@@ -41,12 +52,13 @@ async function showFragmentCont(e) {
 
     // The new form
     await sleep(500);
-
+    // Show something different depending on whether a question was evoked.
     if (document.getElementById("question").value != "") {
         document.getElementById("question_copy_for_display").value = document.getElementById("question").value;
-        document.getElementById("div_containing_form_for_fragment_cont").style.visibility = "visible";
+        document.getElementById("div_containing_form_for_fragment_cont").style.display = "block";
     } else {
-
+        document.getElementById("div_containing_message_incase_no_question_was_evoked").style.display = "block";
+        document.getElementById("fragment_highlighter2").style.visibility = "hidden";
     }
 
     // And finally make the final continue link visible
@@ -108,7 +120,7 @@ function qualityControlSelection(s) {
 };
 
 
-function qualityCheck() {
+function qualityCheckFirstPart() {
     var check = true;
 
     document.getElementById("grammaticality_error").style.visibility = "hidden";
@@ -155,6 +167,12 @@ function qualityCheck() {
     return check;
 }
 
+
+function FinalQualityCheck() {
+    // TODO; implement this
+    console.log("FinalQualityCheck has been called!");
+    return true
+}
 
 // returns selection, but only when it exists wholly inside the "selector" field
 function getSelection() {
@@ -251,7 +269,7 @@ document.onmouseup = document.onkeyup = function() {
         <b>1. How grammatical is this fragment?</b>
         <b id="grammaticality_error" style="color: red; visibility: hidden">*</b><br>
         <i>Not grammatical at all.</i>
-        <input name="grammaticality" id="grammaticality1" type="radio" value="1" class="obligatory">1</input>
+        <input name="grammaticality" id="grammaticality1" type="radio" value="1">1</input>
         <input name="grammaticality" id="grammaticality2" type="radio" value="2" >2</input>
         <input name="grammaticality" id="grammaticality3" type="radio" value="3" >3</input>
         <input name="grammaticality" id="grammaticality4" type="radio" value="4" >4</input>
@@ -263,7 +281,7 @@ document.onmouseup = document.onkeyup = function() {
         <b>2. How coherent is this fragment?</b>
         <b id="coherence_error" style="color: red; visibility: hidden">*</b><br>
         <i>Not coherent at all.</i>
-        <input name="coherence" id="coherence1" type="radio" value="1" class="obligatory">1</input>
+        <input name="coherence" id="coherence1" type="radio" value="1">1</input>
         <input name="coherence" id="coherence2" type="radio" value="2">2</input>
         <input name="coherence" id="coherence3" type="radio" value="3">3</input>
         <input name="coherence" id="coherence4" type="radio" value="4">4</input>
@@ -313,7 +331,11 @@ document.onmouseup = document.onkeyup = function() {
 
 </div>
 
-<div id="div_containing_form_for_fragment_cont" style="visibility: hidden">
+<div id="div_containing_message_incase_no_question_was_evoked" style="position: relative; display: none">
+    <p><b>Since for you the first part did not evoke any question, there are no further questions about this fragment. Just click the link below to continue.</b></p>
+</div>
+
+<div id="div_containing_form_for_fragment_cont" style="display: none">
 
     <p><b>You said that the first part evoked a question.</b></font><br>
         Your question: <input id="question_copy_for_display" type="text" style="width: 33em" readonly>
@@ -322,7 +344,7 @@ document.onmouseup = document.onkeyup = function() {
     <p><b>5. To what extent is your question being answered in the continuation?</b><br>
         <!--<label class="error" for="grammatical"></label><br>-->
         <i>Not answered at all.</i>
-        <input name="answered" id="answered1" type="radio" value="1" class="obligatory" onclick="toggleAnswerRadio(this)">1</input>
+        <input name="answered" id="answered1" type="radio" value="1" onclick="toggleAnswerRadio(this)">1</input>
         <input name="answered" id="answered2" type="radio" value="2" onclick="toggleAnswerRadio(this)">2</input>
         <input name="answered" id="answered3" type="radio" value="3" onclick="toggleAnswerRadio(this)">3</input>
         <input name="answered" id="answered4" type="radio" value="4" onclick="toggleAnswerRadio(this)">4</input>
@@ -352,7 +374,7 @@ document.onmouseup = document.onkeyup = function() {
         </div>
     </p></div>
 
-    <label class="error" for="__ALL_FIELDS__"></label>
+
 
 </div>
 
