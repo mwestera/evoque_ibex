@@ -3,6 +3,26 @@
 // TODO Communicating stuff through global vars is probably not the proper way... these are used in the html form.
 var fragmentstart = "";
 var fragmentcont = "";
+var fragment_phase = 1
+
+// Helper function for delayed hiding/showing
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+// Helper function for flashing an element and then displaying
+async function flashMessage(e) {
+    e.style.visibility = "visible";
+    await sleep(500);
+    e.style.visibility = "hidden";
+    await sleep(300);
+    e.style.visibility = "visible";
+    await sleep(500);
+    e.style.visibility = "hidden";
+    await sleep(300);
+    e.style.visibility = "visible";
+    await sleep(500);
+}
 
 define_ibex_controller({
 name: "FragmentForm",
@@ -159,7 +179,7 @@ jqueryWidget: {
         this.element.append(dom);
 
         if (this.continueMessage) {
-            this.element.append($('<div id="continueLink"><p>').append($("<a>").attr('href', '').text("\u2192 " + this.continueMessage)
+            this.element.append($('<div id="div_containing_continue-link" style="visibility: hidden"><p>').append($("<a>").attr('href', '').text("\u2192 " + this.continueMessage)
                                                 .addClass(ibex_controller_name_to_css_prefix("Message") + "continue-link")
                                                 .click(handler)));
         }
