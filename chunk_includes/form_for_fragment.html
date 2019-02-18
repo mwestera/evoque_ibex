@@ -13,6 +13,7 @@ async function showFragmentStart() {
     //document.getElementById("link_to_show_fragment_cont").style.visibility = "visible";
 };
 
+
 // For showing the fragment continuation, and hiding/showing the appropriate form fields
 async function showFragmentCont(e) {
 
@@ -37,7 +38,7 @@ async function showFragmentCont(e) {
     document.getElementById("div_containing_form_for_fragment_start").style.display = "none";
 
     // Dim the colors of the first part of the fragment
-    await sleep(500)
+    await sleep(100)
     document.getElementById("fragment_colorizer").innerHTML = '<font color="#bbbbbb">' + fragmentstart + "</font>";
     if (document.getElementById("question").value != "") {
         // this "highlight1" object only exists if a question was entered before.
@@ -51,10 +52,10 @@ async function showFragmentCont(e) {
     document.getElementById("fragment_colorizer").innerHTML += " " + fragmentcont;
 
     // The new form
-    await sleep(500);
+    await sleep(1000);
     // Show something different depending on whether a question was evoked.
     if (document.getElementById("question").value != "") {
-        document.getElementById("question_copy_for_display").value = document.getElementById("question").value;
+        document.getElementById("question_copy_for_display").innerHTML = document.getElementById("question").value;
         document.getElementById("div_containing_form_for_fragment_cont").style.display = "block";
     } else {
         document.getElementById("div_containing_message_incase_no_question_was_evoked").style.display = "block";
@@ -337,8 +338,8 @@ document.onmouseup = document.onkeyup = function() {
 
 <div id="div_containing_form_for_fragment_cont" style="display: none">
 
-    <p><b>You said that the first part evoked a question.</b></font><br>
-        Your question: <input id="question_copy_for_display" type="text" style="width: 33em" readonly>
+    <p><b>You said that the first part evoked the following question:</b></font>
+        <div id="question_copy_for_display" style="width: 32em; background-color: #eeeeee; border: 1px solid darkgray; box-shadow: 1px 1px 1px 0 lightgray inset; margin-top: 5px; padding: 2px 3px"></div>
     </p>
 
     <p><b>5. To what extent is your question being answered in the continuation?</b><br>
