@@ -1,5 +1,6 @@
 <script>
 
+var fragment_phase = "start"
 showFragmentStart();
 
 // For loading the first fragment and showing appropriate form fields
@@ -20,14 +21,14 @@ async function showFragmentCont(e) {
     // TODO form completion and quality check
     if (!qualityCheckFirstPart()) return;
 
-    fragment_phase = 2;
+    fragment_phase = "cont";
 
     // First some cleaning
     if (document.getElementById("question").value == "") {
         // If no question was given, remove highlighting made to avoid polluting the results file.
-        document.getElementById("question_selection_start").value = "";
-        document.getElementById("question_selection_end").value = "";
-        document.getElementById("question_selection").value = "";
+        document.getElementById("question_highlighting_start").value = "";
+        document.getElementById("question_highlighting_end").value = "";
+        document.getElementById("question_highlighting").value = "";
     }
 
     // Slowly scroll to top
@@ -39,7 +40,7 @@ async function showFragmentCont(e) {
 
     // Dim the colors of the first part of the fragment
     await sleep(100)
-    document.getElementById("fragment_colorizer").innerHTML = '<font color="#bbbbbb">' + fragmentstart + "</font>";
+    document.getElementById("fragment_colorizer").innerHTML = '<font color="#999999">' + fragmentstart + "</font>";
     if (document.getElementById("question").value != "") {
         // this "highlight1" object only exists if a question was entered before.
         document.getElementById("highlight1").style.backgroundColor = "#ffff88";
@@ -52,7 +53,7 @@ async function showFragmentCont(e) {
     document.getElementById("fragment_colorizer").innerHTML += " " + fragmentcont;
 
     // The new form
-    await sleep(1000);
+    await sleep(500);
     // Show something different depending on whether a question was evoked.
     if (document.getElementById("question").value != "") {
         document.getElementById("question_copy_for_display").innerHTML = document.getElementById("question").value;
@@ -75,7 +76,7 @@ function toggleQuestionRadio(element) {
         document.getElementById("question").value = "";
         document.getElementById("fragment_highlighter1").style.visibility = "hidden";
         document.getElementById("div_containing_item_4").style.visibility = "hidden";
-        document.getElementById("highlighting_error").style.visibility = "hidden";
+        document.getElementById("question_highlighting_error").style.visibility = "hidden";
     } else {
         if ( document.getElementById("question").readOnly = true ) {
             document.getElementById("question").readOnly = false;
@@ -83,6 +84,7 @@ function toggleQuestionRadio(element) {
             document.getElementById("hidden_field_for_storing_question").innerHTML = "";
             document.getElementById("fragment_highlighter1").style.visibility = "visible";
             document.getElementById("div_containing_item_4").style.visibility = "visible";
+            document.getElementById("question_highlighting_error").style.visibility = "hidden";
         }
     };
 };
@@ -95,29 +97,18 @@ function toggleAnswerRadio(element) {
         document.getElementById("answer").value = "";
         document.getElementById("fragment_highlighter2").style.visibility = "hidden";
         document.getElementById("div_containing_items_6_and_7").style.visibility = "hidden";
+        document.getElementById("answer_error").style.visibility = "hidden";
+        document.getElementById("answer_highlighting_error").style.visibility = "hidden";
     } else {
         if ( document.getElementById("answer").readOnly == true ) {
             document.getElementById("answer").readOnly = false;
             document.getElementById("answer").value = document.getElementById("hidden_field_for_storing_answer").innerHTML;
             document.getElementById("fragment_highlighter2").style.visibility = "visible";
             document.getElementById("div_containing_items_6_and_7").style.visibility = "visible";
+            document.getElementById("answer_error").style.visibility = "hidden";
+            document.getElementById("answer_highlighting_error").style.visibility = "hidden";
         }
     };
-};
-
-
-
-// These are called by the "validator" option, passed on from the experiment definition. I thought they'd fit here.
-function qualityControlQuestion(s) {
-    if ( document.getElementById("radio_question_yes").checked && s == "" ) return "In item 3, please enter a question or select 'no'.";
-    // TODO More sophisticated quality control, e.g., spellcheck, min length, question mark?
-
-    return true;
-}
-function qualityControlSelection(s) {
-    if ( document.getElementById("radio_question_yes").checked && s == "" ) return "For item 4, please highlight a phrase in the fragment.";
-    // TODO More sophisticated quality control, e.g., min words, max words?
-    return true;
 };
 
 
@@ -127,7 +118,7 @@ function qualityCheckFirstPart() {
     document.getElementById("grammaticality_error").style.visibility = "hidden";
     document.getElementById("coherence_error").style.visibility = "hidden";
     document.getElementById("question_error").style.visibility = "hidden";
-    document.getElementById("highlighting_error").style.visibility = "hidden";
+    document.getElementById("question_highlighting_error").style.visibility = "hidden";
     document.getElementById("div_for_first_error_message").style.visibility = "hidden";
 
     // Grammaticality
@@ -159,8 +150,8 @@ function qualityCheckFirstPart() {
 
     // The highlighting
     // TODO More sophisticated quality control, e.g., min words, max words?
-    if ( document.getElementById("radio_question_yes").checked && document.getElementById("question_selection").value == "" ) {
-        flashMessage(document.getElementById("highlighting_error"));
+    if ( document.getElementById("radio_question_yes").checked && document.getElementById("question_highlighting").value == "" ) {
+        flashMessage(document.getElementById("question_highlighting_error"));
         check = false;
     }
 
@@ -170,9 +161,42 @@ function qualityCheckFirstPart() {
 
 
 function FinalQualityCheck() {
-    // TODO; implement this
-    console.log("FinalQualityCheck has been called!");
-    return true
+    var check = true;
+
+    document.getElementById("answered_error").style.visibility = "hidden";
+    document.getElementById("answer_error").style.visibility = "hidden";
+    document.getElementById("answer_highlighting_error").style.visibility = "hidden";
+    document.getElementById("div_for_last_error_message").style.visibility = "hidden";
+
+    // Answered
+    if (!document.getElementById("answered1").checked &&
+        !document.getElementById("answered2").checked &&
+        !document.getElementById("answered3").checked &&
+        !document.getElementById("answered4").checked &&
+        !document.getElementById("answered5").checked) {
+        flashMessage(document.getElementById("answered_error"));
+        check = false;
+    }
+
+    // The answer field
+    // TODO More sophisticated quality control, e.g., spellcheck, min length, question mark?
+    if ((document.getElementById("answered3").checked || document.getElementById("answered4").checked || document.getElementById("answered5").checked)
+        && document.getElementById("answer").value == "" ) {
+        flashMessage(document.getElementById("answer_error"));
+        check = false;
+    }
+
+    // The answer highlighting
+    // TODO More sophisticated quality control, e.g., min words, max words?
+    if ((document.getElementById("answered3").checked || document.getElementById("answered4").checked || document.getElementById("answered5").checked )
+        && document.getElementById("answer_highlighting").value == "" ) {
+        flashMessage(document.getElementById("answer_highlighting_error"));
+        check = false;
+    }
+
+    if (!check) document.getElementById("div_for_last_error_message").style.visibility = "visible";
+    return check;
+
 }
 
 // returns selection, but only when it exists wholly inside the "selector" field
@@ -202,7 +226,7 @@ function getSelection() {
         }
 
         // Select only in appropriate region.
-        if (fragment_phase == 2 && start < fragmentstart.length) {
+        if (fragment_phase == "cont" && start < fragmentstart.length) {
             return null;
         };
 
@@ -221,10 +245,10 @@ document.onmouseup = document.onkeyup = function() {
 
         var text = document.getElementById("fragment_selector").innerHTML;
 
-        if (fragment_phase == 1) {
-            document.getElementById("question_selection_start").value = sel[0];
-            document.getElementById("question_selection_end").value = sel[1];
-            document.getElementById("question_selection").value = text.substring(sel[0], sel[1]);
+        if (fragment_phase == "start") {
+            document.getElementById("question_highlighting_start").value = sel[0];
+            document.getElementById("question_highlighting_end").value = sel[1];
+            document.getElementById("question_highlighting").value = text.substring(sel[0], sel[1]);
 
             // Add highlighting, store in "highlighter" field displayed behind the "selector".
             document.getElementById("fragment_highlighter1").innerHTML =
@@ -232,9 +256,9 @@ document.onmouseup = document.onkeyup = function() {
                 '<mark id="highlight1" style="color: transparent">' + text.substring(sel[0], sel[1]) + "</mark>" +
                 text.substring(sel[1], text.length);
         } else {
-            document.getElementById("answer_selection_start").value = sel[0];
-            document.getElementById("answer_selection_end").value = sel[1];
-            document.getElementById("answer_selection").value = text.substring(sel[0], sel[1]);
+            document.getElementById("answer_highlighting_start").value = sel[0];
+            document.getElementById("answer_highlighting_end").value = sel[1];
+            document.getElementById("answer_highlighting").value = text.substring(sel[0], sel[1]);
 
             // Add highlighting, store in "highlighter" field displayed behind the "selector".
             document.getElementById("fragment_highlighter2").innerHTML =
@@ -304,7 +328,7 @@ document.onmouseup = document.onkeyup = function() {
 
     <div id="div_containing_item_4"><p>
         <b>4. Which phrase in the fragment primarily evokes this question?</b>
-        <b id="highlighting_error" style="color: red; visibility: hidden">*</b>
+        <b id="question_highlighting_error" style="color: red; visibility: hidden">*</b>
         <ul>
             <li>Please <mark>highlight</mark> a phrase in the fragment above (cursor selection).</li>
             <li>To change the highlighting just make a new selection.</li>
@@ -314,9 +338,9 @@ document.onmouseup = document.onkeyup = function() {
 <!-- below are invisible form fields to which the selection is saved. -->
         <div style="display: none">
         Selected text:
-            <input id="question_selection" name="question_selection" type="text" style="width: 32em">
-            <textarea id="question_selection_start" name="question_selection_start" rows="1" cols="10"></textarea>
-            <textarea id="question_selection_end" name="question_selection_end" rows="1" cols="10"></textarea>
+            <input id="question_highlighting" name="question_highlighting" type="text" style="width: 32em">
+            <textarea id="question_highlighting_start" name="question_highlighting_start" rows="1" cols="10"></textarea>
+            <textarea id="question_highlighting_end" name="question_highlighting_end" rows="1" cols="10"></textarea>
         </div>
     </p></div>
 
@@ -338,12 +362,12 @@ document.onmouseup = document.onkeyup = function() {
 
 <div id="div_containing_form_for_fragment_cont" style="display: none">
 
-    <p><b>You said that the first part evoked the following question:</b></font>
+    <p><b>You said that the first part evoked the question:</b></font>
         <div id="question_copy_for_display" style="width: 32em; background-color: #eeeeee; border: 1px solid darkgray; box-shadow: 1px 1px 1px 0 lightgray inset; margin-top: 5px; padding: 2px 3px"></div>
     </p>
 
-    <p><b>5. To what extent is your question being answered in the continuation?</b><br>
-        <!--<label class="error" for="grammatical"></label><br>-->
+    <p><b>5. Was your question answered in the continuation?</b><br>
+        <b id="answered_error" style="color: red; visibility: hidden">*</b><br>
         <i>Not answered at all.</i>
         <input name="answered" id="answered1" type="radio" value="1" onclick="toggleAnswerRadio(this)">1</input>
         <input name="answered" id="answered2" type="radio" value="2" onclick="toggleAnswerRadio(this)">2</input>
@@ -355,11 +379,12 @@ document.onmouseup = document.onkeyup = function() {
 
     <div id="div_containing_items_6_and_7"><p>
         <b>6. Enter the (suggested, partial) answer in your own words:</b>
+        <b id="answer_error" style="color: red; visibility: hidden">*</b><br>
         <input name="answer" id="answer" type="text" style="width: 33em">
         <div id="hidden_field_for_storing_answer" style="display: none"></div>
 
         <b>7. Which phrase in the new part primarily suggests this answer?</b>
-        <!--<label class="error" for="question_selection"></label><br>-->
+        <b id="answer_highlighting_error" style="color: red; visibility: hidden">*</b><br>
         <ul>
             <li>Please <mark style="background-color: #33ff00">highlight</mark> a phrase in the new part of the fragment above.</li>
             <li>To change the highlighting just make a new selection.</li>
@@ -369,13 +394,15 @@ document.onmouseup = document.onkeyup = function() {
 <!-- below are invisible form fields to which the selection is saved. -->
         <div style="display: none">
         Selected text:
-            <input id="answer_selection" name="answer_selection" type="text" style="width: 32em">
-            <textarea id="answer_selection_start" name="answer_selection_start" rows="1" cols="10"></textarea>
-            <textarea id="answer_selection_end" name="answer_selection_end" rows="1" cols="10"></textarea>
+            <input id="answer_highlighting" name="answer_highlighting" type="text" style="width: 32em">
+            <textarea id="answer_highlighting_start" name="answer_highlighting_start" rows="1" cols="10"></textarea>
+            <textarea id="answer_highlighting_end" name="answer_highlighting_end" rows="1" cols="10"></textarea>
         </div>
     </p></div>
 
-
+    <div id="div_for_last_error_message" style="visibility: hidden">
+    Please complete the form first.
+    </div>
 
 </div>
 

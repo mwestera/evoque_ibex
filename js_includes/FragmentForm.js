@@ -3,7 +3,6 @@
 // TODO Communicating stuff through global vars is probably not the proper way... these are used in the html form.
 var fragmentstart = "";
 var fragmentcont = "";
-var fragment_phase = 1
 
 // Helper function for delayed hiding/showing
 function sleep(ms) {
@@ -76,7 +75,7 @@ jqueryWidget: {
 
         function handleClick(dom) {
             return function (e) {
-                FinalQualityCheck();    // TODO This is probably ugly: it refers to the a function defined in the form's html file...
+                if ( !FinalQualityCheck() ) return false;    // TODO This is probably ugly: it refers to the a function defined in the form's html file...
 
                 var answerTime = new Date().getTime();
 
