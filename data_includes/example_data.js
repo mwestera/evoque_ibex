@@ -39,8 +39,8 @@ var defaults = [
 var items = [
 
     ["test", "FragmentForm", {
-        fragment_start: "Friday is Mrs. Judson’s, her marble-topped table that refuses to give up its smudges no matter how hard I polish. I used to sing along to my Walkman until someone on the 23 bus made off with my purse. Now I make up my own songs. I sing them on my knees to the walnut baseboards until their shine sings back to me.",
-        fragment_cont: "I sing through lunch, a shot of whiskey I cadge from the liquor Mrs. Judson will never miss. When I clean the bedroom, Mr. Judson smiles up at me from the glass where he’s drowning. He approves.",
+        fragment_start: "Until I took it off, I never realized how much I noticed my wedding band (chiming quietly against utensils, loosening its grip when I showered, orbiting my finger secretly throughout the day). There’s still an indentation where the ring sat for seven years, and I rub the smooth skin daily.",
+        fragment_cont: "She told me she never took hers off, even when she spent the night with him. Her voice sounded comforting, almost like an apology. Two months later, she left for good — laid her ring on the counter. Mine stayed on for two more years, pressing down, denting my skin, hoping.",
         html: {include: "form_for_fragment.html"},
     }],
 
