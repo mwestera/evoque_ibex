@@ -161,6 +161,12 @@ function qualityCheckFirstPart() {
 
 
 function FinalQualityCheck() {
+    // In case nothing further was required:
+    if (document.getElementById("div_containing_message_incase_no_question_was_evoked").style.display == "block") {
+        return true;
+    }
+
+    // Otherwise, check if all required fields are completed:
     var check = true;
 
     document.getElementById("answered_error").style.visibility = "hidden";
