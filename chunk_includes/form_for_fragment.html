@@ -221,8 +221,20 @@ function getSelection() {
         start = Math.min(selection.anchorOffset, selection.focusOffset);
         end = Math.max(selection.anchorOffset, selection.focusOffset);
 
-        // TODO: Select only whole words.
-
+        // Select only whole words.
+        var text = document.getElementById("fragment_selector").innerHTML;
+        while (start > 0) {
+            if (text[start-1] == " ") {
+                break;
+            }
+            start -= 1;
+        }
+        while (end < text.length) {
+            if (text[end] == " " || text[end] == "," || text[end] == ".") {
+                break;
+            }
+            end += 1;
+        }
 
         // clear selection:
         if (selection.removeAllRanges) {
