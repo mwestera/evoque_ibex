@@ -155,7 +155,7 @@ function qualityCheckFirstPart() {
         check = false;
     }
 
-    if (!check) document.getElementById("div_for_first_error_message").style.visibility = "visible";
+    if (!check) flashMessage(document.getElementById("div_for_first_error_message"));
     return check;
 }
 
@@ -200,7 +200,7 @@ function FinalQualityCheck() {
         check = false;
     }
 
-    if (!check) document.getElementById("div_for_last_error_message").style.visibility = "visible";
+    if (!check) flashMessage(document.getElementById("div_for_last_error_message"));
     return check;
 
 }
