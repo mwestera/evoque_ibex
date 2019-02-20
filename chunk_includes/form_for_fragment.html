@@ -96,7 +96,7 @@ function toggleAnswerRadio(element) {
         document.getElementById("hidden_field_for_storing_answer").innerHTML = document.getElementById("answer").value;
         document.getElementById("answer").value = "";
         document.getElementById("fragment_highlighter2").style.visibility = "hidden";
-        document.getElementById("div_containing_items_6_and_7").style.visibility = "hidden";
+        document.getElementById("div_containing_items_6_and_7").style.display = "none";
         document.getElementById("answer_error").style.visibility = "hidden";
         document.getElementById("answer_highlighting_error").style.visibility = "hidden";
     } else {
@@ -104,7 +104,7 @@ function toggleAnswerRadio(element) {
             document.getElementById("answer").readOnly = false;
             document.getElementById("answer").value = document.getElementById("hidden_field_for_storing_answer").innerHTML;
             document.getElementById("fragment_highlighter2").style.visibility = "visible";
-            document.getElementById("div_containing_items_6_and_7").style.visibility = "visible";
+            document.getElementById("div_containing_items_6_and_7").style.display = "block";
             document.getElementById("answer_error").style.visibility = "hidden";
             document.getElementById("answer_highlighting_error").style.visibility = "hidden";
         }
