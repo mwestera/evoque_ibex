@@ -224,13 +224,13 @@ function getSelection() {
         // Select only whole words.
         var text = document.getElementById("fragment_selector").innerHTML;
         while (start > 0) {
-            if (text[start-1] == " ") {
+            if (text[start-1] == " " || text[start-1] == "’") {
                 break;
             }
             start -= 1;
         }
         while (end < text.length) {
-            if (text[end] == " " || text[end] == "," || text[end] == ".") {
+            if (text[end] == " " || text[end] == "," || text[end] == "." || text[end] == ";" || text[end] == ":" || text[end] == ")" || text[end] == "'" || text[end] == '"' || text[end] == "’" || text[end] == "”") {
                 break;
             }
             end += 1;
