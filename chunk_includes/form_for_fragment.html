@@ -125,21 +125,21 @@ function toggleAnswerRadio(element) {
 function qualityCheckFirstPart() {
     var check = true;
 
-    document.getElementById("grammaticality_error").style.visibility = "hidden";
+//    document.getElementById("grammaticality_error").style.visibility = "hidden";
     document.getElementById("coherence_error").style.visibility = "hidden";
     document.getElementById("question_error").style.visibility = "hidden";
     document.getElementById("question_highlighting_error").style.visibility = "hidden";
     document.getElementById("div_for_first_error_message").style.visibility = "hidden";
 
     // Grammaticality
-    if (!document.getElementById("grammaticality1").checked &&
-        !document.getElementById("grammaticality2").checked &&
-        !document.getElementById("grammaticality3").checked &&
-        !document.getElementById("grammaticality4").checked &&
-        !document.getElementById("grammaticality5").checked) {
-        flashMessage(document.getElementById("grammaticality_error"));
-        check = false;
-    }
+//      if (!document.getElementById("grammaticality1").checked &&
+//         !document.getElementById("grammaticality2").checked &&
+//         !document.getElementById("grammaticality3").checked &&
+//         !document.getElementById("grammaticality4").checked &&
+//         !document.getElementById("grammaticality5").checked) {
+//         flashMessage(document.getElementById("grammaticality_error"));
+//         check = false;
+//     }
 
     // Coherence
     if (!document.getElementById("coherence1").checked &&
@@ -297,7 +297,6 @@ document.onmouseup = document.onkeyup = function() {
 
     }
 };
-
 
 
 </script>
@@ -497,7 +496,7 @@ button::-moz-focus-inner {
     <hr>
 
 <div id="div_containing_form_for_fragment_start" style="display: none; position: absolute">
-    <p>
+<!--    <p>
         <b>1. Does the fragment have grammatical errors, typos, incomplete sentences, etc?</b>
         <b id="grammaticality_error" style="color: red; visibility: hidden">*</b><br>
         <fieldset class="r-pill">
@@ -530,10 +529,10 @@ button::-moz-focus-inner {
                 <i>No errors.&nbsp;&nbsp;</i>
             </div>
         </fieldset>
-    </p>
+    </p> -->
 
     <p>
-        <b>2. Is this fragment coherent? Can you make sense of it?</b>
+        <b>1. Is this fragment coherent so far? Can you more or less make sense of it?</b>
         <b id="coherence_error" style="color: red; visibility: hidden">*</b><br>
         <fieldset class="r-pill">
             <div class="r-pill__group">
@@ -568,7 +567,7 @@ button::-moz-focus-inner {
     </p>
 
     <p>
-        <b>3. Does this fragment evoke a question for you?</b>
+        <b>2. Does this fragment evoke a question for you?</b>
         <b id="question_error" style="color: red; visibility: hidden">*</b><br>
         <!-- (List up to three questions; leave <i>blank</i> if it does not evoke any questions.) <br> -->
         <fieldset class="r-pill">
@@ -591,7 +590,7 @@ button::-moz-focus-inner {
     </p>
 
     <div id="div_containing_item_4"><p>
-        <b>4. In the fragment, <mark id="marker_in_question" style="background:#76bef8">highlight</mark> the main phrase that evoked this question.</b>
+        <b>3. In the fragment, <mark id="marker_in_question" style="background:#76bef8">highlight</mark> the main phrase that evoked this question.</b>
         <b id="question_highlighting_error" style="color: red; visibility: hidden">*</b>
         <!-- <ul>
             <li>Please  a phrase in the fragment above (cursor selection).</li>
@@ -631,7 +630,7 @@ button::-moz-focus-inner {
         <div id="question_copy_for_display" style="width: 32em; background-color: #eeeeee; border: 1px solid darkgray; box-shadow: 1px 1px 1px 0 lightgray inset; margin-top: 5px; padding: 2px 3px"></div>
     </p>
 
-    <p><b>5. Was your question answered in the continuation?</b>
+    <p><b>4. Was your question answered in the continuation?</b>
         <b id="answered_error" style="color: red; visibility: hidden">*</b><br>
         <fieldset class="r-pill">
             <div class="r-pill__group">
@@ -666,12 +665,12 @@ button::-moz-focus-inner {
     </p>
 
     <div id="div_containing_items_6_and_7"><p>
-        <b>6. Enter the (complete, partial or suggested) answer in your own words:</b>
+        <b>5. Enter the (complete, partial or suggested) answer in your own words:</b>
         <b id="answer_error" style="color: red; visibility: hidden">*</b><br>
         <input name="answer" id="answer" type="text" style="width: 33em; color:#083851">
         <div id="hidden_field_for_storing_answer" style="display: none"></div>
 
-        <b>7. In the fragment, <mark id="marker_in_question2" style="background:#76bef8">highlight</mark> the main phrase suggesting this answer.</b>
+        <b>6. In the fragment, <mark id="marker_in_question2" style="background:#76bef8">highlight</mark> the main phrase suggesting this answer.</b>
         <b id="answer_highlighting_error" style="color: red; visibility: hidden">*</b><br>
         <!-- <ul>
             <li>Please  a phrase in the new part of the fragment above.</li>
