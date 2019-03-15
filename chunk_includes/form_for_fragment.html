@@ -98,21 +98,25 @@ function toggleQuestionRadio(element) {
 // For hiding/showing follow-up form fields depending on whether the evoked question was answered
 function toggleAnswerRadio(element) {
     if ( element.id == "answered1" || element.id == "answered2" ) {
-        document.getElementById("answer").readOnly = true;
+        document.getElementById("answer").disabled = true;
         document.getElementById("hidden_field_for_storing_answer").innerHTML = document.getElementById("answer").value;
         document.getElementById("answer").value = "";
         document.getElementById("fragment_highlighter2").style.visibility = "hidden";
-        document.getElementById("div_containing_items_6_and_7").style.display = "none";
+        document.getElementById("div_containing_items_6_and_7").style.color = "#888888";
         document.getElementById("answer_error").style.visibility = "hidden";
         document.getElementById("answer_highlighting_error").style.visibility = "hidden";
+        document.getElementById("marker_in_question2").style.backgroundColor = "#E2F1FD";
+        document.getElementById("marker_in_question2").style.color = "#888888";
     } else {
-        if ( document.getElementById("answer").readOnly == true ) {
-            document.getElementById("answer").readOnly = false;
+        if ( document.getElementById("answer").disabled == true ) {
+            document.getElementById("answer").disabled = false;
             document.getElementById("answer").value = document.getElementById("hidden_field_for_storing_answer").innerHTML;
             document.getElementById("fragment_highlighter2").style.visibility = "visible";
-            document.getElementById("div_containing_items_6_and_7").style.display = "block";
+            document.getElementById("div_containing_items_6_and_7").style.color = "#000000";
             document.getElementById("answer_error").style.visibility = "hidden";
             document.getElementById("answer_highlighting_error").style.visibility = "hidden";
+            document.getElementById("marker_in_question2").style.backgroundColor = "#76bef8";
+            document.getElementById("marker_in_question2").style.color = "#000000";
         }
     };
 };
@@ -161,7 +165,7 @@ function qualityCheckFirstPart() {
         check = false;
     }
 
-    if (!check) flashMessage(document.getElementById("div_for_first_error_message"));
+    if (!check) document.getElementById("div_for_first_error_message").style.visibility = "visible";
     return check;
 }
 
@@ -206,7 +210,7 @@ function FinalQualityCheck() {
         check = false;
     }
 
-    if (!check) flashMessage(document.getElementById("div_for_last_error_message"));
+    if (!check) document.getElementById("div_for_last_error_message").style.visibility = "visible";
     return check;
 
 }
@@ -287,7 +291,7 @@ document.onmouseup = document.onkeyup = function() {
             // Add highlighting, store in "highlighter" field displayed behind the "selector".
             document.getElementById("fragment_highlighter2").innerHTML =
                 text.substring(0, sel[0]) +
-                '<mark style="color: transparent; background-color: #33ff00">' + text.substring(sel[0], sel[1]) + "</mark>" +
+                '<mark style="color: transparent; background-color: #76bef8">' + text.substring(sel[0], sel[1]) + "</mark>" +
                 text.substring(sel[1], text.length);
         }
 
@@ -587,14 +591,14 @@ button::-moz-focus-inner {
     </p>
 
     <div id="div_containing_item_4"><p>
-        <b>4. Which part of the fragment primarily evokes this question?</b>
+        <b>4. In the fragment, <mark id="marker_in_question" style="background:#76bef8">highlight</mark> the main phrase that evoked this question.</b>
         <b id="question_highlighting_error" style="color: red; visibility: hidden">*</b>
-        <ul>
-            <li>Please <mark id="marker_in_question" style="background:#76bef8">highlight</mark> a phrase in the fragment above (cursor selection).</li>
+        <!-- <ul>
+            <li>Please  a phrase in the fragment above (cursor selection).</li>
             <li>To change the highlighting just make a new selection.</li>
-            <!-- <li>There's also a button to <i>clear</i> the current highlighting.</li>
-            <li>If no phrase seems suitable for marking, do not select anything.</li> -->
-        </ul>
+            <li>There's also a button to <i>clear</i> the current highlighting.</li>
+            <li>If no phrase seems suitable for marking, do not select anything.</li>
+        </ul>-->
 <!-- below are invisible form fields to which the selection is saved. -->
         <div style="display: none">
         Selected text:
@@ -617,7 +621,7 @@ button::-moz-focus-inner {
 </div>
 
 <div id="div_containing_message_incase_no_question_was_evoked" style="position: relative; display: none">
-    <p><b>Since for you the first part did not evoke any question, there are no further questions about this fragment. Just click the link below to continue.</b></p>
+    <p><b>Based on your responses we have no further questions about this fragment.</b></p>
 </div>
 
 <div id="div_containing_form_for_fragment_cont" style="display: none">
@@ -628,29 +632,52 @@ button::-moz-focus-inner {
 
     <p><b>5. Was your question answered in the continuation?</b>
         <b id="answered_error" style="color: red; visibility: hidden">*</b><br>
-        <i>Not answered at all.</i>
-        <input name="answered" id="answered1" type="radio" value="1" onclick="toggleAnswerRadio(this)">1
-        <input name="answered" id="answered2" type="radio" value="2" onclick="toggleAnswerRadio(this)">2
-        <input name="answered" id="answered3" type="radio" value="3" onclick="toggleAnswerRadio(this)">3
-        <input name="answered" id="answered4" type="radio" value="4" onclick="toggleAnswerRadio(this)">4
-        <input name="answered" id="answered5" type="radio" value="5" onclick="toggleAnswerRadio(this)">5
-        <i>Completely answered.</i>
+        <fieldset class="r-pill">
+            <div class="r-pill__group">
+                <i>&nbsp;&nbsp;Not answered at all.</i>
+                <span class="r-pill__item">
+                    <input type="radio" id="answered1" name="answered" value="1" onclick="toggleAnswerRadio(this)">
+                    <label for="answered1">1</label>
+                </span>
+
+                <span class="r-pill__item">
+                    <input type="radio" id="answered2" name="answered" value="2" onclick="toggleAnswerRadio(this)">
+                    <label for="answered2">2</label>
+                </span>
+
+                <span class="r-pill__item">
+                    <input type="radio" id="answered3" name="answered" value="3" onclick="toggleAnswerRadio(this)">
+                    <label for="answered3">3</label>
+                </span>
+
+                <span class="r-pill__item">
+                    <input type="radio" id="answered4" name="answered" value="4" onclick="toggleAnswerRadio(this)">
+                    <label for="answered4">4</label>
+                </span>
+
+                <span class="r-pill__item">
+                    <input type="radio" id="answered5" name="answered" value="5" onclick="toggleAnswerRadio(this)">
+                    <label for="answered5">5</label>
+                </span>
+                <i>Completely answered.&nbsp;&nbsp;</i>
+            </div>
+        </fieldset>
     </p>
 
     <div id="div_containing_items_6_and_7"><p>
-        <b>6. Enter the (suggested, partial) answer in your own words:</b>
+        <b>6. Enter the (complete, partial or suggested) answer in your own words:</b>
         <b id="answer_error" style="color: red; visibility: hidden">*</b><br>
-        <input name="answer" id="answer" type="text" style="width: 33em">
+        <input name="answer" id="answer" type="text" style="width: 33em; color:#083851">
         <div id="hidden_field_for_storing_answer" style="display: none"></div>
 
-        <b>7. Which phrase in the new part primarily suggests this answer?</b>
+        <b>7. In the fragment, <mark id="marker_in_question2" style="background:#76bef8">highlight</mark> the main phrase suggesting this answer.</b>
         <b id="answer_highlighting_error" style="color: red; visibility: hidden">*</b><br>
-        <ul>
-            <li>Please <mark style="background-color: #33ff00">highlight</mark> a phrase in the new part of the fragment above.</li>
+        <!-- <ul>
+            <li>Please  a phrase in the new part of the fragment above.</li>
             <li>To change the highlighting just make a new selection.</li>
-            <!-- <li>There's also a button to <i>clear</i> the current highlighting.</li>
-            <li>If no phrase seems suitable for marking, do not select anything.</li> -->
-        </ul>
+            <li>There's also a button to <i>clear</i> the current highlighting.</li>
+            <li>If no phrase seems suitable for marking, do not select anything.</li>
+        </ul> -->
 <!-- below are invisible form fields to which the selection is saved. -->
         <div style="display: none">
         Selected text:
