@@ -70,7 +70,7 @@ async function showFragmentCont(e) {
 
 // For hiding/showing follow-up form fields depending on whether the fragment evokes a question
 function toggleQuestionRadio(element) {
-    if ( element.id == "radio_question_no" ) {
+    if ( element.id == "evoked_no" ) {
         document.getElementById("question").disabled = true;
         document.getElementById("hidden_field_for_storing_question").innerHTML = document.getElementById("question").value;
         document.getElementById("question").value = "";
@@ -153,14 +153,14 @@ function qualityCheckFirstPart() {
 
     // The question field
     // TODO More sophisticated quality control, e.g., spellcheck, min length, question mark?
-    if ( document.getElementById("radio_question_yes").checked && document.getElementById("question").value == "" ) {
+    if ( document.getElementById("evoked_yes").checked && document.getElementById("question").value == "" ) {
         flashMessage(document.getElementById("question_error"));
         check = false;
     }
 
     // The highlighting
     // TODO More sophisticated quality control, e.g., min words, max words?
-    if ( document.getElementById("radio_question_yes").checked && document.getElementById("question_highlighting").value == "" ) {
+    if ( document.getElementById("evoked_yes").checked && document.getElementById("question_highlighting").value == "" ) {
         flashMessage(document.getElementById("question_highlighting_error"));
         check = false;
     }
@@ -297,6 +297,40 @@ document.onmouseup = document.onkeyup = function() {
 
     }
 };
+
+
+// For keyboard shortcuts of radio buttons
+window.onkeyup = function(e) {
+    var key = e.keyCode ? e.keyCode : e.which;
+
+    var name = document.activeElement.name;
+
+    if (name == "coherence" || name == "answered") {
+        if (key >= 49 && key <= 53) {
+
+            key = key - 48;
+
+            document.getElementById(name + key).checked = "true";
+            document.getElementById(name + key).focus();
+
+            if (name == "answered") {
+                toggleAnswerRadio(document.getElementById(name + key));
+            }
+        }
+    } else if (name == "evoked") {
+        if (key == 49 || key == 89) {
+            key = "yes"
+        } else if (key == 50 || key == 48 || key == 78) {
+            key = "no"
+        }
+        if (key == "yes" || key == "no") {
+            document.getElementById(name + "_" + key).checked = "true";
+            document.getElementById(name + "_" + key).focus();
+
+            toggleQuestionRadio(document.getElementById(name + "_" + key))
+        }
+    }
+}
 
 
 </script>
@@ -573,12 +607,12 @@ button::-moz-focus-inner {
         <fieldset class="r-pill">
             <div class="r-pill__group">
                 <span class="r-pill__item">
-                    <input type="radio" id="radio_question_yes" name="radio_question_yesno" value="yes" checked="checked" onclick="toggleQuestionRadio(this)">
-                    <label for="radio_question_yes">Yes</label>
+                    <input type="radio" id="evoked_yes" name="evoked" value="yes" checked="checked" onclick="toggleQuestionRadio(this)">
+                    <label for="evoked_yes">Yes</label>
                 </span>
                 <span class="r-pill__item">
-                    <input type="radio" id="radio_question_no" name="radio_question_yesno" value="no" onclick="toggleQuestionRadio(this)">
-                    <label for="radio_question_no">No</label>
+                    <input type="radio" id="evoked_no" name="evoked" value="no" onclick="toggleQuestionRadio(this)">
+                    <label for="evoked_no">No</label>
                 </span>
             </div>
         </fieldset>
