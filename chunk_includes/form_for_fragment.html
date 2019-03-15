@@ -628,8 +628,8 @@ button::-moz-focus-inner {
                 </span>
             </div>
         </fieldset>
-        <div style="position:absolute; margin-left: 8em; margin-top:-48px"><div id="enter_your_question">Your question:</div>
-        <input name="question" id="question" type="text" style="width: 25em; color:#083851"/></div>
+        <div style="position:absolute; margin-left: 8em; margin-top:-52px"><div id="enter_your_question" style="font-size: small">Your question:</div>
+            <div class="r-pill__group"><input name="question" id="question" type="text" style="width: 25em; color:#083851; border-style:none"/></div></div>
     <div id="hidden_field_for_storing_question" style="display: none"></div>
         <!-- <input name="q2" type="text" style="width: 40em"></input><br>
         <input name="q3" type="text" style="width: 40em"></input><br> -->
@@ -673,7 +673,8 @@ button::-moz-focus-inner {
 <div id="div_containing_form_for_fragment_cont" style="display: none">
 
     <p><b>Remember that the first part evoked the following question:</b>
-        <div id="question_copy_for_display" style="width: 32em; background-color: #eeeeee; border: 1px solid darkgray; box-shadow: 1px 1px 1px 0 lightgray inset; margin-top: 5px; padding: 2px 3px"></div>
+        <div class="r-pill__group" style="background-color: #eeeeee"><div id="question_copy_for_display" style="width: 32em"></div></div>
+        <!-- "width: 32em; background-color: #eeeeee; border: 1px solid darkgray; box-shadow: 1px 1px 1px 0 lightgray inset; margin-top: 5px; padding: 2px 3px" -->
     </p>
 
     <p><b>4. Was your question answered in the continuation?</b>
@@ -714,9 +715,11 @@ button::-moz-focus-inner {
     <div id="div_containing_items_6_and_7"><p>
         <b>5. Enter the (complete/partial) answer in your own words:</b>
         <b id="answer_error" style="color: red; visibility: hidden">*</b><br>
-        <input name="answer" id="answer" type="text" style="width: 33em; color:#083851">
+        <div class="r-pill__group"><input name="answer" id="answer" type="text" style="width: 33em; color:#083851; border-style:none" /></div>
         <div id="hidden_field_for_storing_answer" style="display: none"></div>
+        </p>
 
+        <p>
         <b>6. In the fragment, <mark id="marker_in_question2" style="background:#76bef8">highlight</mark> the main phrase suggesting this answer.</b>
         <b id="answer_highlighting_error" style="color: red; visibility: hidden">*</b><br>
         <!-- <ul>
