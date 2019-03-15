@@ -7,8 +7,7 @@ showFragmentStart();
 async function showFragmentStart() {
     document.getElementById("fragment_highlighter1").innerHTML = fragmentstart;
     document.getElementById("fragment_selector").innerHTML = fragmentstart;
-    document.getElementById("fragment_colorizer").innerHTML = fragmentstart;
-    //await sleep(800);
+    await addTypedText(document.getElementById("fragment_colorizer"), fragmentstart);
     document.getElementById("div_containing_form_for_fragment_start").style.display = "block";
     //await sleep(1000);
     //document.getElementById("link_to_show_fragment_cont").style.visibility = "visible";
@@ -31,7 +30,6 @@ async function showFragmentCont(e) {
     document.getElementById("div_containing_form_for_fragment_start").style.display = "none";
 
     // Dim the colors of the first part of the fragment
-    await sleep(500)
     document.getElementById("fragment_colorizer").innerHTML = '<font color="#888888">' + fragmentstart + "</font>";
     if (document.getElementById("question").value != "") {
         // this "highlight1" object only exists if a question was entered before.
@@ -39,13 +37,11 @@ async function showFragmentCont(e) {
     }
 
     // Now load the rest of the fragment
-    await sleep(500);
     document.getElementById("fragment_highlighter1").innerHTML += "  " + fragmentcont;
     document.getElementById("fragment_selector").innerHTML += " " + fragmentcont;
-    document.getElementById("fragment_colorizer").innerHTML += " " + fragmentcont;
+    await addTypedText(document.getElementById("fragment_colorizer"), " " + fragmentcont);
 
     // The new form
-    await sleep(500);
     // Show something different depending on whether a question was evoked.
     if (document.getElementById("question").value != "") {
         document.getElementById("question_copy_for_display").innerHTML = document.getElementById("question").value;

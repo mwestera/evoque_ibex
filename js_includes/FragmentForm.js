@@ -19,6 +19,14 @@ async function flashMessage(e) {
     await sleep(500);
 }
 
+async function addTypedText(e, s) {
+    for ( var i = 0; i < s.length; i++ ) {
+        e.innerHTML += s.charAt(i);
+        await sleep(3);
+    }
+}
+
+
 define_ibex_controller({
 name: "FragmentForm",
 
