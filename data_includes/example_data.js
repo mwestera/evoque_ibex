@@ -5,10 +5,6 @@ var practiceItemTypes = ["practice"];
 var globalBuffer = "INIT";
 
 var defaults = [
-    "SelectorForm", {
-        continueOnReturn: true,
-        saveReactionTime: true
-    },
     "Separator", {
         transfer: 1000,
         normalMessage: "Please wait for the next sentence.",
