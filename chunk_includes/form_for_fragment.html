@@ -283,7 +283,7 @@ document.onmouseup = document.onkeyup = function() {
                 text.substring(0, sel[0]) +
                 '<mark id="highlight1" style="color: transparent; background-color: #76bef8">' + text.substring(sel[0], sel[1]) + "</mark>" +
                 text.substring(sel[1], text.length);
-        } else {
+        } else if (document.getElementById("question").value != "") {
             document.getElementById("answer_highlighting_start").value = sel[0];
             document.getElementById("answer_highlighting_end").value = sel[1];
             document.getElementById("answer_highlighting").value = text.substring(sel[0], sel[1]);
