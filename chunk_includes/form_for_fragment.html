@@ -219,7 +219,7 @@ function getSelection() {
     ) {
         // determine start and end character based on anchor (where you click) and focus (where you release)
         start = Math.min(selection.anchorOffset, selection.focusOffset);
-        end = Math.max(selection.anchorOffset, selection.focusOffset);
+        end = Math.max(selection.anchorOffset, selection.focusOffset)-1;
 
         // Select only whole words.
         var text = document.getElementById("fragment_selector").innerHTML;
