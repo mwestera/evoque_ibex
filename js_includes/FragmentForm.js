@@ -11,8 +11,6 @@ function sleep(ms) {
 
 // Helper function for flashing an element and then displaying
 async function flashMessage(e) {
-    e.style.visibility = "hidden";
-    await sleep(300);
     e.style.visibility = "visible";
     await sleep(500);
     e.style.visibility = "hidden";
