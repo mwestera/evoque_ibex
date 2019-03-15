@@ -8,7 +8,7 @@ async function showFragmentStart() {
     document.getElementById("fragment_highlighter1").innerHTML = fragmentstart;
     document.getElementById("fragment_selector").innerHTML = fragmentstart;
     document.getElementById("fragment_colorizer").innerHTML = fragmentstart;
-    await sleep(800);
+    //await sleep(800);
     document.getElementById("div_containing_form_for_fragment_start").style.display = "block";
     //await sleep(1000);
     //document.getElementById("link_to_show_fragment_cont").style.visibility = "visible";
@@ -39,7 +39,7 @@ async function showFragmentCont(e) {
     document.getElementById("div_containing_form_for_fragment_start").style.display = "none";
 
     // Dim the colors of the first part of the fragment
-    await sleep(100)
+    await sleep(500)
     document.getElementById("fragment_colorizer").innerHTML = '<font color="#888888">' + fragmentstart + "</font>";
     if (document.getElementById("question").value != "") {
         // this "highlight1" object only exists if a question was entered before.
@@ -608,15 +608,15 @@ button::-moz-focus-inner {
         </div>
     </p></div>
 
-    <hr><br><br>
+    <hr><br>
 
     <div id="link_to_show_fragment_cont">
+        <div id="div_for_first_error_message" style="color: red; visibility: hidden">
+        Please complete the form first.
+        </div><br>
         <a href="#!" class="Message-continue-link" id="link_to_show_fragment_cont_ahref" onclick="showFragmentCont()">
         &#8594 Done? Click to save your answers and see how the fragment continues.
-        </a><br>
-        <div id="div_for_first_error_message" style="margin-top: -40px; color: red; visibility: hidden">
-        Please complete the form first.
-        </div>
+        </a><br><br>
     </div>
 
 </div>
