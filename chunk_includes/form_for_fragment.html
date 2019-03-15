@@ -165,7 +165,7 @@ function qualityCheckFirstPart() {
         check = false;
     }
 
-    if (!check) document.getElementById("div_for_first_error_message").style.visibility = "visible";
+    if (!check) flashMessage(document.getElementById("div_for_first_error_message"));
     return check;
 }
 
@@ -210,7 +210,7 @@ function FinalQualityCheck() {
         check = false;
     }
 
-    if (!check) document.getElementById("div_for_last_error_message").style.visibility = "visible";
+    if (!check) flashMessage(document.getElementById("div_for_last_error_message"));
     return check;
 
 }
@@ -608,12 +608,13 @@ button::-moz-focus-inner {
         </div>
     </p></div>
 
-    <hr>
+    <hr><br><br>
+
     <div id="link_to_show_fragment_cont">
         <a href="#!" class="Message-continue-link" id="link_to_show_fragment_cont_ahref" onclick="showFragmentCont()">
         &#8594 Done? Click to save your answers and see how the fragment continues.
         </a><br>
-        <div id="div_for_first_error_message" style="color: red; visibility: hidden">
+        <div id="div_for_first_error_message" style="margin-top: -40px; color: red; visibility: hidden">
         Please complete the form first.
         </div>
     </div>
