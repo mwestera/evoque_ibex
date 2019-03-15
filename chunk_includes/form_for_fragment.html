@@ -23,14 +23,6 @@ async function showFragmentCont(e) {
 
     fragment_phase = "cont";
 
-    // First some cleaning
-    if (document.getElementById("question").value == "") {
-        // If no question was given, remove highlighting made to avoid polluting the results file.
-        document.getElementById("question_highlighting_start").value = "";
-        document.getElementById("question_highlighting_end").value = "";
-        document.getElementById("question_highlighting").value = "";
-    }
-
     // Slowly scroll to top
     $("html, body").animate({ scrollTop: 0 }, "slow");
 
@@ -55,7 +47,7 @@ async function showFragmentCont(e) {
     // The new form
     await sleep(500);
     // Show something different depending on whether a question was evoked.
-    if (document.getElementById("question").value != "") {
+    if (document.getElementById("question").disabled == false) {
         document.getElementById("question_copy_for_display").innerHTML = document.getElementById("question").value;
         document.getElementById("div_containing_form_for_fragment_cont").style.display = "block";
     } else {
@@ -166,13 +158,29 @@ function qualityCheckFirstPart() {
     }
 
     if (!check) flashMessage(document.getElementById("div_for_first_error_message"));
+
+    // If all is fine, clean up some garbage before sending to server
+    if (check) {
+        if (document.getElementById("evoked_no").checked) {
+            document.getElementById("question").disabled = true;
+            document.getElementById("question_highlighting").disabled = true;
+            document.getElementById("question_highlighting_start").disabled = true;
+            document.getElementById("question_highlighting_end").disabled = true;
+
+            document.getElementById("question").value = null;
+            document.getElementById("question_highlighting").value = null;
+            document.getElementById("question_highlighting_start").value = null;
+            document.getElementById("question_highlighting_end").value = null;
+        }
+    }
+
     return check;
 }
 
 
 function FinalQualityCheck() {
     // In case nothing further was required:
-    if (document.getElementById("div_containing_message_incase_no_question_was_evoked").style.display == "block") {
+    if (document.getElementById("question").disabled == true) {
         return true;
     }
 
@@ -211,6 +219,28 @@ function FinalQualityCheck() {
     }
 
     if (!check) flashMessage(document.getElementById("div_for_last_error_message"));
+
+    // If all is fine, clean up some garbage before sending to server
+    if (check) {
+        if (document.getElementById("evoked_no").checked) {
+           document.getElementByName("answered").disabled = true;
+           document.getElementByName("answered").value = null;
+        }
+        if (document.getElementById("evoked_no").checked || document.getElementById("answered1").checked || document.getElementById("answered2").checked) {
+            document.getElementById("answer").disabled = true;
+            document.getElementById("answer_highlighting").disabled = true;
+            document.getElementById("answer_highlighting_start").disabled = true;
+            document.getElementById("answer_highlighting_end").disabled = true;
+            document.getElementById("answer").value = null;
+            document.getElementById("answer_highlighting").value = null;
+            document.getElementById("answer_highlighting_start").value = null;
+            document.getElementById("answer_highlighting_end").value = null;
+        }
+    }
+
+    // TODO What's the problem here? Sometimes answered is missing from the server results...
+
+
     return check;
 
 }
@@ -575,22 +605,18 @@ button::-moz-focus-inner {
                     <input type="radio" id="coherence1" name="coherence" value="1">
                     <label for="coherence1">1</label>
                 </span>
-
                 <span class="r-pill__item">
                     <input type="radio" id="coherence2" name="coherence" value="2">
                     <label for="coherence2">2</label>
                 </span>
-
                 <span class="r-pill__item">
                     <input type="radio" id="coherence3" name="coherence" value="3">
                     <label for="coherence3">3</label>
                 </span>
-
                 <span class="r-pill__item">
                     <input type="radio" id="coherence4" name="coherence" value="4">
                     <label for="coherence4">4</label>
                 </span>
-
                 <span class="r-pill__item">
                     <input type="radio" id="coherence5" name="coherence" value="5">
                     <label for="coherence5">5</label>
@@ -658,7 +684,7 @@ button::-moz-focus-inner {
     <p><b>Based on your responses we have no further questions about this fragment.</b></p>
 </div>
 
-<div id="div_containing_form_for_fragment_cont" style="display: none">
+<div id="div_containing_form_for_fragment_cont" style="visibility: none">
 
     <p><b>You said that the first part evoked the question:</b>
         <div id="question_copy_for_display" style="width: 32em; background-color: #eeeeee; border: 1px solid darkgray; box-shadow: 1px 1px 1px 0 lightgray inset; margin-top: 5px; padding: 2px 3px"></div>
@@ -673,22 +699,18 @@ button::-moz-focus-inner {
                     <input type="radio" id="answered1" name="answered" value="1" onclick="toggleAnswerRadio(this)">
                     <label for="answered1">1</label>
                 </span>
-
                 <span class="r-pill__item">
                     <input type="radio" id="answered2" name="answered" value="2" onclick="toggleAnswerRadio(this)">
                     <label for="answered2">2</label>
                 </span>
-
                 <span class="r-pill__item">
                     <input type="radio" id="answered3" name="answered" value="3" onclick="toggleAnswerRadio(this)">
                     <label for="answered3">3</label>
                 </span>
-
                 <span class="r-pill__item">
                     <input type="radio" id="answered4" name="answered" value="4" onclick="toggleAnswerRadio(this)">
                     <label for="answered4">4</label>
                 </span>
-
                 <span class="r-pill__item">
                     <input type="radio" id="answered5" name="answered" value="5" onclick="toggleAnswerRadio(this)">
                     <label for="answered5">5</label>
