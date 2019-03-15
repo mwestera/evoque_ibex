@@ -60,6 +60,7 @@ async function showFragmentCont(e) {
 
 };
 
+
 // For hiding/showing follow-up form fields depending on whether the fragment evokes a question
 function toggleQuestionRadio(element) {
     if ( element.id == "evoked_no" ) {
@@ -585,11 +586,11 @@ button::-moz-focus-inner {
     </p> -->
 
     <p>
-        <b>1. Is this fragment coherent so far? Can you more or less make sense of it?</b>
+        <b>1. Is this fragment comprehensible to you?</b>
         <b id="coherence_error" style="color: red; visibility: hidden">*</b><br>
         <fieldset class="r-pill">
             <div class="r-pill__group">
-                <i>&nbsp;&nbsp;Terribly incoherent.</i>
+                <i>&nbsp;&nbsp;Incomprehensible.</i>
                 <span class="r-pill__item">
                     <input type="radio" id="coherence1" name="coherence" value="1">
                     <label for="coherence1">1</label>
@@ -610,7 +611,7 @@ button::-moz-focus-inner {
                     <input type="radio" id="coherence5" name="coherence" value="5">
                     <label for="coherence5">5</label>
                 </span>
-                <i>Perfectly coherent.&nbsp;&nbsp;</i>
+                <i>Comprehensible.&nbsp;&nbsp;</i>
             </div>
         </fieldset>
     </p>
@@ -675,7 +676,7 @@ button::-moz-focus-inner {
 
 <div id="div_containing_form_for_fragment_cont" style="display: none">
 
-    <p><b>You said that the first part evoked the question:</b>
+    <p><b>Remember that the first part evoked the following question:</b>
         <div id="question_copy_for_display" style="width: 32em; background-color: #eeeeee; border: 1px solid darkgray; box-shadow: 1px 1px 1px 0 lightgray inset; margin-top: 5px; padding: 2px 3px"></div>
     </p>
 
