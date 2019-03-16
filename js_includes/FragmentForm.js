@@ -1,9 +1,5 @@
 /* This software is licensed under a BSD license; see the LICENSE file for details. */
 
-// TODO Communicating stuff through global vars is probably not the proper way... these are used in the html form.
-var fragmentstart = "";
-var fragmentcont = "";
-
 // Helper function for delayed hiding/showing
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
@@ -36,11 +32,15 @@ jqueryWidget: {
         this.finishedCallback = this.options._finishedCallback;
         this.utils = this.options._utils;
 
-        this.html = dget(this.options, "html");
-
         // TODO Communicating these through global vars is probably not the proper way
-        fragmentstart = dget(this.options, "fragment_start")
-        fragmentcont = dget(this.options, "fragment_cont")
+        window.text = dget(this.options, "text")
+
+        if (dget(this.options, "phase") == 0) {
+            this.html = { include: "fragment_start.html" };
+            window.textthusfar = "";
+        } else if (dget(this.options, "phase") == 2) {
+            this.html = { include: "fragment_end.html" };
+        }
 
         this.continueOnReturn = dget(this.options, "continueOnReturn", false);
         this.continueMessage = dget(this.options, "continueMessage", "Click here to continue");

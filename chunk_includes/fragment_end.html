@@ -1,50 +1,34 @@
 <script>
 
-var fragment_phase = "start"
+window.fragment_phase = "cont";
 showFragmentStart();
 
 // For loading the first fragment and showing appropriate form fields
 async function showFragmentStart() {
-    document.getElementById("fragment_highlighter1").innerHTML = fragmentstart;
-    document.getElementById("fragment_selector").innerHTML = fragmentstart;
-    await addTypedText(document.getElementById("fragment_colorizer"), fragmentstart);
-    document.getElementById("div_containing_form_for_fragment_start").style.display = "block";
-    //await sleep(1000);
-    //document.getElementById("link_to_show_fragment_cont").style.visibility = "visible";
-};
-
-
-// For showing the fragment continuation, and hiding/showing the appropriate form fields
-async function showFragmentCont(e) {
-
-    // TODO form completion and quality check
-    if (!qualityCheckFirstPart()) return;
-
-    fragment_phase = "cont";
-
-    // Slowly scroll to top
-    $("html, body").animate({ scrollTop: 0 }, "slow");
-
-    // Hide the clicked link, hide the first part of the form
-    document.getElementById("link_to_show_fragment_cont").style.display = "none";
-    document.getElementById("div_containing_form_for_fragment_start").style.display = "none";
+    document.getElementById("fragment_highlighter1").innerHTML = window.textthusfar;
+    document.getElementById("fragment_selector").innerHTML = window.textthusfar;
+    document.getElementById("fragment_colorizer").innerHTML = window.textthusfar;
 
     // Dim the colors of the first part of the fragment
-    document.getElementById("fragment_colorizer").innerHTML = '<font color="#888888">' + fragmentstart + "</font>";
-    if (document.getElementById("question").value != "") {
+    document.getElementById("fragment_colorizer").innerHTML = '<font color="#888888">' + window.textthusfar + "</font>";
+    if (window.question != "") {
         // this "highlight1" object only exists if a question was entered before.
+        document.getElementById("fragment_highlighter1").innerHTML =
+                window.textthusfar.substring(0, window.question_highlighting_start) +
+                '<mark id="highlight1" style="color: transparent; background-color: #76bef8">' + window.textthusfar.substring(window.question_highlighting_start, window.question_highlighting_end) + "</mark>" +
+                window.textthusfar.substring(window.question_highlighting_end, window.textthusfar.length);
         document.getElementById("highlight1").style.backgroundColor = "#E2F1FD";
     }
 
     // Now load the rest of the fragment
-    document.getElementById("fragment_highlighter1").innerHTML += "  " + fragmentcont;
-    document.getElementById("fragment_selector").innerHTML += " " + fragmentcont;
-    await addTypedText(document.getElementById("fragment_colorizer"), " " + fragmentcont);
+    document.getElementById("fragment_highlighter1").innerHTML += "  " + window.text;
+    document.getElementById("fragment_selector").innerHTML += " " + window.text;
+    await addTypedText(document.getElementById("fragment_colorizer"), " " + window.text);
 
     // The new form
     // Show something different depending on whether a question was evoked.
-    if (document.getElementById("question").value != "") {
-        document.getElementById("question_copy_for_display").innerHTML = document.getElementById("question").value;
+    if (window.question != "") {
+        document.getElementById("question_copy_for_display").innerHTML = window.question;
         document.getElementById("div_containing_form_for_fragment_cont").style.display = "block";
     } else {
         document.getElementById("div_containing_message_incase_no_question_was_evoked").style.display = "block";
@@ -54,34 +38,6 @@ async function showFragmentCont(e) {
     // And finally make the final continue link visible
     document.getElementById("div_containing_continue-link").style.visibility = "visible"
 
-};
-
-
-// For hiding/showing follow-up form fields depending on whether the fragment evokes a question
-function toggleQuestionRadio(element) {
-    if ( element.id == "evoked_no" ) {
-        document.getElementById("question").disabled = true;
-        document.getElementById("hidden_field_for_storing_question").innerHTML = document.getElementById("question").value;
-        document.getElementById("question").value = "";
-        document.getElementById("fragment_highlighter1").style.visibility = "hidden";
-        document.getElementById("div_containing_item_4").style.color = "#888888";
-        document.getElementById("enter_your_question").style.color = "#888888";
-        document.getElementById("marker_in_question").style.backgroundColor = "#E2F1FD";
-        document.getElementById("marker_in_question").style.color = "#888888";
-        document.getElementById("question_highlighting_error").style.visibility = "hidden";
-    } else {
-        if ( document.getElementById("question").disabled = true ) {
-            document.getElementById("question").disabled = false;
-            document.getElementById("question").value = document.getElementById("hidden_field_for_storing_question").innerHTML;
-            document.getElementById("hidden_field_for_storing_question").innerHTML = "";
-            document.getElementById("fragment_highlighter1").style.visibility = "visible";
-            document.getElementById("div_containing_item_4").style.color = "#000000";
-            document.getElementById("marker_in_question").style.backgroundColor = "#76bef8";
-            document.getElementById("marker_in_question").style.color = "#000000";
-            document.getElementById("enter_your_question").style.color = "#000000";
-            document.getElementById("question_highlighting_error").style.visibility = "hidden";
-        }
-    };
 };
 
 // For hiding/showing follow-up form fields depending on whether the evoked question was answered
@@ -111,69 +67,10 @@ function toggleAnswerRadio(element) {
 };
 
 
-function qualityCheckFirstPart() {
-    var check = true;
-
-//    document.getElementById("grammaticality_error").style.visibility = "hidden";
-    document.getElementById("coherence_error").style.visibility = "hidden";
-    document.getElementById("question_error").style.visibility = "hidden";
-    document.getElementById("question_highlighting_error").style.visibility = "hidden";
-    document.getElementById("div_for_first_error_message").style.visibility = "hidden";
-
-    // Grammaticality
-//      if (!document.getElementById("grammaticality1").checked &&
-//         !document.getElementById("grammaticality2").checked &&
-//         !document.getElementById("grammaticality3").checked &&
-//         !document.getElementById("grammaticality4").checked &&
-//         !document.getElementById("grammaticality5").checked) {
-//         flashMessage(document.getElementById("grammaticality_error"));
-//         check = false;
-//     }
-
-    // Coherence
-    if (!document.getElementById("coherence1").checked &&
-        !document.getElementById("coherence2").checked &&
-        !document.getElementById("coherence3").checked &&
-        !document.getElementById("coherence4").checked &&
-        !document.getElementById("coherence5").checked) {
-        flashMessage(document.getElementById("coherence_error"));
-        check = false;
-    }
-
-    // The question field
-    // TODO More sophisticated quality control, e.g., spellcheck, min length, question mark?
-    if ( document.getElementById("evoked_yes").checked && document.getElementById("question").value == "" ) {
-        flashMessage(document.getElementById("question_error"));
-        check = false;
-    }
-
-    // The highlighting
-    // TODO More sophisticated quality control, e.g., min words, max words?
-    if ( document.getElementById("evoked_yes").checked && document.getElementById("question_highlighting").value == "" ) {
-        flashMessage(document.getElementById("question_highlighting_error"));
-        check = false;
-    }
-
-    if (!check) flashMessage(document.getElementById("div_for_first_error_message"));
-
-    // If all is fine, clean up some garbage before sending to server
-    if (check) {
-        if (document.getElementById("evoked_no").checked) {
-            document.getElementById("question").value = "";
-            document.getElementById("question_highlighting").value = "";
-            document.getElementById("question_highlighting_start").value = "";
-            document.getElementById("question_highlighting_end").value = "";
-        }
-    }
-
-    return check;
-}
-
-
 function FinalQualityCheck() {
 
     // In case nothing further was required:
-    if (document.getElementById("question").value == "") {
+    if (window.question == "") {
         document.getElementById("answer").value = "";
         document.getElementById("answer_highlighting").value = "";
         document.getElementById("answer_highlighting_start").value = "";
@@ -268,7 +165,7 @@ function getSelection() {
         }
 
         // Select only in appropriate region.
-        if (fragment_phase == "cont" && start < fragmentstart.length) {
+        if (start < window.textthusfar.length) {
             return null;
         };
 
@@ -297,7 +194,7 @@ document.onmouseup = document.onkeyup = function() {
                 text.substring(0, sel[0]) +
                 '<mark id="highlight1" style="color: transparent; background-color: #76bef8">' + text.substring(sel[0], sel[1]) + "</mark>" +
                 text.substring(sel[1], text.length);
-        } else if (document.getElementById("question").value != "") {
+        } else if (window.question != "") {
             document.getElementById("answer_highlighting_start").value = sel[0];
             document.getElementById("answer_highlighting_end").value = sel[1];
             document.getElementById("answer_highlighting").value = text.substring(sel[0], sel[1]);
@@ -543,124 +440,6 @@ button::-moz-focus-inner {
         </div>
     <hr>
 
-<div id="div_containing_form_for_fragment_start" style="display: none; position: absolute; width:40em">
-<!--    <p>
-        <b>1. Does the fragment have grammatical errors, typos, incomplete sentences, etc?</b>
-        <b id="grammaticality_error" style="color: red; visibility: hidden">*</b><br>
-        <fieldset class="r-pill">
-            <div class="r-pill__group">
-                <i>&nbsp;&nbsp;Full of errors.</i>
-                <span class="r-pill__item">
-                    <input type="radio" id="grammaticality1" name="grammaticality" value="1">
-                    <label for="grammaticality1">1</label>
-                </span>
-
-                <span class="r-pill__item">
-                    <input type="radio" id="grammaticality2" name="grammaticality" value="2">
-                    <label for="grammaticality2">2</label>
-                </span>
-
-                <span class="r-pill__item">
-                    <input type="radio" id="grammaticality3" name="grammaticality" value="3">
-                    <label for="grammaticality3">3</label>
-                </span>
-
-                <span class="r-pill__item">
-                    <input type="radio" id="grammaticality4" name="grammaticality" value="4">
-                    <label for="grammaticality4">4</label>
-                </span>
-
-                <span class="r-pill__item">
-                    <input type="radio" id="grammaticality5" name="grammaticality" value="5">
-                    <label for="grammaticality5">5</label>
-                </span>
-                <i>No errors.&nbsp;&nbsp;</i>
-            </div>
-        </fieldset>
-    </p> -->
-
-    <p>
-        <b>1. Is this fragment comprehensible to you?</b><br>
-        <fieldset class="r-pill">
-            <div class="r-pill__group">
-                <i>&nbsp;&nbsp;Incomprehensible.</i>
-                <span class="r-pill__item">
-                    <input type="radio" id="coherence1" name="coherence" value="1">
-                    <label for="coherence1">1</label>
-                </span>
-                <span class="r-pill__item">
-                    <input type="radio" id="coherence2" name="coherence" value="2">
-                    <label for="coherence2">2</label>
-                </span>
-                <span class="r-pill__item">
-                    <input type="radio" id="coherence3" name="coherence" value="3">
-                    <label for="coherence3">3</label>
-                </span>
-                <span class="r-pill__item">
-                    <input type="radio" id="coherence4" name="coherence" value="4">
-                    <label for="coherence4">4</label>
-                </span>
-                <span class="r-pill__item">
-                    <input type="radio" id="coherence5" name="coherence" value="5">
-                    <label for="coherence5">5</label>
-                </span>
-                <i>Comprehensible.&nbsp;&nbsp;</i>
-            </div><b id="coherence_error" style="color: red; visibility: hidden"> *</b>
-        </fieldset>
-    </p>
-
-    <p>
-        <b>2. Does this fragment evoke a question for you?</b><br>
-        <!-- (List up to three questions; leave <i>blank</i> if it does not evoke any questions.) <br> -->
-        <fieldset class="r-pill">
-            <div class="r-pill__group">
-                <span class="r-pill__item">
-                    <input type="radio" id="evoked_yes" name="evoked" value="1" onclick="toggleQuestionRadio(this)" checked>
-                    <label for="evoked_yes">Yes</label>
-                </span>
-                <span class="r-pill__item">
-                    <input type="radio" id="evoked_no" name="evoked" value="0" onclick="toggleQuestionRadio(this)">
-                    <label for="evoked_no">No</label>
-                </span>
-            </div>
-        </fieldset>
-        <div style="position:absolute; margin-left: 8em; margin-top:-52px"><div id="enter_your_question" style="font-size: small">Your question:</div>
-            <div class="r-pill__group"><input name="question" id="question" type="text" style="width: 25em; color:#083851; border-style:none"/></div><b id="question_error" style="color: red; visibility: hidden;"> *</b></div>
-    <div id="hidden_field_for_storing_question" style="display: none"></div>
-        <!-- <input name="q2" type="text" style="width: 40em"></input><br>
-        <input name="q3" type="text" style="width: 40em"></input><br> -->
-    </p>
-
-    <div id="div_containing_item_4"><p>
-        <b>3. In the fragment, <mark id="marker_in_question" style="background:#76bef8">highlight</mark> the main phrase that evoked this question.</b>
-        <b id="question_highlighting_error" style="color: red; visibility: hidden"> *</b>
-        <!-- <ul>
-            <li>Please  a phrase in the fragment above (cursor selection).</li>
-            <li>To change the highlighting just make a new selection.</li>
-            <li>There's also a button to <i>clear</i> the current highlighting.</li>
-            <li>If no phrase seems suitable for marking, do not select anything.</li>
-        </ul>-->
-<!-- below are invisible form fields to which the selection is saved. -->
-        <div style="display: none">
-        Selected text:
-            <input id="question_highlighting" name="question_highlighting" type="text" style="width: 32em">
-            <textarea id="question_highlighting_start" name="question_highlighting_start" rows="1" cols="10"></textarea>
-            <textarea id="question_highlighting_end" name="question_highlighting_end" rows="1" cols="10"></textarea>
-        </div>
-    </p></div>
-
-    <hr>
-
-    <div id="link_to_show_fragment_cont">
-        <div id="div_for_first_error_message" style="color: red; visibility: hidden">
-        Please complete the form first.
-        </div>
-        <a href="#!" class="Message-continue-link" id="link_to_show_fragment_cont_ahref" onclick="showFragmentCont()">
-        &#8594 Done? Click to save your answers and see how the fragment continues.
-        </a><br><br>
-    </div>
-
-</div>
 
 <div id="div_containing_message_incase_no_question_was_evoked" style="position: relative; display: none">
     <p><b>Based on your responses we have no further questions about this fragment.</b></p>

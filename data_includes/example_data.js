@@ -1,12 +1,11 @@
 // var shuffleSequence = seq("sel", "intro", sepWith("sep", seq("practice", rshuffle("s1", "s2"))), sepWith("sep", rshuffle("q1", "q2")));
-var shuffleSequence = seq("test");   // For now, the only thing to test
+var shuffleSequence = seq("fragment");   // For now, the only thing to test
 var practiceItemTypes = ["practice"];
 
 var globalBuffer = "INIT";
 
 var defaults = [
-    "FragmentForm", {
-        html: {include: "form_for_fragment.html"}},
+    "FragmentForm", {html: ""},
     "Separator", {
         transfer: 1000,
         normalMessage: "Please wait for the next sentence.",
@@ -35,6 +34,16 @@ var defaults = [
 ];
 
 var items = [
+
+    ["fragment", "FragmentForm", {
+                    phase: "0",
+                    text: "Until I took it off, I never realized how much I noticed my wedding band (chiming quietly against utensils, loosening its grip when I showered, orbiting my finger secretly throughout the day). There’s still an indentation where the ring sat for seven years, and I rub the smooth skin daily.",
+                },
+                "FragmentForm", {
+                    phase: "2",
+                    text: "She told me she never took hers off, even when she spent the night with him. Her voice sounded comforting, almost like an apology. Two months later, she left for good — laid her ring on the counter. Mine stayed on for two more years, pressing down, denting my skin, hoping.",
+                }
+    ],
 
     ["test", "FragmentForm", {
         fragment_start: "Until I took it off, I never realized how much I noticed my wedding band (chiming quietly against utensils, loosening its grip when I showered, orbiting my finger secretly throughout the day). There’s still an indentation where the ring sat for seven years, and I rub the smooth skin daily.",
