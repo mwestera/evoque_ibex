@@ -456,7 +456,7 @@ button::-moz-focus-inner {
         <fieldset class="r-pill">
             <div class="r-pill__group">
                 <i>&nbsp;&nbsp;Not answered at all.</i>
-                <!-- Ugly way of having default value empty string for radio buttons: -->
+                <!-- Ugly way of having default value empty string for radio buttons: TODO field can end up twice in results -->
                 <input type="text" id="answered0" name="answered" value="" style="display:none"/>
                 <span class="r-pill__item">
                     <input type="radio" id="answered1" name="answered" value="1" onclick="toggleAnswerRadio(this)"/>
