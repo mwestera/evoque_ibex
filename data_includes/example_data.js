@@ -34,7 +34,9 @@ var defaults = [
 ];
 
 var items = [
-
+// TODO Implement "mid", for 3+-stage fragments.
+// THOUGHT: Quality will decrease for longer stages... People forget the beginning of the text. (Still, better than not even having seen it!)
+// TODO Implement evaluating multiple questions? Nah. Local coherence...
     ["fragment", "FragmentForm", {
                     phase: "0",
                     text: "Until I took it off, I never realized how much I noticed my wedding band (chiming quietly against utensils, loosening its grip when I showered, orbiting my finger secretly throughout the day). There’s still an indentation where the ring sat for seven years, and I rub the smooth skin daily.",
