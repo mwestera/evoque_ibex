@@ -1,27 +1,5 @@
 /* This software is licensed under a BSD license; see the LICENSE file for details. */
 
-// Helper function for delayed hiding/showing
-function sleep(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
-
-// Helper function for flashing an element and then displaying
-async function flashMessage(e) {
-    e.style.visibility = "visible";
-    await sleep(500);
-    e.style.visibility = "hidden";
-    await sleep(300);
-    e.style.visibility = "visible";
-    await sleep(500);
-}
-
-async function addTypedText(e, s) {
-    for ( var i = 0; i < s.length; i++ ) {
-        e.innerHTML += s.charAt(i);
-        await sleep(3);
-    }
-}
-
 
 define_ibex_controller({
 name: "FragmentForm",
@@ -201,3 +179,112 @@ properties: {
     }
 }
 });
+
+
+
+// Some more custom code:
+
+// Helper function for delayed hiding/showing
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+// Helper function for flashing an element and then displaying
+async function flashMessage(e) {
+    e.style.visibility = "visible";
+    await sleep(500);
+    e.style.visibility = "hidden";
+    await sleep(300);
+    e.style.visibility = "visible";
+    await sleep(500);
+}
+
+async function addTypedText(e, s) {
+    for ( var i = 0; i < s.length; i++ ) {
+        e.innerHTML += s.charAt(i);
+        await sleep(3);
+    }
+}
+
+// returns selection, but only when it exists wholly inside the "selector" field
+function getSelection() {
+
+    var selection = document.getSelection();
+
+    if (selection.anchorNode == null) return null;
+
+    if (
+        selection.anchorNode.parentNode.id == "fragment_selector" &&
+        selection.focusNode.parentNode.id == "fragment_selector" &&
+        selection.anchorOffset != selection.focusOffset
+    ) {
+        // determine start and end character based on anchor (where you click) and focus (where you release)
+        start = Math.min(selection.anchorOffset, selection.focusOffset)+1;
+        end = Math.max(selection.anchorOffset, selection.focusOffset)-1;
+
+        // Select only whole words.
+        var text = document.getElementById("fragment_selector").innerHTML;
+        while (start > 0) {
+            if (text[start-1] == " " || text[start-1] == "’") {
+                break;
+            }
+            start -= 1;
+        }
+        while (end < text.length) {
+            if (text[end] == " " || text[end] == "," || text[end] == "." || text[end] == ";" || text[end] == ":" || text[end] == ")" || text[end] == "'" || text[end] == '"' || text[end] == "’" || text[end] == "”") {
+                break;
+            }
+            end += 1;
+        }
+
+        // clear selection:
+        if (selection.removeAllRanges) {
+            selection.removeAllRanges();
+        } else if (selection.empty) {
+            selection.empty();
+        }
+
+        // Select only in appropriate region.
+        if (start < window.textthusfar.length) {
+            return null;
+        };
+
+        return [start, end];
+
+    }
+    return null;
+};
+
+// Called whenever mouse is released, used only for grabbing selection
+document.onmouseup = document.onkeyup = function() {
+
+    var sel = getSelection();
+    // Only do something if you've actually selected something (in the proper field):
+    if ( sel != null ) {
+
+        var text = document.getElementById("fragment_selector").innerHTML;
+
+        if (fragment_phase == "start") {
+            document.getElementById("question_highlighting_start").value = sel[0];
+            document.getElementById("question_highlighting_end").value = sel[1];
+            document.getElementById("question_highlighting").value = text.substring(sel[0], sel[1]);
+
+            // Add highlighting, store in "highlighter" field displayed behind the "selector".
+            document.getElementById("fragment_highlighter1").innerHTML =
+                text.substring(0, sel[0]) +
+                '<mark id="highlight1" style="color: transparent; background-color: #76bef8">' + text.substring(sel[0], sel[1]) + "</mark>" +
+                text.substring(sel[1], text.length);
+        } else if (window.question != "") {
+            document.getElementById("answer_highlighting_start").value = sel[0];
+            document.getElementById("answer_highlighting_end").value = sel[1];
+            document.getElementById("answer_highlighting").value = text.substring(sel[0], sel[1]);
+
+            // Add highlighting, store in "highlighter" field displayed behind the "selector".
+            document.getElementById("fragment_highlighter2").innerHTML =
+                text.substring(0, sel[0]) +
+                '<mark style="color: transparent; background-color: #76bef8">' + text.substring(sel[0], sel[1]) + "</mark>" +
+                text.substring(sel[1], text.length);
+        }
+
+    }
+};
