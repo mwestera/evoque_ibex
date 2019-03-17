@@ -1,9 +1,9 @@
 <script>
-var selector = document.getElementById("fragment_selector");
-var selector_fromidx = textthusfar.length;
+selector = document.getElementById("fragment_selector");
+selector_fromidx = text_thusfar.length;
 
-var radio_buttons_yesno = ["evoked"];
-var radio_buttons_5 = ["coherence"];
+radio_buttons_yesno = ["evoked"];
+radio_buttons_5 = ["coherence"];
 
 reveal();
 
@@ -95,12 +95,13 @@ function quality_check() {
         }
 
         // Save some results for next screen
-        window.question = document.getElementById("question").value
-        window.question_highlighting_start = document.getElementById("selection_start").value;
-        window.question_highlighting_end = document.getElementById("selection_end").value;
+        window.question = document.getElementById("question").value;
 
         // Save the amount of text that has thus far been shown
-        window.textthusfar = window.text;
+        window.text_thusfar = window.text;
+        if (document.getElementById("selection_text").value != "") {
+            window.highlights_thusfar.push([document.getElementById("selection_start").value, document.getElementById("selection_end").value]);
+        }
 
         // Slowly scroll to top
         $("html, body").animate({ scrollTop: 0 }, "slow");

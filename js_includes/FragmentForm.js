@@ -15,7 +15,8 @@ jqueryWidget: {
 
         if (dget(this.options, "phase") == 0) {
             this.html = { include: "fragment_start.html" };
-            window.textthusfar = "";
+            window.text_thusfar = "";
+            window.highlights_thusfar = [];
         } else if (dget(this.options, "phase") == 2) {
             this.html = { include: "fragment_end.html" };
         }
@@ -278,6 +279,10 @@ document.onmouseup = document.onkeyup = function() {
     }
 };
 
+var selector = null;
+var selector_fromidx = null;
+var radio_buttons_yesno = [];
+var radio_buttons_5 = [];
 
 // For keyboard shortcuts of radio buttons
 window.onkeyup = function(e) {

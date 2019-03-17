@@ -1,27 +1,25 @@
 <script>
-var selector = document.getElementById("fragment_selector");
-var selector_fromidx = textthusfar.length;
+selector = document.getElementById("fragment_selector");
+selector_fromidx = text_thusfar.length;
 
-var radio_buttons_yesno = [];
-var radio_buttons_5 = ["answered"];
+radio_buttons_yesno = [];
+radio_buttons_5 = ["answered"];
 
 reveal();
 
 async function reveal() {
-    document.getElementById("fragment_highlighter_prev").innerHTML = window.textthusfar;
-    document.getElementById("fragment_selector").innerHTML = window.textthusfar;
-    document.getElementById("fragment_colorizer").innerHTML = window.textthusfar;
-    document.getElementById("fragment_highlighter").innerHTML = window.textthusfar;
-
-    // Dim the colors of the first part of the fragment
-    document.getElementById("fragment_colorizer").innerHTML = '<font color="#888888">' + window.textthusfar + "</font>";
-    if (window.question != "") {
-        document.getElementById("fragment_highlighter_prev").innerHTML =
-                window.textthusfar.substring(0, window.question_highlighting_start) +
-                '<mark id="highlight_prev" style="color: transparent; background-color: #76bef8">' + window.textthusfar.substring(window.question_highlighting_start, window.question_highlighting_end) + "</mark>" +
-                window.textthusfar.substring(window.question_highlighting_end, window.textthusfar.length);
-        document.getElementById("highlight_prev").style.backgroundColor = "#E2F1FD";
+    document.getElementById("fragment_selector").innerHTML = window.text_thusfar;
+    document.getElementById("fragment_colorizer").innerHTML = '<font color="#888888">' + window.text_thusfar + "</font>";
+    document.getElementById("fragment_highlighter").innerHTML = window.text_thusfar;
+    document.getElementById("fragment_highlighter_prev").innerHTML = ""
+    var j = 0;
+    for (var i = 0; i < window.highlights_thusfar.length; i++) {
+        highlight = window.highlights_thusfar[i];
+        document.getElementById("fragment_highlighter_prev").innerHTML += window.text_thusfar.substring(0, highlight[0]);
+        document.getElementById("fragment_highlighter_prev").innerHTML += '<mark style="color: transparent; background-color: #E2F1FD">' + window.text_thusfar.substring(highlight[0], highlight[1]) + "</mark>"
+        j = highlight[1]
     }
+    document.getElementById("fragment_highlighter_prev").innerHTML += window.text_thusfar.substring(j, text_thusfar.length);
 
     // Now load the rest of the fragment
     document.getElementById("fragment_highlighter_prev").innerHTML += "  " + window.text;
