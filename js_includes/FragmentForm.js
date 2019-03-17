@@ -10,7 +10,6 @@ jqueryWidget: {
         this.finishedCallback = this.options._finishedCallback;
         this.utils = this.options._utils;
         this.phase = dget(this.options, "phase");
-        this.can_skip = dget(this.options, "can_skip");
         this.type = dget(this.options, "type");
 
         if (this.type == "question") {
@@ -18,28 +17,35 @@ jqueryWidget: {
         } else if (this.type == "answer") {
             this.html = { include: "fragment_end.html" };
         }
+
         // TODO Communicating these through global vars is probably not the proper way
         if (this.phase == "start") {
             window.text_thusfar = "";
             window.text = ""; // to be overwritten below
-            console.log(window.text_thusfar);
             window.highlights_thusfar = [];
             window.questions_thusfar = [];
         }
-        this.text = dget(this.options, "text");
-        if (this.text != "") {
+
+        window.can_skip = dget(this.options, "can_skip");
+        var new_text = dget(this.options, "text");
+        window.increment = (new_text != "");
+
+        if (window.increment) {
             if (window.text_thusfar != "") {
                 window.text_thusfar += " ";
             }
             if (window.text != undefined) {
                 window.text_thusfar += window.text;
             }
-            window.text = this.text;
-            window.increment = true;
-        } else {
-            window.increment = false;
+            window.text = new_text;
         }
-        window.can_skip = this.can_skip;
+
+
+//        console.log(window.text_thusfar)
+//        console.log(window.text)
+//        console.log(window.increment)
+//        console.log(window.can_skip)
+//        console.log("-----------")
 
         this.continueOnReturn = dget(this.options, "continueOnReturn", false);
         this.continueMessage = dget(this.options, "continueMessage", "Click here to continue");
