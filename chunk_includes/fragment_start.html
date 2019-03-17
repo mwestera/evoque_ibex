@@ -95,11 +95,9 @@ function quality_check() {
         }
 
         // Save some results for next screen
-        window.question = document.getElementById("question").value;
-
-        // Save the amount of text that has thus far been shown
-        window.text_thusfar = window.text;
-        if (document.getElementById("selection_text").value != "") {
+        window.text_thusfar += window.text;
+        if (document.getElementById("question").value != "") {
+            window.questions_thusfar.push(document.getElementById("question").value);
             window.highlights_thusfar.push([document.getElementById("selection_start").value, document.getElementById("selection_end").value]);
         }
 

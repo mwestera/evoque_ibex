@@ -27,13 +27,16 @@ async function reveal() {
     document.getElementById("fragment_selector").innerHTML += " " + window.text;
     await addTypedText(document.getElementById("fragment_colorizer"), " " + window.text);
 
-    // The new form
     // Show something different depending on whether a question was evoked.
-    if (window.question != "") {
-        document.getElementById("question_copy_for_display").innerHTML = window.question;
+    if (window.questions_thusfar.length > 0) {
+        // Consider only the most recent question
+        // TODO Allow for multiple open questions
+        var prev_question = window.questions_thusfar[questions_thusfar.length-1];
+        document.getElementById("question_copy_for_display").innerHTML = prev_question;
         document.getElementById("div_containing_form_for_fragment_cont").style.visibility = "visible";
     } else {
         document.getElementById("div_containing_message_incase_no_question_was_evoked").style.display = "block";
+        document.getElementById("div_containing_form_for_fragment_cont").style.visibility = "hidden";
         document.getElementById("div_containing_form_for_fragment_cont").style.display = "none";
         document.getElementById("fragment_highlighter").style.visibility = "hidden";
     }
@@ -73,7 +76,7 @@ function toggleAnswerRadio(element) {
 function quality_check() {
 
     // In case nothing further was required:
-    if (window.question == "") {
+    if (document.getElementById("div_containing_form_for_fragment_cont").style.visibility != "visible") {
         document.getElementById("answer").value = "";
         document.getElementById("selection_text").value = "";
         document.getElementById("selection_start").value = "";

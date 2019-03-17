@@ -17,6 +17,7 @@ jqueryWidget: {
             this.html = { include: "fragment_start.html" };
             window.text_thusfar = "";
             window.highlights_thusfar = [];
+            window.questions_thusfar = [];
         } else if (dget(this.options, "phase") == 2) {
             this.html = { include: "fragment_end.html" };
         }
@@ -273,12 +274,13 @@ document.onmouseup = document.onkeyup = function() {
         // Add highlighting, store in "highlighter" field displayed behind the "selector".
         document.getElementById("fragment_highlighter").innerHTML =
             text.substring(0, sel[0]) +
-            '<mark id="highlight" style="color: transparent; background-color: #76bef8">' + text.substring(sel[0], sel[1]) + "</mark>" +
+            '<mark style="color: transparent; background-color: #76bef8">' + text.substring(sel[0], sel[1]) + "</mark>" +
             text.substring(sel[1], text.length);
 
     }
 };
 
+// To be defined in form htmls
 var selector = null;
 var selector_fromidx = null;
 var radio_buttons_yesno = [];
