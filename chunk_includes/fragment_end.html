@@ -90,33 +90,41 @@ function quality_check() {
     document.getElementById("div_for_last_error_message").style.visibility = "hidden";
 
     // Answered
-    if (!document.getElementById("answered1").checked &&
-        !document.getElementById("answered2").checked &&
-        !document.getElementById("answered3").checked &&
-        !document.getElementById("answered4").checked &&
-        !document.getElementById("answered5").checked) {
+    if ( !document.getElementById("answered1").checked &&
+         !document.getElementById("answered2").checked &&
+         !document.getElementById("answered3").checked &&
+         !document.getElementById("answered4").checked &&
+         !document.getElementById("answered5").checked
+       ) {
         flashMessage(document.getElementById("answered_error"));
         check = false;
     }
 
     // The answer field
     // TODO More sophisticated quality control, e.g., spellcheck, min length, question mark?
-    if (!document.getElementById("answered1").checked && !document.getElementById("answered2").checked && document.getElementById("answer").value == "" ) {
+    if ( !document.getElementById("answered1").checked &&
+         !document.getElementById("answered2").checked &&
+         document.getElementById("answer").value == ""
+       ) {
         flashMessage(document.getElementById("answer_error"));
         check = false;
     }
 
     // The answer highlighting
     // TODO More sophisticated quality control, e.g., min words, max words?
-    if (!document.getElementById("answered1").checked && !document.getElementById("answered2").checked && document.getElementById("selection_text").value == "" ) {
+    if ( !document.getElementById("answered1").checked &&
+         !document.getElementById("answered2").checked &&
+         document.getElementById("selection_text").value == ""
+        ) {
         flashMessage(document.getElementById("answer_highlighting_error"));
         check = false;
     }
 
     if (!check) flashMessage(document.getElementById("div_for_last_error_message"));
 
-    // If all is fine, clean up some garbage before sending to server
+    // If all is fine
     if (check) {
+        // Clean up some garbage before sending to server
         if (document.getElementById("answered1").checked || document.getElementById("answered2").checked) {
             document.getElementById("answer").value = "";
             document.getElementById("selection_text").value = "";

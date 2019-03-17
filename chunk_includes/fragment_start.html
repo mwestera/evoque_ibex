@@ -53,50 +53,56 @@ function quality_check() {
     document.getElementById("div_for_first_error_message").style.visibility = "hidden";
 
     // Coherence
-    if (!document.getElementById("coherence1").checked &&
-        !document.getElementById("coherence2").checked &&
-        !document.getElementById("coherence3").checked &&
-        !document.getElementById("coherence4").checked &&
-        !document.getElementById("coherence5").checked) {
+    if ( !document.getElementById("coherence1").checked &&
+         !document.getElementById("coherence2").checked &&
+         !document.getElementById("coherence3").checked &&
+         !document.getElementById("coherence4").checked &&
+         !document.getElementById("coherence5").checked
+        ) {
         flashMessage(document.getElementById("coherence_error"));
         check = false;
     }
 
     // The question field
     // TODO More sophisticated quality control, e.g., spellcheck, min length, question mark?
-    if ( document.getElementById("evoked_yes").checked && document.getElementById("question").value == "" ) {
+    if ( document.getElementById("evoked_yes").checked &&
+         document.getElementById("question").value == ""
+        ) {
         flashMessage(document.getElementById("question_error"));
         check = false;
     }
 
     // The highlighting
     // TODO More sophisticated quality control, e.g., min words, max words?
-    if ( document.getElementById("evoked_yes").checked && document.getElementById("selection_text").value == "" ) {
+    if ( document.getElementById("evoked_yes").checked &&
+         document.getElementById("selection_text").value == ""
+        ) {
         flashMessage(document.getElementById("question_highlighting_error"));
         check = false;
     }
 
     if (!check) flashMessage(document.getElementById("div_for_first_error_message"));
 
-    // If all is fine, clean up some garbage before sending to server
+    // If all is fine
     if (check) {
-        if (document.getElementById("evoked_no").checked) {
+
+        // clean up some garbage before sending to server
+        if ( document.getElementById("evoked_no").checked ) {
             document.getElementById("question").value = "";
             document.getElementById("selection_text").value = "";
             document.getElementById("selection_start").value = "";
             document.getElementById("selection_end").value = "";
         }
 
+        // Save some results for next screen
         window.question = document.getElementById("question").value
         window.question_highlighting_start = document.getElementById("selection_start").value;
         window.question_highlighting_end = document.getElementById("selection_end").value;
 
+        // Save the amount of text that has thus far been shown
         window.textthusfar = window.text;
 
-    }
-
-    // Slowly scroll to top
-    if (check) {
+        // Slowly scroll to top
         $("html, body").animate({ scrollTop: 0 }, "slow");
     }
 
