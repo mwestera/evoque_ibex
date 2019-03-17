@@ -57,7 +57,7 @@ jqueryWidget: {
 
         function handleClick(dom) {
             return function (e) {
-                if ( !FinalQualityCheck() ) return false;    // TODO This is probably ugly: it refers to the a function defined in the form's html file...
+                if ( !quality_check() ) return false;    // TODO This is probably ugly: it refers to the a function defined in the form's html file...
 
                 var answerTime = new Date().getTime();
 
@@ -277,3 +277,33 @@ document.onmouseup = document.onkeyup = function() {
 
     }
 };
+
+
+// For keyboard shortcuts of radio buttons
+window.onkeyup = function(e) {
+    var key = e.keyCode ? e.keyCode : e.which;
+
+    var name = document.activeElement.name;
+
+    if (isInArray(name, radio_buttons_5)) {
+        if (key >= 49 && key <= 53) {
+
+            key = key - 48;
+
+            document.getElementById(name + key).click();
+        }
+    } else if (isInArray(name, radio_buttons_yesno)) {
+        if (key == 49 || key == 89) {
+            key = "yes"
+        } else if (key == 50 || key == 48 || key == 78) {
+            key = "no"
+        }
+        if (key == "yes" || key == "no") {
+            document.getElementById(name + "_" + key).click()
+        }
+    }
+}
+
+function isInArray(value, array) {
+  return array.indexOf(value) > -1;
+}

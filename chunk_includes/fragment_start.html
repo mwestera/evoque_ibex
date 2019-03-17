@@ -2,11 +2,12 @@
 var selector = document.getElementById("fragment_selector");
 var selector_fromidx = textthusfar.length;
 
-var fragment_phase = "start"
-showFragmentStart();
+var radio_buttons_yesno = ["evoked"];
+var radio_buttons_5 = ["coherence"];
 
-// For loading the first fragment and showing appropriate form fields
-async function showFragmentStart() {
+reveal();
+
+async function reveal() {
     document.getElementById("fragment_highlighter").innerHTML = window.text;
     document.getElementById("fragment_selector").innerHTML = window.text;
     await addTypedText(document.getElementById("fragment_colorizer"), window.text);
@@ -42,7 +43,7 @@ function toggleQuestionRadio(element) {
     };
 };
 
-function FinalQualityCheck() {
+function quality_check() {
 
     var check = true;
 
@@ -102,40 +103,6 @@ function FinalQualityCheck() {
     return check;
 
 }
-
-// For keyboard shortcuts of radio buttons
-window.onkeyup = function(e) {
-    var key = e.keyCode ? e.keyCode : e.which;
-
-    var name = document.activeElement.name;
-
-    if (name == "coherence" || name == "answered") {
-        if (key >= 49 && key <= 53) {
-
-            key = key - 48;
-
-            document.getElementById(name + key).checked = "true";
-            document.getElementById(name + key).focus();
-
-            if (name == "answered") {
-                toggleAnswerRadio(document.getElementById(name + key));
-            }
-        }
-    } else if (name == "evoked") {
-        if (key == 49 || key == 89) {
-            key = "yes"
-        } else if (key == 50 || key == 48 || key == 78) {
-            key = "no"
-        }
-        if (key == "yes" || key == "no") {
-            document.getElementById(name + "_" + key).checked = "true";
-            document.getElementById(name + "_" + key).focus();
-
-            toggleQuestionRadio(document.getElementById(name + "_" + key))
-        }
-    }
-}
-
 
 </script>
 
