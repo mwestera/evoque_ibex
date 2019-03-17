@@ -269,20 +269,11 @@ document.onmouseup = document.onkeyup = function() {
         document.getElementById("selection_end").value = sel[1];
         document.getElementById("selection_text").value = text.substring(sel[0], sel[1]);
 
-        if (fragment_phase == "start") {
-            // Add highlighting, store in "highlighter" field displayed behind the "selector".
-            document.getElementById("fragment_highlighter1").innerHTML =
-                text.substring(0, sel[0]) +
-                '<mark id="highlight1" style="color: transparent; background-color: #76bef8">' + text.substring(sel[0], sel[1]) + "</mark>" +
-                text.substring(sel[1], text.length);
-        } else if (window.question != "") {
-
-            // Add highlighting, store in "highlighter" field displayed behind the "selector".
-            document.getElementById("fragment_highlighter2").innerHTML =
-                text.substring(0, sel[0]) +
-                '<mark style="color: transparent; background-color: #76bef8">' + text.substring(sel[0], sel[1]) + "</mark>" +
-                text.substring(sel[1], text.length);
-        }
+        // Add highlighting, store in "highlighter" field displayed behind the "selector".
+        document.getElementById("fragment_highlighter").innerHTML =
+            text.substring(0, sel[0]) +
+            '<mark id="highlight" style="color: transparent; background-color: #76bef8">' + text.substring(sel[0], sel[1]) + "</mark>" +
+            text.substring(sel[1], text.length);
 
     }
 };

@@ -7,7 +7,7 @@ showFragmentStart();
 
 // For loading the first fragment and showing appropriate form fields
 async function showFragmentStart() {
-    document.getElementById("fragment_highlighter1").innerHTML = window.textthusfar;
+    document.getElementById("fragment_highlighter_prev").innerHTML = window.textthusfar;
     document.getElementById("fragment_selector").innerHTML = window.textthusfar;
     document.getElementById("fragment_colorizer").innerHTML = window.textthusfar;
 
@@ -15,7 +15,7 @@ async function showFragmentStart() {
     document.getElementById("fragment_colorizer").innerHTML = '<font color="#888888">' + window.textthusfar + "</font>";
     if (window.question != "") {
         // this "highlight1" object only exists if a question was entered before.
-        document.getElementById("fragment_highlighter1").innerHTML =
+        document.getElementById("fragment_highlighter_prev").innerHTML =
                 window.textthusfar.substring(0, window.question_highlighting_start) +
                 '<mark id="highlight1" style="color: transparent; background-color: #76bef8">' + window.textthusfar.substring(window.question_highlighting_start, window.question_highlighting_end) + "</mark>" +
                 window.textthusfar.substring(window.question_highlighting_end, window.textthusfar.length);
@@ -23,7 +23,7 @@ async function showFragmentStart() {
     }
 
     // Now load the rest of the fragment
-    document.getElementById("fragment_highlighter1").innerHTML += "  " + window.text;
+    document.getElementById("fragment_highlighter_prev").innerHTML += "  " + window.text;
     document.getElementById("fragment_selector").innerHTML += " " + window.text;
     await addTypedText(document.getElementById("fragment_colorizer"), " " + window.text);
 
@@ -35,7 +35,7 @@ async function showFragmentStart() {
     } else {
         document.getElementById("div_containing_message_incase_no_question_was_evoked").style.display = "block";
         document.getElementById("div_containing_form_for_fragment_cont").style.display = "none";
-        document.getElementById("fragment_highlighter2").style.visibility = "hidden";
+        document.getElementById("fragment_highlighter").style.visibility = "hidden";
     }
 
     // And finally make the final continue link visible
@@ -49,7 +49,7 @@ function toggleAnswerRadio(element) {
         document.getElementById("answer").disabled = true;
         document.getElementById("hidden_field_for_storing_answer").innerHTML = document.getElementById("answer").value;
         document.getElementById("answer").value = "";
-        document.getElementById("fragment_highlighter2").style.visibility = "hidden";
+        document.getElementById("fragment_highlighter").style.visibility = "hidden";
         document.getElementById("div_containing_items_6_and_7").style.color = "#888888";
         document.getElementById("answer_error").style.visibility = "hidden";
         document.getElementById("answer_highlighting_error").style.visibility = "hidden";
@@ -59,7 +59,7 @@ function toggleAnswerRadio(element) {
         if ( document.getElementById("answer").disabled == true ) {
             document.getElementById("answer").disabled = false;
             document.getElementById("answer").value = document.getElementById("hidden_field_for_storing_answer").innerHTML;
-            document.getElementById("fragment_highlighter2").style.visibility = "visible";
+            document.getElementById("fragment_highlighter").style.visibility = "visible";
             document.getElementById("div_containing_items_6_and_7").style.color = "#000000";
             document.getElementById("answer_error").style.visibility = "hidden";
             document.getElementById("answer_highlighting_error").style.visibility = "hidden";
@@ -353,8 +353,8 @@ button::-moz-focus-inner {
 <div style="width: 40em">
     <hr>
         <div style="height: 120pt">  <!-- TODO More principled way of choosing height -->
-            <div id="fragment_highlighter1" style="color:transparent; position: absolute; width: 40em; display: inline-block"></div>
-            <div id="fragment_highlighter2" style="color:transparent; position: absolute; width: 40em; display: inline-block"></div>
+            <div id="fragment_highlighter_prev" style="color:transparent; position: absolute; width: 40em; display: inline-block"></div>
+            <div id="fragment_highlighter" style="color:transparent; position: absolute; width: 40em; display: inline-block"></div>
             <div id="fragment_colorizer" style="position: absolute; width: 40em; display: inline-block"></div>
             <div id="fragment_selector" style="color:transparent; position: relative; width: 40em; display: inline-block"></div>
         </div>

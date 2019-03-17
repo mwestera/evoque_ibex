@@ -7,7 +7,7 @@ showFragmentStart();
 
 // For loading the first fragment and showing appropriate form fields
 async function showFragmentStart() {
-    document.getElementById("fragment_highlighter1").innerHTML = window.text;
+    document.getElementById("fragment_highlighter").innerHTML = window.text;
     document.getElementById("fragment_selector").innerHTML = window.text;
     await addTypedText(document.getElementById("fragment_colorizer"), window.text);
     document.getElementById("form").style.visibility = "visible";
@@ -21,7 +21,7 @@ function toggleQuestionRadio(element) {
         document.getElementById("question").disabled = true;
         document.getElementById("hidden_field_for_storing_question").innerHTML = document.getElementById("question").value;
         document.getElementById("question").value = "";
-        document.getElementById("fragment_highlighter1").style.visibility = "hidden";
+        document.getElementById("fragment_highlighter").style.visibility = "hidden";
         document.getElementById("div_containing_item_4").style.color = "#888888";
         document.getElementById("enter_your_question").style.color = "#888888";
         document.getElementById("marker_in_question").style.backgroundColor = "#E2F1FD";
@@ -32,7 +32,7 @@ function toggleQuestionRadio(element) {
             document.getElementById("question").disabled = false;
             document.getElementById("question").value = document.getElementById("hidden_field_for_storing_question").innerHTML;
             document.getElementById("hidden_field_for_storing_question").innerHTML = "";
-            document.getElementById("fragment_highlighter1").style.visibility = "visible";
+            document.getElementById("fragment_highlighter").style.visibility = "visible";
             document.getElementById("div_containing_item_4").style.color = "#000000";
             document.getElementById("marker_in_question").style.backgroundColor = "#76bef8";
             document.getElementById("marker_in_question").style.color = "#000000";
@@ -326,8 +326,7 @@ button::-moz-focus-inner {
 <div style="width: 40em">
     <hr>
         <div style="height: 120pt">  <!-- TODO More principled way of choosing height -->
-            <div id="fragment_highlighter1" style="color:transparent; position: absolute; width: 40em; display: inline-block"></div>
-            <div id="fragment_highlighter2" style="color:transparent; position: absolute; width: 40em; display: inline-block"></div>
+            <div id="fragment_highlighter" style="color:transparent; position: absolute; width: 40em; display: inline-block"></div>
             <div id="fragment_colorizer" style="position: absolute; width: 40em; display: inline-block"></div>
             <div id="fragment_selector" style="color:transparent; position: relative; width: 40em; display: inline-block"></div>
         </div>
