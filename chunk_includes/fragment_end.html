@@ -29,7 +29,7 @@ async function showFragmentStart() {
     // Show something different depending on whether a question was evoked.
     if (window.question != "") {
         document.getElementById("question_copy_for_display").innerHTML = window.question;
-        document.getElementById("div_containing_form_for_fragment_cont").style.display = "block";
+        document.getElementById("div_containing_form_for_fragment_cont").style.visibility = "visible";
     } else {
         document.getElementById("div_containing_message_incase_no_question_was_evoked").style.display = "block";
         document.getElementById("fragment_highlighter2").style.visibility = "hidden";
@@ -445,7 +445,7 @@ button::-moz-focus-inner {
     <p><b>Based on your responses we have no further questions about this fragment.</b></p>
 </div>
 
-<div id="div_containing_form_for_fragment_cont" style="display: none; width:40em">
+<div id="div_containing_form_for_fragment_cont" style="visibility:hidden; width:40em">
 
     <p><b>For you, the first part evoked the following question:</b>
         <div class="r-pill__group" style="background-color: #eeeeee"><div id="question_copy_for_display" style="width: 32em"></div></div>
