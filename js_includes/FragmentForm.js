@@ -206,24 +206,25 @@ async function addTypedText(e, s) {
     }
 }
 
-// returns selection, but only when it exists wholly inside the "selector" field
-function getSelection(selector, from_idx) {
+// returns selection, but only when it exists wholly inside the "selector" field, and later than from_idx
+function getSelection(selector_field, selector_from_idx) {
 
     var selection = document.getSelection();
 
     if (selection.anchorNode == null) return null;
 
     if (
-        selection.anchorNode.parentNode == selector &&
-        selection.focusNode.parentNode == selector &&
+        selection.anchorNode.parentNode == selector_field &&
+        selection.focusNode.parentNode == selector_field &&
         selection.anchorOffset != selection.focusOffset
     ) {
+
         // determine start and end character based on anchor (where you click) and focus (where you release)
         start = Math.min(selection.anchorOffset, selection.focusOffset)+1;
         end = Math.max(selection.anchorOffset, selection.focusOffset)-1;
 
         // Select only whole words.
-        var text = selector.innerHTML;
+        var text = selector_field.innerHTML;
         while (start > 0) {
             if (text[start-1] == " " || text[start-1] == "’") {
                 break;
@@ -245,7 +246,7 @@ function getSelection(selector, from_idx) {
         }
 
         // Select only in appropriate region.
-        if (start < from_idx) {
+        if (start < selector_from_idx) {
             return null;
         };
 
@@ -258,26 +259,23 @@ function getSelection(selector, from_idx) {
 // Called whenever mouse is released, used only for grabbing selection
 document.onmouseup = document.onkeyup = function() {
 
-    var sel = getSelection(document.getElementById("fragment_selector"), window.textthusfar.length);
+    var sel = getSelection(window.selector, window.selector_fromidx);
     // Only do something if you've actually selected something (in the proper field):
     if ( sel != null ) {
 
-        var text = document.getElementById("fragment_selector").innerHTML;
+        var text = window.selector.innerHTML;
+
+        document.getElementById("selection_start").value = sel[0];
+        document.getElementById("selection_end").value = sel[1];
+        document.getElementById("selection_text").value = text.substring(sel[0], sel[1]);
 
         if (fragment_phase == "start") {
-            document.getElementById("question_highlighting_start").value = sel[0];
-            document.getElementById("question_highlighting_end").value = sel[1];
-            document.getElementById("question_highlighting").value = text.substring(sel[0], sel[1]);
-
             // Add highlighting, store in "highlighter" field displayed behind the "selector".
             document.getElementById("fragment_highlighter1").innerHTML =
                 text.substring(0, sel[0]) +
                 '<mark id="highlight1" style="color: transparent; background-color: #76bef8">' + text.substring(sel[0], sel[1]) + "</mark>" +
                 text.substring(sel[1], text.length);
         } else if (window.question != "") {
-            document.getElementById("answer_highlighting_start").value = sel[0];
-            document.getElementById("answer_highlighting_end").value = sel[1];
-            document.getElementById("answer_highlighting").value = text.substring(sel[0], sel[1]);
 
             // Add highlighting, store in "highlighter" field displayed behind the "selector".
             document.getElementById("fragment_highlighter2").innerHTML =

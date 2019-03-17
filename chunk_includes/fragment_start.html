@@ -1,4 +1,6 @@
 <script>
+var selector = document.getElementById("fragment_selector");
+var selector_fromidx = textthusfar.length;
 
 var fragment_phase = "start"
 showFragmentStart();
@@ -68,7 +70,7 @@ function FinalQualityCheck() {
 
     // The highlighting
     // TODO More sophisticated quality control, e.g., min words, max words?
-    if ( document.getElementById("evoked_yes").checked && document.getElementById("question_highlighting").value == "" ) {
+    if ( document.getElementById("evoked_yes").checked && document.getElementById("selection_text").value == "" ) {
         flashMessage(document.getElementById("question_highlighting_error"));
         check = false;
     }
@@ -79,14 +81,14 @@ function FinalQualityCheck() {
     if (check) {
         if (document.getElementById("evoked_no").checked) {
             document.getElementById("question").value = "";
-            document.getElementById("question_highlighting").value = "";
-            document.getElementById("question_highlighting_start").value = "";
-            document.getElementById("question_highlighting_end").value = "";
+            document.getElementById("selection_text").value = "";
+            document.getElementById("selection_start").value = "";
+            document.getElementById("selection_end").value = "";
         }
 
         window.question = document.getElementById("question").value
-        window.question_highlighting_start = document.getElementById("question_highlighting_start").value;
-        window.question_highlighting_end = document.getElementById("question_highlighting_end").value;
+        window.question_highlighting_start = document.getElementById("selection_start").value;
+        window.question_highlighting_end = document.getElementById("selection_end").value;
 
         window.textthusfar = window.text;
 
@@ -397,9 +399,9 @@ button::-moz-focus-inner {
 <!-- below are invisible form fields to which the selection is saved. -->
         <div style="display: none">
         Selected text:
-            <input id="question_highlighting" name="question_highlighting" type="text" style="width: 32em">
-            <textarea id="question_highlighting_start" name="question_highlighting_start" rows="1" cols="10"></textarea>
-            <textarea id="question_highlighting_end" name="question_highlighting_end" rows="1" cols="10"></textarea>
+            <input id="selection_text" name="question_highlighting" type="text" style="width: 32em">
+            <textarea id="selection_start" name="question_highlighting_start" rows="1" cols="10"></textarea>
+            <textarea id="selection_end" name="question_highlighting_end" rows="1" cols="10"></textarea>
         </div>
     </p></div>
 

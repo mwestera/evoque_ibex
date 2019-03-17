@@ -1,4 +1,6 @@
 <script>
+var selector = document.getElementById("fragment_selector");
+var selector_fromidx = textthusfar.length;
 
 window.fragment_phase = "cont";
 showFragmentStart();
@@ -73,9 +75,9 @@ function FinalQualityCheck() {
     // In case nothing further was required:
     if (window.question == "") {
         document.getElementById("answer").value = "";
-        document.getElementById("answer_highlighting").value = "";
-        document.getElementById("answer_highlighting_start").value = "";
-        document.getElementById("answer_highlighting_end").value = "";
+        document.getElementById("selection_text").value = "";
+        document.getElementById("selection_start").value = "";
+        document.getElementById("selection_end").value = "";
         return true;
     }
 
@@ -106,7 +108,7 @@ function FinalQualityCheck() {
 
     // The answer highlighting
     // TODO More sophisticated quality control, e.g., min words, max words?
-    if (!document.getElementById("answered1").checked && !document.getElementById("answered2").checked && document.getElementById("answer_highlighting").value == "" ) {
+    if (!document.getElementById("answered1").checked && !document.getElementById("answered2").checked && document.getElementById("selection_text").value == "" ) {
         flashMessage(document.getElementById("answer_highlighting_error"));
         check = false;
     }
@@ -117,9 +119,9 @@ function FinalQualityCheck() {
     if (check) {
         if (document.getElementById("answered1").checked || document.getElementById("answered2").checked) {
             document.getElementById("answer").value = "";
-            document.getElementById("answer_highlighting").value = "";
-            document.getElementById("answer_highlighting_start").value = "";
-            document.getElementById("answer_highlighting_end").value = "";
+            document.getElementById("selection_text").value = "";
+            document.getElementById("selection_start").value = "";
+            document.getElementById("selection_end").value = "";
         }
     }
 
@@ -419,9 +421,9 @@ button::-moz-focus-inner {
 <!-- below are invisible form fields to which the selection is saved. -->
         <div style="display: none">
         Selected text:
-            <input id="answer_highlighting" name="answer_highlighting" type="text" style="width: 32em">
-            <textarea id="answer_highlighting_start" name="answer_highlighting_start" rows="1" cols="10"></textarea>
-            <textarea id="answer_highlighting_end" name="answer_highlighting_end" rows="1" cols="10"></textarea>
+            <input id="selection_text" name="answer_highlighting" type="text" style="width: 32em">
+            <textarea id="selection_start" name="answer_highlighting_start" rows="1" cols="10"></textarea>
+            <textarea id="selection_end" name="answer_highlighting_end" rows="1" cols="10"></textarea>
         </div>
     </p></div>
 
