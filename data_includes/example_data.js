@@ -1,5 +1,5 @@
 // var shuffleSequence = seq("sel", "intro", sepWith("sep", seq("practice", rshuffle("s1", "s2"))), sepWith("sep", rshuffle("q1", "q2")));
-var shuffleSequence = seq("fragment");   // For now, the only thing to test
+var shuffleSequence = seq("fragment", "sep", "fragment");   // For now, the only thing to test
 var practiceItemTypes = ["practice"];
 
 var globalBuffer = "INIT";
@@ -8,7 +8,7 @@ var defaults = [
     "FragmentForm", {html: ""},
     "Separator", {
         transfer: 1000,
-        normalMessage: "Please wait for the next sentence.",
+        normalMessage: "Please wait for the next fragment.",
         errorMessage: "Wrong. Please wait for the next sentence."
     },
     "DashedSentence", {
@@ -46,11 +46,6 @@ var items = [
                     text: "She told me she never took hers off, even when she spent the night with him. Her voice sounded comforting, almost like an apology. Two months later, she left for good — laid her ring on the counter. Mine stayed on for two more years, pressing down, denting my skin, hoping.",
                 }
     ],
-
-    ["test", "FragmentForm", {
-        fragment_start: "Until I took it off, I never realized how much I noticed my wedding band (chiming quietly against utensils, loosening its grip when I showered, orbiting my finger secretly throughout the day). There’s still an indentation where the ring sat for seven years, and I rub the smooth skin daily.",
-        fragment_cont: "She told me she never took hers off, even when she spent the night with him. Her voice sounded comforting, almost like an apology. Two months later, she left for good — laid her ring on the counter. Mine stayed on for two more years, pressing down, denting my skin, hoping.",
-    }],
 
     // New in Ibex 0.3-beta-9. You can now add a '__SendResults__' controller in your shuffle
     // sequence to send results before the experiment has finished. This is NOT intended to allow
