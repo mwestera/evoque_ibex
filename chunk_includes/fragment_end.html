@@ -8,24 +8,39 @@ radio_buttons_5 = ["answered"];
 reveal();
 
 async function reveal() {
-    document.getElementById("fragment_selector").innerHTML = window.text_thusfar;
-    document.getElementById("fragment_colorizer").innerHTML = '<font color="#888888">' + window.text_thusfar + "</font>";
-    document.getElementById("fragment_highlighter").innerHTML = window.text_thusfar;
-    document.getElementById("fragment_highlighter_prev").innerHTML = ""
-    var j = 0;
-    for (var i = 0; i < window.highlights_thusfar.length; i++) {
-        highlight = window.highlights_thusfar[i];
-        document.getElementById("fragment_highlighter_prev").innerHTML += window.text_thusfar.substring(0, highlight[0]);
-        document.getElementById("fragment_highlighter_prev").innerHTML += '<mark style="color: transparent; background-color: #E2F1FD">' + window.text_thusfar.substring(highlight[0], highlight[1]) + "</mark>"
-        j = highlight[1]
+
+    if (window.text_thusfar != "") {
+        window.text_thusfar += " ";
+        document.getElementById("fragment_selector").innerHTML = window.text_thusfar;
+        document.getElementById("fragment_colorizer").innerHTML = '<font color="#888888">' + window.text_thusfar + "</font>";
+        document.getElementById("fragment_highlighter").innerHTML = window.text_thusfar;
+        document.getElementById("fragment_highlighter_prev").innerHTML = "";
+        var j = 0;
+        for (var i = 0; i < window.highlights_thusfar.length; i++) {
+            highlight = window.highlights_thusfar[i];
+            document.getElementById("fragment_highlighter_prev").innerHTML += window.text_thusfar.substring(0, highlight[0]);
+            document.getElementById("fragment_highlighter_prev").innerHTML += '<mark style="color: transparent; background-color: #E2F1FD">' + window.text_thusfar.substring(highlight[0], highlight[1]) + "</mark>"
+            j = highlight[1]
+        }
+        document.getElementById("fragment_highlighter_prev").innerHTML += window.text_thusfar.substring(j, text_thusfar.length);
     }
-    document.getElementById("fragment_highlighter_prev").innerHTML += window.text_thusfar.substring(j, text_thusfar.length);
 
     // Now load the rest of the fragment
-    document.getElementById("fragment_highlighter_prev").innerHTML += "  " + window.text;
-    document.getElementById("fragment_highlighter").innerHTML += "  " + window.text;
-    document.getElementById("fragment_selector").innerHTML += " " + window.text;
-    await addTypedText(document.getElementById("fragment_colorizer"), " " + window.text);
+    document.getElementById("fragment_highlighter_prev").innerHTML += window.text;
+    document.getElementById("fragment_highlighter").innerHTML += window.text;
+    document.getElementById("fragment_selector").innerHTML += window.text;
+    if (window.increment) {
+        await addTypedText(document.getElementById("fragment_colorizer"), window.text);
+    } else {
+        document.getElementById("fragment_colorizer").innerHTML += window.text;
+    }
+
+    if (!window.increment) {    // Needed to avoid error due to following element not yet existing?!
+        await sleep(300);
+    }
+
+    // Make the final continue link visible
+    document.getElementById("div_containing_continue-link").style.visibility = "visible"
 
     // Show something different depending on whether a question was evoked.
     if (window.questions_thusfar.length > 0) {
@@ -35,14 +50,15 @@ async function reveal() {
         document.getElementById("question_copy_for_display").innerHTML = prev_question;
         document.getElementById("div_containing_form_for_fragment_cont").style.visibility = "visible";
     } else {
-        document.getElementById("div_containing_message_incase_no_question_was_evoked").style.display = "block";
-        document.getElementById("div_containing_form_for_fragment_cont").style.visibility = "hidden";
-        document.getElementById("div_containing_form_for_fragment_cont").style.display = "none";
-        document.getElementById("fragment_highlighter").style.visibility = "hidden";
+        if (window.can_skip) {    // If this can be skipped if no further questions:
+            document.getElementById("continue_link").click();
+        } else {
+            document.getElementById("div_containing_message_incase_no_question_was_evoked").style.display = "block";
+            document.getElementById("div_containing_form_for_fragment_cont").style.visibility = "hidden";
+            document.getElementById("div_containing_form_for_fragment_cont").style.display = "none";
+            document.getElementById("fragment_highlighter").style.visibility = "hidden";
+        }
     }
-
-    // And finally make the final continue link visible
-    document.getElementById("div_containing_continue-link").style.visibility = "visible"
 
 };
 
@@ -134,6 +150,14 @@ function quality_check() {
             document.getElementById("selection_start").value = "";
             document.getElementById("selection_end").value = "";
         }
+
+        // Save some results for next screen
+        if (document.getElementById("answer").value != "") {
+            window.highlights_thusfar.push([document.getElementById("selection_start").value, document.getElementById("selection_end").value]);
+        }
+
+        // Slowly scroll to top
+        $("html, body").animate({ scrollTop: 0 }, "slow");
     }
 
     return check;

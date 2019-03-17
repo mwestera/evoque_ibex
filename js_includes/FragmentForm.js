@@ -9,18 +9,37 @@ jqueryWidget: {
         this.cssPrefix = this.options._cssPrefix;
         this.finishedCallback = this.options._finishedCallback;
         this.utils = this.options._utils;
+        this.phase = dget(this.options, "phase");
+        this.can_skip = dget(this.options, "can_skip");
+        this.type = dget(this.options, "type");
 
-        // TODO Communicating these through global vars is probably not the proper way
-        window.text = dget(this.options, "text")
-
-        if (dget(this.options, "phase") == 0) {
+        if (this.type == "question") {
             this.html = { include: "fragment_start.html" };
-            window.text_thusfar = "";
-            window.highlights_thusfar = [];
-            window.questions_thusfar = [];
-        } else if (dget(this.options, "phase") == 2) {
+        } else if (this.type == "answer") {
             this.html = { include: "fragment_end.html" };
         }
+        // TODO Communicating these through global vars is probably not the proper way
+        if (this.phase == "start") {
+            window.text_thusfar = "";
+            window.text = ""; // to be overwritten below
+            console.log(window.text_thusfar);
+            window.highlights_thusfar = [];
+            window.questions_thusfar = [];
+        }
+        this.text = dget(this.options, "text");
+        if (this.text != "") {
+            if (window.text_thusfar != "") {
+                window.text_thusfar += " ";
+            }
+            if (window.text != undefined) {
+                window.text_thusfar += window.text;
+            }
+            window.text = this.text;
+            window.increment = true;
+        } else {
+            window.increment = false;
+        }
+        window.can_skip = this.can_skip;
 
         this.continueOnReturn = dget(this.options, "continueOnReturn", false);
         this.continueMessage = dget(this.options, "continueMessage", "Click here to continue");
@@ -164,7 +183,7 @@ jqueryWidget: {
         this.element.append(dom);
 
         if (this.continueMessage) {
-            this.element.append($('<div id="div_containing_continue-link" style="visibility: hidden"><p>').append($("<a>").attr('href', '').text("\u2192 " + this.continueMessage)
+            this.element.append($('<div id="div_containing_continue-link" style="visibility: hidden"><p>').append($('<a id="continue_link">').attr('href', '').text("\u2192 " + this.continueMessage)
                                                 .addClass(ibex_controller_name_to_css_prefix("Message") + "continue-link")
                                                 .click(handler)));
         }
@@ -174,7 +193,7 @@ jqueryWidget: {
 },
 
 properties: {
-    obligatory: ["html"],
+    obligatory: ["phase", "text"],
     countsForProgressBar: false,
     htmlDescription: function (opts) {
         return htmlCodeToDOM(opts.html);
