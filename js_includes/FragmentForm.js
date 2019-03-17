@@ -207,15 +207,15 @@ async function addTypedText(e, s) {
 }
 
 // returns selection, but only when it exists wholly inside the "selector" field
-function getSelection() {
+function getSelection(selector, from_idx) {
 
     var selection = document.getSelection();
 
     if (selection.anchorNode == null) return null;
 
     if (
-        selection.anchorNode.parentNode.id == "fragment_selector" &&
-        selection.focusNode.parentNode.id == "fragment_selector" &&
+        selection.anchorNode.parentNode == selector &&
+        selection.focusNode.parentNode == selector &&
         selection.anchorOffset != selection.focusOffset
     ) {
         // determine start and end character based on anchor (where you click) and focus (where you release)
@@ -223,7 +223,7 @@ function getSelection() {
         end = Math.max(selection.anchorOffset, selection.focusOffset)-1;
 
         // Select only whole words.
-        var text = document.getElementById("fragment_selector").innerHTML;
+        var text = selector.innerHTML;
         while (start > 0) {
             if (text[start-1] == " " || text[start-1] == "’") {
                 break;
@@ -245,7 +245,7 @@ function getSelection() {
         }
 
         // Select only in appropriate region.
-        if (start < window.textthusfar.length) {
+        if (start < from_idx) {
             return null;
         };
 
@@ -258,7 +258,7 @@ function getSelection() {
 // Called whenever mouse is released, used only for grabbing selection
 document.onmouseup = document.onkeyup = function() {
 
-    var sel = getSelection();
+    var sel = getSelection(document.getElementById("fragment_selector"), window.textthusfar.length);
     // Only do something if you've actually selected something (in the proper field):
     if ( sel != null ) {
 
