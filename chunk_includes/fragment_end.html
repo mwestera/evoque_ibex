@@ -22,7 +22,7 @@ async function reveal() {
             document.getElementById("fragment_highlighter_prev").innerHTML += '<mark style="color: transparent; background-color: #E2F1FD">' + window.text_thusfar.substring(highlight[0], highlight[1]) + "</mark>"
             j = highlight[1]
         }
-        document.getElementById("fragment_highlighter_prev").innerHTML += window.text_thusfar.substring(j, text_thusfar.length);
+        document.getElementById("fragment_highlighter_prev").innerHTML += window.text_thusfar.substring(j, text_thusfar.length+1);
     }
 
     // Now load the rest of the fragment

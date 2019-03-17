@@ -3,7 +3,8 @@ selector = document.getElementById("fragment_selector");
 selector_fromidx = text_thusfar.length;
 
 radio_buttons_yesno = ["evoked"];
-radio_buttons_5 = ["coherence"];
+// radio_buttons_5 = ["coherence"];
+radio_buttons_5 = [];
 
 reveal();
 
@@ -22,7 +23,7 @@ async function reveal() {
             document.getElementById("fragment_highlighter_prev").innerHTML += '<mark style="color: transparent; background-color: #E2F1FD">' + window.text_thusfar.substring(highlight[0], highlight[1]) + "</mark>"
             j = highlight[1]
         }
-        document.getElementById("fragment_highlighter_prev").innerHTML += window.text_thusfar.substring(j, text_thusfar.length);
+        document.getElementById("fragment_highlighter_prev").innerHTML += window.text_thusfar.substring(j, text_thusfar.length+1);
     }
 
     // Now load the rest of the fragment
@@ -76,21 +77,21 @@ function quality_check() {
 
     var check = true;
 
-    document.getElementById("coherence_error").style.visibility = "hidden";
+//    document.getElementById("coherence_error").style.visibility = "hidden";
     document.getElementById("question_error").style.visibility = "hidden";
     document.getElementById("question_highlighting_error").style.visibility = "hidden";
     document.getElementById("div_for_first_error_message").style.visibility = "hidden";
 
     // Coherence
-    if ( !document.getElementById("coherence1").checked &&
-         !document.getElementById("coherence2").checked &&
-         !document.getElementById("coherence3").checked &&
-         !document.getElementById("coherence4").checked &&
-         !document.getElementById("coherence5").checked
-        ) {
-        flashMessage(document.getElementById("coherence_error"));
-        check = false;
-    }
+//    if ( !document.getElementById("coherence1").checked &&
+//         !document.getElementById("coherence2").checked &&
+//         !document.getElementById("coherence3").checked &&
+//         !document.getElementById("coherence4").checked &&
+//         !document.getElementById("coherence5").checked
+//        ) {
+//        flashMessage(document.getElementById("coherence_error"));
+//        check = false;
+//    }
 
     // The question field
     // TODO More sophisticated quality control, e.g., spellcheck, min length, question mark?
@@ -155,7 +156,7 @@ function quality_check() {
 
 <div id="form" style="visibility: hidden; width:40em">
 
-    <p>
+    <!-- <p>
         <b>1. Is this fragment comprehensible to you?</b><br>
         <fieldset class="r-pill">
             <div class="r-pill__group">
@@ -183,7 +184,7 @@ function quality_check() {
                 <i>Comprehensible.&nbsp;&nbsp;</i>
             </div><b id="coherence_error" style="color: red; visibility: hidden"> *</b>
         </fieldset>
-    </p>
+    </p> -->
 
     <p>
         <b>2. Does this fragment evoke a question for you?</b><br>
