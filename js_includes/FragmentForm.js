@@ -339,3 +339,42 @@ window.onkeyup = function(e) {
 function isInArray(value, array) {
   return array.indexOf(value) > -1;
 }
+
+
+async function init() {
+
+    if (window.text_thusfar != "") {
+        window.text_thusfar += " ";
+        document.getElementById("fragment_selector").innerHTML = window.text_thusfar;
+        document.getElementById("fragment_colorizer").innerHTML = '<font color="#888888">' + window.text_thusfar + "</font>";
+        document.getElementById("fragment_highlighter").innerHTML = window.text_thusfar;
+        document.getElementById("fragment_highlighter_prev").innerHTML = "";
+        var j = 0;
+        for (var i = 0; i < window.highlights_thusfar.length; i++) {
+            highlight = window.highlights_thusfar[i];
+            document.getElementById("fragment_highlighter_prev").innerHTML += window.text_thusfar.substring(0, highlight[0]);
+            document.getElementById("fragment_highlighter_prev").innerHTML += '<mark style="color: transparent; background-color: #E2F1FD">' + window.text_thusfar.substring(highlight[0], highlight[1]) + "</mark>"
+            j = highlight[1]
+        }
+        document.getElementById("fragment_highlighter_prev").innerHTML += window.text_thusfar.substring(j, text_thusfar.length+1);
+    }
+
+    // Now load the rest of the fragment
+    document.getElementById("fragment_highlighter_prev").innerHTML += window.text;
+    document.getElementById("fragment_highlighter").innerHTML += window.text;
+    document.getElementById("fragment_selector").innerHTML += window.text;
+    if (window.increment) {
+        await addTypedText(document.getElementById("fragment_colorizer"), window.text);
+    } else {
+        document.getElementById("fragment_colorizer").innerHTML += window.text;
+    }
+
+    if (!window.increment) {    // Needed to avoid error due to following element not yet existing?!
+        await sleep(300);
+    }
+
+    document.getElementById("div_containing_continue-link").style.visibility = "visible";
+
+    revealForm();
+
+};
