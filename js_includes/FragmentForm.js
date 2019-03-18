@@ -13,9 +13,9 @@ jqueryWidget: {
         this.type = dget(this.options, "type");
 
         if (this.type == "question") {
-            this.html = { include: "fragment_start.html" };
+            this.html = { include: "fragment_question.html" };
         } else if (this.type == "answer") {
-            this.html = { include: "fragment_end.html" };
+            this.html = { include: "fragment_answer.html" };
         }
 
         // TODO Communicating these through global vars is probably not the proper way
