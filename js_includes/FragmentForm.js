@@ -352,7 +352,7 @@ async function init() {
         var j = 0;
         for (var i = 0; i < window.highlights_thusfar.length; i++) {
             highlight = window.highlights_thusfar[i];
-            document.getElementById("fragment_highlighter_prev").innerHTML += window.text_thusfar.substring(0, highlight[0]);
+            document.getElementById("fragment_highlighter_prev").innerHTML += window.text_thusfar.substring(j, highlight[0]);
             document.getElementById("fragment_highlighter_prev").innerHTML += '<mark style="color: transparent; background-color: #E2F1FD">' + window.text_thusfar.substring(highlight[0], highlight[1]) + "</mark>"
             j = highlight[1]
         }
