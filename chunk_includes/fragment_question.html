@@ -95,7 +95,8 @@ function quality_check() {
         // Save some results for next screen
         if (document.getElementById("question").value != "") {
             window.questions_thusfar.push(document.getElementById("question").value);
-            window.highlights_thusfar.push([document.getElementById("selection_start").value, document.getElementById("selection_end").value]);
+            window.question_highlights_thusfar.push([document.getElementById("selection_start").value, document.getElementById("selection_end").value]);
+
         }
 
         // Slowly scroll to top
@@ -116,8 +117,9 @@ function quality_check() {
     <hr>
         <div id="fragment_scroller" style="overflow: auto; width: 480pt; height: 100pt">
             <div style="position: relative; width: 90%">  <!-- TODO More principled way of choosing height -->
-                <div id="fragment_highlighter_prev" style="color:transparent; position: absolute; display: inline-block"></div>
+                <div id="question_highlighter_prev" style="color:transparent; position: absolute; display: inline-block"></div>
                 <div id="fragment_highlighter" style="color:transparent; position: absolute; display: inline-block"></div>
+                <div id="answer_highlighter_prev" style="color:transparent; position: absolute; display: inline-block"></div>
                 <div id="fragment_colorizer" style="position: absolute; display: inline-block"></div>
                 <div id="fragment_selector" style="color:transparent; position: absolute; display: inline-block"></div>
             </div>

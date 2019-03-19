@@ -10,11 +10,11 @@ jqueryWidget: {
         this.finishedCallback = this.options._finishedCallback;
         this.utils = this.options._utils;
         this.phase = dget(this.options, "phase");
-        this.type = dget(this.options, "type");
+        window.type = dget(this.options, "type");
 
-        if (this.type == "question") {
+        if (window.type == "question") {
             this.html = { include: "fragment_question.html" };
-        } else if (this.type == "answer") {
+        } else if (window.type == "answer") {
             this.html = { include: "fragment_answer.html" };
         }
 
@@ -22,7 +22,8 @@ jqueryWidget: {
         if (this.phase == "start") {
             window.text_thusfar = "";
             window.text = ""; // to be overwritten below
-            window.highlights_thusfar = [];
+            window.question_highlights_thusfar = [];
+            window.answer_highlights_thusfar = [];
             window.questions_thusfar = [];
         }
 
@@ -308,9 +309,14 @@ document.onmouseup = document.onkeyup = function() {
         document.getElementById("selection_text").value = text.substring(sel[0], sel[1]);
 
         // Add highlighting, store in "highlighter" field displayed behind the "selector".
+        if (window.type == "question") {
+            var highlightcolor = colors[0];
+        } else {
+            var highlightcolor = colors[1];
+        }
         document.getElementById("fragment_highlighter").innerHTML =
             text.substring(0, sel[0]) +
-            '<mark style="color: transparent; background-color: #76bef8">' + text.substring(sel[0], sel[1]) + "</mark>" +
+            '<mark style="color: transparent; background-color: '+ highlightcolor + '">' + text.substring(sel[0], sel[1]) + "</mark>" +
             text.substring(sel[1], text.length);
 
     }
@@ -352,28 +358,57 @@ function isInArray(value, array) {
 }
 
 
+colors = ['#76bef8', '#66ff66', '#ffff00', '#ff471a', '#ff3399'];
+colors_dimmed = ['#E2F1FD', '#ccff99', '#ffff99', '#ffad99', '#ffb3d9']
+
 async function init() {
+
+    console.log(question_highlights_thusfar);
+    console.log(answer_highlights_thusfar);
 
     if (window.text_thusfar != "") {
         window.text_thusfar += " ";
         document.getElementById("fragment_selector").innerHTML = window.text_thusfar;
         document.getElementById("fragment_colorizer").innerHTML = '<font color="#888888">' + window.text_thusfar + "</font>";
         document.getElementById("fragment_highlighter").innerHTML = window.text_thusfar;
-        document.getElementById("fragment_highlighter_prev").innerHTML = "";
+
+        document.getElementById("question_highlighter_prev").innerHTML = "";
         var j = 0;
-        for (var i = 0; i < window.highlights_thusfar.length; i++) {
-            highlight = window.highlights_thusfar[i];
-            document.getElementById("fragment_highlighter_prev").innerHTML += window.text_thusfar.substring(j, highlight[0]);
-            document.getElementById("fragment_highlighter_prev").innerHTML += '<mark style="color: transparent; background-color: #E2F1FD">' + window.text_thusfar.substring(highlight[0], highlight[1]) + "</mark>"
+        for (var i = 0; i < window.question_highlights_thusfar.length; i++) {
+            highlight = window.question_highlights_thusfar[i];
+            document.getElementById("question_highlighter_prev").innerHTML += window.text_thusfar.substring(j, highlight[0]);
+            document.getElementById("question_highlighter_prev").innerHTML += '<mark style="color: transparent; background-color: ' + colors_dimmed[0] + '">' + window.text_thusfar.substring(highlight[0], highlight[1]) + "</mark>"
             j = highlight[1]
         }
-        document.getElementById("fragment_highlighter_prev").innerHTML += window.text_thusfar.substring(j, text_thusfar.length+1);
+        document.getElementById("question_highlighter_prev").innerHTML += window.text_thusfar.substring(j, text_thusfar.length+1);
+
     }
 
     // Now load the rest of the fragment
-    document.getElementById("fragment_highlighter_prev").innerHTML += window.text;
+    document.getElementById("question_highlighter_prev").innerHTML += window.text;
     document.getElementById("fragment_highlighter").innerHTML += window.text;
     document.getElementById("fragment_selector").innerHTML += window.text;
+
+    var alltext = window.text_thusfar + window.text;
+
+
+    document.getElementById("answer_highlighter_prev").innerHTML = "";
+    var j = 0;
+    for (var i = 0; i < window.answer_highlights_thusfar.length; i++) {
+        highlight = window.answer_highlights_thusfar[i];
+        if (highlight[0] < window.text_thusfar.length) {
+            highlightcolor = colors_dimmed[1];
+        } else {
+            highlightcolor = colors[1];
+        }
+        document.getElementById("answer_highlighter_prev").innerHTML += alltext.substring(j, highlight[0]);
+        document.getElementById("answer_highlighter_prev").innerHTML += '<mark style="color: transparent; background-color: ' + highlightcolor + '">' + alltext.substring(highlight[0], highlight[1]) + "</mark>"
+        j = highlight[1];
+    }
+    document.getElementById("answer_highlighter_prev").innerHTML += alltext.substring(j, alltext.length+1);
+
+    console.log(document.getElementById("answer_highlighter_prev").innerHTML);
+    console.log(document.getElementById("fragment_selector").innerHTML);
 
     // Scroll to the bottom unless it's the first item
     if ( window.text_thusfar != "" ) {
