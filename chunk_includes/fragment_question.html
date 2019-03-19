@@ -114,11 +114,13 @@ function quality_check() {
 
 <div style="width: 40em">
     <hr>
-        <div style="height: 120pt">  <!-- TODO More principled way of choosing height -->
-            <div id="fragment_highlighter_prev" style="color:transparent; position: absolute; width: 40em; display: inline-block"></div>
-            <div id="fragment_highlighter" style="color:transparent; position: absolute; width: 40em; display: inline-block"></div>
-            <div id="fragment_colorizer" style="position: absolute; width: 40em; display: inline-block"></div>
-            <div id="fragment_selector" style="color:transparent; position: relative; width: 40em; display: inline-block"></div>
+        <div id="fragment_scroller" style="overflow: auto; width: 480pt; height: 100pt">
+            <div style="position: relative; width: 90%">  <!-- TODO More principled way of choosing height -->
+                <div id="fragment_highlighter_prev" style="color:transparent; position: absolute; display: inline-block"></div>
+                <div id="fragment_highlighter" style="color:transparent; position: absolute; display: inline-block"></div>
+                <div id="fragment_colorizer" style="position: absolute; display: inline-block"></div>
+                <div id="fragment_selector" style="color:transparent; position: absolute; display: inline-block"></div>
+            </div>
         </div>
     <hr>
 

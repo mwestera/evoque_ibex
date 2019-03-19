@@ -363,6 +363,12 @@ async function init() {
     document.getElementById("fragment_highlighter_prev").innerHTML += window.text;
     document.getElementById("fragment_highlighter").innerHTML += window.text;
     document.getElementById("fragment_selector").innerHTML += window.text;
+
+    // Scroll to the bottom unless it's the first item
+    if ( window.text_thusfar != "" ) {
+        document.getElementById("fragment_scroller").scrollTo(0,document.getElementById("fragment_scroller").scrollHeight);
+    }
+
     if (window.increment) {
         await addTypedText(document.getElementById("fragment_colorizer"), window.text);
     } else {
