@@ -226,10 +226,21 @@ async function flashMessage(e) {
     await sleep(500);
 }
 
+//async function addTypedText(e, s) {
+//    for ( var i = 0; i < s.length; i++ ) {
+//        e.innerHTML += s.charAt(i);
+//        await sleep(3);
+//    }
+//}
+
 async function addTypedText(e, s) {
-    for ( var i = 0; i < s.length; i++ ) {
-        e.innerHTML += s.charAt(i);
-        await sleep(3);
+    split_string = s.split(" ");
+    for ( var i = 0; i < split_string.length; i++ ) {
+        if (i > 0) {
+            e.innerHTML += " ";
+        }
+        e.innerHTML += split_string[i];
+        await sleep(20);
     }
 }
 
