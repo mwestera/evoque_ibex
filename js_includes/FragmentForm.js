@@ -340,6 +340,61 @@ function isInArray(value, array) {
   return array.indexOf(value) > -1;
 }
 
+function show(element) {
+    element.style.visibility = "visible";
+}
+
+function showOnly(element, elements) {
+    element.style.visibility = "visible";
+    for (var i = 0; i < elements.length; i++) {
+        elements[i].style.visibility = "hidden";
+    }
+}
+
+function hide(element) {
+    element.style.visibility = "hidden";
+}
+
+function show(element) {
+    element.style.visibility = "visible";
+}
+
+function showOnly(element, elements) {
+    show(element);
+    for (var i = 0; i < elements.length; i++) {
+        hide(elements[i]);
+    }
+}
+
+
+
+function undisplay(element) {
+    element.style.display = "none";
+}
+
+function display(element) {
+    element.style.display = "block";
+}
+
+function displayOnly(element, elements) {
+    display(element);
+    for (var i = 0; i < elements.length; i++) {
+        undisplay(elements[i]);
+    }
+}
+
+function displayOnlyOrUndisplay(element, elements) {
+    if (element.style.display == "none") {
+        display(element);
+        for (var i = 0; i < elements.length; i++) {
+            undisplay(elements[i]);
+        }
+    }
+    else {
+        element.style.display = "none";
+    }
+}
+
 
 async function init() {
 
