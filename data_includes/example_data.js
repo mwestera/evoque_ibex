@@ -5,7 +5,12 @@ var practiceItemTypes = ["practice"];
 var globalBuffer = "INIT";
 
 var defaults = [
-    "FragmentForm", {text: "", phase: "mid", can_skip: false},
+    "FragmentForm", {
+        text: "",
+        phase: "mid",
+        can_skip: false,
+        saveReactionTime: true
+    },
     "Separator", {
         transfer: 1000,
         normalMessage: "Please wait for the next fragment.",
@@ -39,12 +44,12 @@ var items = [
 // TODO Implement evaluating multiple questions? Nah. Local coherence...
     ["fragment", "FragmentForm", {      // Ask for evoked question
                     type: "question",
-                    text: "Until I took it off, I never realized how much I noticed my wedding band (chiming quietly against utensils, loosening its grip when I showered, orbiting my finger secretly throughout the day). There’s still an indentation where the ring sat for seven years, and I rub the smooth skin daily.",
+                    text: "Until I took it off, I never realized how much I noticed my wedding band (chiming quietly against utensils, loosening its grip when I showered, orbiting my finger secretly throughout the day).",
                     phase: "start",
                 },
                 "FragmentForm", {       // Read on and ask for answer
                     type: "answer",
-                    text: "She told me she never took hers off, even when she spent the night with him. Her voice sounded comforting, almost like an apology. Two months later, she left for good — laid her ring on the counter. Mine stayed on for two more years, pressing down, denting my skin, hoping.",
+                    text: "There’s still an indentation where the ring sat for seven years, and I rub the smooth skin daily. She told me she never took hers off, even when she spent the night with him.",
                     can_skip: true,
                 },
                 "FragmentForm", {       // No increment, ask for evoked question
@@ -52,7 +57,7 @@ var items = [
                 },
                 "FragmentForm", {
                     type: "answer",
-                    text: "And let's pretend the fragment goes on and on and on and on and on and on and on and on and on and on and on and on and on and on and on and on and on and on and on and on and on and on and on and on and on and on.",
+                    text: "Her voice sounded comforting, almost like an apology. Two months later, she left for good — laid her ring on the counter. Mine stayed on for two more years, pressing down, denting my skin, hoping.",
                     can_skip: true,
                 },
                 "FragmentForm", {
