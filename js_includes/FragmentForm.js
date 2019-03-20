@@ -25,8 +25,7 @@ jqueryWidget: {
         if (this.phase == "start") {
             window.text = new_text;
             window.new_from_char = 0;
-            window.question_highlights_thusfar = [];
-            window.answer_highlights_thusfar = [];
+            window.answers_thusfar = [];
             window.questions_thusfar = [];
         } else if (new_text != "") {
             window.new_from_char = window.text.length + 1;
@@ -36,8 +35,8 @@ jqueryWidget: {
         if (this.type == "question") {
             window.current_color_idx = nextFreeColorIdx();
         } else {
-            if (window.question_highlights_thusfar.length > 0) {
-                window.current_color_idx = window.question_highlights_thusfar[window.question_highlights_thusfar.length-1][2];
+            if (window.questions_thusfar.length > 0) {
+                window.current_color_idx = window.questions_thusfar[window.questions_thusfar.length-1][2];
             } else {
                 window.current_color_idx = 0; // not used anyway
             }
@@ -353,8 +352,8 @@ colors_dimmed = ['#E2F1FD', '#ccff99', '#ffff99', '#ffad99', '#ffb3d9']
 
 function nextFreeColorIdx() {
     most_recent_positions = [99,99,99,99,99];
-    for (var i = window.question_highlights_thusfar.length - 1; i >= 0; i--) {
-        color = window.question_highlights_thusfar[i][2];
+    for (var i = window.questions_thusfar.length - 1; i >= 0; i--) {
+        color = window.questions_thusfar[i][2];
         most_recent_positions[color] = i;
     }
     return argMax(most_recent_positions);
@@ -393,8 +392,8 @@ async function init() {
     }
 
     // Add previous highlights
-    add_highlights(document.getElementById("question_highlighter_prev"), window.question_highlights_thusfar);
-    add_highlights(document.getElementById("answer_highlighter_prev"), window.answer_highlights_thusfar);
+    add_highlights(document.getElementById("question_highlighter_prev"), window.questions_thusfar);
+    add_highlights(document.getElementById("answer_highlighter_prev"), window.answers_thusfar);
 
     // Add readable text
     if (window.increment) {
