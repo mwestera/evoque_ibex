@@ -15,7 +15,7 @@ jqueryWidget: {
 
         if (this.type == "question") {
             this.html = { include: "fragment_question.html" };
-        } else if (window.type == "answer") {
+        } else if (this.type == "answer") {
             this.html = { include: "fragment_answer.html" };
         }
 
@@ -364,6 +364,23 @@ function argMax(array) {
   return array.map((x, i) => [x, i]).reduce((r, a) => (a[0] > r[0] ? a : r))[1];
 }
 
+function add_highlights(element, highlights) {
+    element.innerHTML = "";
+    var j = 0;
+    for (var i = 0; i < highlights.length; i++) {
+        highlight = highlights[i];
+        if (highlight[0] < window.new_from_char) {
+            highlightcolor = colors_dimmed[highlight[2]];
+        } else {
+            highlightcolor = colors[highlight[2]];
+        }
+        element.innerHTML += window.text.substring(j, highlight[0]);
+        element.innerHTML += '<mark style="color: transparent; background-color: ' + highlightcolor + '">' + window.text.substring(highlight[0], highlight[1]) + "</mark>"
+        j = highlight[1];
+    }
+    element.innerHTML += window.text.substring(j, window.text.length+1);
+}
+
 async function init() {
 
     document.getElementById("fragment_selector").innerHTML = window.text;
@@ -376,35 +393,8 @@ async function init() {
     }
 
     // Add previous highlights
-    document.getElementById("question_highlighter_prev").innerHTML = "";
-    var j = 0;
-    for (var i = 0; i < window.question_highlights_thusfar.length; i++) {
-        highlight = window.question_highlights_thusfar[i];
-        if (highlight[0] < window.new_from_char) {
-            highlightcolor = colors_dimmed[highlight[2]];
-        } else {
-            highlightcolor = colors[highlight[2]];
-        }
-        document.getElementById("question_highlighter_prev").innerHTML += window.text.substring(j, highlight[0]);
-        document.getElementById("question_highlighter_prev").innerHTML += '<mark style="color: transparent; background-color: ' + highlightcolor + '">' + window.text.substring(highlight[0], highlight[1]) + "</mark>"
-        j = highlight[1];
-    }
-    document.getElementById("question_highlighter_prev").innerHTML += window.text.substring(j, window.text.length+1);
-
-    document.getElementById("answer_highlighter_prev").innerHTML = "";
-    var j = 0;
-    for (var i = 0; i < window.answer_highlights_thusfar.length; i++) {
-        highlight = window.answer_highlights_thusfar[i];
-        if (highlight[0] < window.new_from_char) {
-            highlightcolor = colors_dimmed[highlight[2]];
-        } else {
-            highlightcolor = colors[highlight[2]];
-        }
-        document.getElementById("answer_highlighter_prev").innerHTML += window.text.substring(j, highlight[0]);
-        document.getElementById("answer_highlighter_prev").innerHTML += '<mark style="color: transparent; background-color: ' + highlightcolor + '">' + window.text.substring(highlight[0], highlight[1]) + "</mark>"
-        j = highlight[1];
-    }
-    document.getElementById("answer_highlighter_prev").innerHTML += window.text.substring(j, window.text.length+1);
+    add_highlights(document.getElementById("question_highlighter_prev"), window.question_highlights_thusfar);
+    add_highlights(document.getElementById("answer_highlighter_prev"), window.answer_highlights_thusfar);
 
     // Add readable text
     if (window.increment) {
