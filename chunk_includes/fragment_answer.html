@@ -20,7 +20,7 @@ function revealForm() {
         document.getElementById("question_copy_for_display").innerHTML = prev_question;
         document.getElementById("div_containing_form_for_fragment_cont").style.visibility = "visible";
     } else {
-        if (window.can_skip) {    // If this can be skipped if no further questions:
+        if (window.phase != "end") {    // If this can be skipped if no further questions:
             document.getElementById("continue_link").click();
         } else {
             document.getElementById("div_containing_message_incase_no_question_was_evoked").style.display = "block";
@@ -66,6 +66,8 @@ function quality_check() {
     // In case nothing further was required:
     if (document.getElementById("div_containing_form_for_fragment_cont").style.visibility != "visible") {
         document.getElementById("answer").value = "";
+        document.getElementById("answered1").value = ""; // Ugly hack to ensure some value is submitted
+        document.getElementById("answered1").checked = true;
         document.getElementById("selection_text").value = "";
         document.getElementById("selection_start").value = "";
         document.getElementById("selection_end").value = "";
@@ -174,8 +176,8 @@ function quality_check() {
         <fieldset class="r-pill">
             <div class="r-pill__group">
                 <i>&nbsp;&nbsp;Not answered at all.</i>
-                <!-- Ugly way of having default value empty string for radio buttons: TODO field can end up twice in results -->
-                <input type="text" id="answered0" name="answered" value="" style="display:none"/>
+                <!-- Ugly way of having default value empty string for radio buttons: TODO field ended up twice in results... -->
+                <!-- <input type="text" id="answered0" name="answered" value="" style="display:none"/> -->
                 <span class="r-pill__item">
                     <input type="radio" id="answered1" name="answered" value="1" onclick="toggleAnswerRadio(this)"/>
                     <label for="answered1">1</label>

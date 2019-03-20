@@ -9,7 +9,6 @@ var defaults = [
     "FragmentForm", {
         text: "",
         phase: "mid",
-        can_skip: false,
         saveReactionTime: true
     },
     "Separator", {
@@ -40,23 +39,21 @@ var defaults = [
 ];
 
 var items = [
-    ["fragment", "FragmentForm", {      // Ask for evoked question
+    ["fragment", "FragmentForm", {
                     type: "question",
                     text: "Until I took it off, I never realized how much I noticed my wedding band (chiming quietly against utensils, loosening its grip when I showered, orbiting my finger secretly throughout the day).",
                     phase: "start",
                 },
-                "FragmentForm", {       // Read on and ask for answer
+                "FragmentForm", {
                     type: "answer",
                     text: "There’s still an indentation where the ring sat for seven years, and I rub the smooth skin daily. She told me she never took hers off, even when she spent the night with him.",
-                    can_skip: true,
                 },
-                "FragmentForm", {       // No increment, ask for evoked question
+                "FragmentForm", {
                     type: "question",
                 },
                 "FragmentForm", {
                     type: "answer",
                     text: "Her voice sounded comforting, almost like an apology. Two months later, she left for good — laid her ring on the counter. Mine stayed on for two more years, pressing down, denting my skin, hoping.",
-                    can_skip: true,
                 },
                 "FragmentForm", {
                     type: "answer",

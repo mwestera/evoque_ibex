@@ -9,9 +9,8 @@ jqueryWidget: {
         this.cssPrefix = this.options._cssPrefix;
         this.finishedCallback = this.options._finishedCallback;
         this.utils = this.options._utils;
-        this.phase = dget(this.options, "phase");
         this.type = dget(this.options, "type");
-        window.can_skip = dget(this.options, "can_skip");
+        window.phase = dget(this.options, "phase");
 
         if (this.type == "question") {
             this.html = { include: "fragment_question.html" };
@@ -22,7 +21,7 @@ jqueryWidget: {
         var new_text = dget(this.options, "text");
 
         // TODO Communicating these through global vars is probably not the proper way
-        if (this.phase == "start") {
+        if (window.phase == "start") {
             window.text = new_text;
             window.new_from_char = 0;
             window.answers_thusfar = [];
