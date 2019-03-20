@@ -197,7 +197,7 @@ jqueryWidget: {
 
 properties: {
     obligatory: ["phase", "text"],
-    countsForProgressBar: false,
+    countsForProgressBar: true,
     htmlDescription: function (opts) {
         return htmlCodeToDOM(opts.html);
     }
