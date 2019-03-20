@@ -10,10 +10,10 @@ jqueryWidget: {
         this.finishedCallback = this.options._finishedCallback;
         this.utils = this.options._utils;
         this.phase = dget(this.options, "phase");
-        window.type = dget(this.options, "type");
+        this.type = dget(this.options, "type");
         window.can_skip = dget(this.options, "can_skip");
 
-        if (window.type == "question") {
+        if (this.type == "question") {
             this.html = { include: "fragment_question.html" };
         } else if (window.type == "answer") {
             this.html = { include: "fragment_answer.html" };
@@ -33,7 +33,7 @@ jqueryWidget: {
             window.text += " " + new_text;
         }
 
-        if (window.type == "question") {
+        if (this.type == "question") {
             window.current_color_idx = nextFreeColorIdx();
         } else {
             if (window.question_highlights_thusfar.length > 0) {
