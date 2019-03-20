@@ -9,6 +9,8 @@ init();
 
 function revealForm() {
 
+    document.getElementById("marker_in_question").style.backgroundColor = window.colors[window.current_color_idx];
+
     document.getElementById("form").style.visibility = "visible";
 
 }
@@ -22,7 +24,7 @@ function toggleQuestionRadio(element) {
         document.getElementById("fragment_highlighter").style.visibility = "hidden";
         document.getElementById("div_containing_item_4").style.color = "#888888";
         document.getElementById("enter_your_question").style.color = "#888888";
-        document.getElementById("marker_in_question").style.backgroundColor = "#E2F1FD";
+        document.getElementById("marker_in_question").style.backgroundColor = colors_dimmed[current_color_idx];
         document.getElementById("marker_in_question").style.color = "#888888";
         document.getElementById("question_highlighting_error").style.visibility = "hidden";
     } else {
@@ -32,7 +34,7 @@ function toggleQuestionRadio(element) {
             document.getElementById("hidden_field_for_storing_question").innerHTML = "";
             document.getElementById("fragment_highlighter").style.visibility = "visible";
             document.getElementById("div_containing_item_4").style.color = "#000000";
-            document.getElementById("marker_in_question").style.backgroundColor = "#76bef8";
+            document.getElementById("marker_in_question").style.backgroundColor = colors[current_color_idx];
             document.getElementById("marker_in_question").style.color = "#000000";
             document.getElementById("enter_your_question").style.color = "#000000";
             document.getElementById("question_highlighting_error").style.visibility = "hidden";
@@ -94,7 +96,7 @@ function quality_check() {
         // Save some results for next screen
         if (document.getElementById("question").value != "") {
             window.questions_thusfar.push(document.getElementById("question").value);
-            window.question_highlights_thusfar.push([document.getElementById("selection_start").value, document.getElementById("selection_end").value]);
+            window.question_highlights_thusfar.push([document.getElementById("selection_start").value, document.getElementById("selection_end").value, current_color_idx]);
 
         }
 

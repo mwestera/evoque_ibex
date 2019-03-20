@@ -8,6 +8,8 @@ init();
 
 function revealForm() {
 
+    document.getElementById("marker_in_question2").style.backgroundColor = window.colors[window.current_color_idx];
+
     // Show something different depending on whether a question was evoked.
     if (window.questions_thusfar.length > 0) {
         // Consider only the most recent question
@@ -119,7 +121,7 @@ function quality_check() {
 
         // Save some results for next screen
         if (document.getElementById("answer").value != "") {
-            window.answer_highlights_thusfar.push([document.getElementById("selection_start").value, document.getElementById("selection_end").value]);
+            window.answer_highlights_thusfar.push([document.getElementById("selection_start").value, document.getElementById("selection_end").value, current_color_idx]);
         }
 
         // Slowly scroll to top
