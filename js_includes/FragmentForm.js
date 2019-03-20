@@ -34,11 +34,12 @@ jqueryWidget: {
 
         if (this.type == "question") {
             window.current_color_idx = nextFreeColorIdx();
-        } else {
+        } else if (this.type == "answer") {
             if (window.questions_thusfar.length > 0) {
-                window.current_color_idx = window.questions_thusfar[window.questions_thusfar.length-1][2];
-            } else {
-                window.current_color_idx = 0; // not used anyway
+                window.current_question_idx = previous_unanswered_question_idx();
+                if (window.current_question_idx >= 0) {
+                    window.current_color_idx = window.questions_thusfar[window.current_question_idx][2];
+                }
             }
         }
 
@@ -378,6 +379,14 @@ function add_highlights(element, highlights) {
         j = highlight[1];
     }
     element.innerHTML += window.text.substring(j, window.text.length+1);
+}
+
+function previous_unanswered_question_idx() {
+    for (var i = window.current_question_idx-1; i >= 0; i--) {
+        if (!window.questions_thusfar[i][4]) {
+            return i;
+        }
+    }
 }
 
 async function init() {

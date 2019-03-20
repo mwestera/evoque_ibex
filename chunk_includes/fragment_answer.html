@@ -13,10 +13,10 @@ function revealForm() {
     document.getElementById("answer_field").style.backgroundColor = window.colors[window.current_color_idx];
 
     // Show something different depending on whether a question was evoked.
-    if (window.questions_thusfar.length > 0) {
+    if (window.questions_thusfar.length > 0 && window.current_question_idx >= 0) {
         // Consider only the most recent question
         // TODO Allow for multiple open questions
-        var prev_question = window.questions_thusfar[questions_thusfar.length-1][3];
+        var prev_question = window.questions_thusfar[window.current_question_idx][3];
         document.getElementById("question_copy_for_display").innerHTML = prev_question;
         document.getElementById("div_containing_form_for_fragment_cont").style.visibility = "visible";
     } else {
@@ -126,6 +126,7 @@ function quality_check() {
         // Save some results for next screen
         if (document.getElementById("answer").value != "") {
             window.answers_thusfar.push([document.getElementById("selection_start").value, document.getElementById("selection_end").value, current_color_idx, document.getElementById("answer").value]);
+            window.questions_thusfar[window.current_question_idx][4] = true;
         }
 
         // Slowly scroll to top
