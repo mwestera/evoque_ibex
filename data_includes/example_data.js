@@ -1,5 +1,6 @@
 // var shuffleSequence = seq("sel", "intro", sepWith("sep", seq("practice", rshuffle("s1", "s2"))), sepWith("sep", rshuffle("q1", "q2")));
-var shuffleSequence = seq("fragment", "sep", "fragment");   // For now, the only thing to test
+//var shuffleSequence = seq("fragment", "sep", "fragment");   // For now, the only thing to test
+var shuffleSequence = seq("fragment");   // For now, the only thing to test
 var practiceItemTypes = ["practice"];
 
 var globalBuffer = "INIT";
@@ -39,9 +40,6 @@ var defaults = [
 ];
 
 var items = [
-// TODO Implement "mid", for 3+-stage fragments.
-// THOUGHT: Quality will decrease for longer stages... People forget the beginning of the text. (Still, better than not even having seen it!)
-// TODO Implement evaluating multiple questions? Nah. Local coherence...
     ["fragment", "FragmentForm", {      // Ask for evoked question
                     type: "question",
                     text: "Until I took it off, I never realized how much I noticed my wedding band (chiming quietly against utensils, loosening its grip when I showered, orbiting my finger secretly throughout the day).",
