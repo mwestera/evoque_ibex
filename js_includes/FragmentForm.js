@@ -35,11 +35,9 @@ jqueryWidget: {
 
         if (window.type == "question") {
             window.current_color_idx = nextFreeColorIdx();
-            console.log(window.question_highlights_thusfar);
-            console.log(window.current_color_idx);
         } else {
             if (window.question_highlights_thusfar.length > 0) {
-                window.current_color_idx = window.question_highlights_thusfar[0][2];
+                window.current_color_idx = window.question_highlights_thusfar[window.question_highlights_thusfar.length-1][2];
             } else {
                 window.current_color_idx = 0; // not used anyway
             }

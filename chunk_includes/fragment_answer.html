@@ -9,6 +9,8 @@ init();
 function revealForm() {
 
     document.getElementById("marker_in_question2").style.backgroundColor = window.colors[window.current_color_idx];
+    document.getElementById("question_display_field").style.backgroundColor = window.colors_dimmed[window.current_color_idx];
+    document.getElementById("answer_field").style.backgroundColor = window.colors[window.current_color_idx];
 
     // Show something different depending on whether a question was evoked.
     if (window.questions_thusfar.length > 0) {
@@ -40,8 +42,9 @@ function toggleAnswerRadio(element) {
         document.getElementById("div_containing_items_6_and_7").style.color = "#888888";
         document.getElementById("answer_error").style.visibility = "hidden";
         document.getElementById("answer_highlighting_error").style.visibility = "hidden";
-        document.getElementById("marker_in_question2").style.backgroundColor = "#E2F1FD";
+        document.getElementById("marker_in_question2").style.backgroundColor = window.colors_dimmed[window.current_color_idx];
         document.getElementById("marker_in_question2").style.color = "#888888";
+        document.getElementById("answer_field").style.backgroundColor = window.colors_dimmed[window.current_color_idx];
     } else {
         if ( document.getElementById("answer").disabled == true ) {
             document.getElementById("answer").disabled = false;
@@ -50,8 +53,9 @@ function toggleAnswerRadio(element) {
             document.getElementById("div_containing_items_6_and_7").style.color = "#000000";
             document.getElementById("answer_error").style.visibility = "hidden";
             document.getElementById("answer_highlighting_error").style.visibility = "hidden";
-            document.getElementById("marker_in_question2").style.backgroundColor = "#76bef8";
+            document.getElementById("marker_in_question2").style.backgroundColor = window.colors[window.current_color_idx];
             document.getElementById("marker_in_question2").style.color = "#000000";
+            document.getElementById("answer_field").style.backgroundColor = window.colors[window.current_color_idx];
         }
     };
 };
@@ -161,7 +165,7 @@ function quality_check() {
 <div id="div_containing_form_for_fragment_cont" style="visibility:hidden; width:40em">
 
     <p><b>For you, the first part evoked the following question:</b>
-        <div class="r-pill__group" style="background-color: #eeeeee"><div id="question_copy_for_display" style="width: 32em"></div></div>
+        <div class="r-pill__group" style="background-color: #eeeeee" id="question_display_field"><div id="question_copy_for_display" style="width: 32em"></div></div>
         <!-- "width: 32em; background-color: #eeeeee; border: 1px solid darkgray; box-shadow: 1px 1px 1px 0 lightgray inset; margin-top: 5px; padding: 2px 3px" -->
     </p>
 
@@ -198,7 +202,7 @@ function quality_check() {
 
     <div id="div_containing_items_6_and_7"><p>
         <b>&#9654; Enter the (complete/partial) answer in your own words:</b><br>
-        <div class="r-pill__group"><input name="answer" id="answer" type="text" style="width: 33em; color:#083851; border-style:none" /></div><b id="answer_error" style="color: red; visibility: hidden"> *</b>
+        <div class="r-pill__group" id="answer_field"><input name="answer" id="answer" type="text" style="width: 33em; border-style:none; background-color:transparent" /></div><b id="answer_error" style="color: red; visibility: hidden"> *</b>
         <div id="hidden_field_for_storing_answer" style="display: none"></div>
         </p>
 
