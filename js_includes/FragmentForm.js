@@ -11,6 +11,7 @@ jqueryWidget: {
         this.utils = this.options._utils;
         this.phase = dget(this.options, "phase");
         window.type = dget(this.options, "type");
+        window.can_skip = dget(this.options, "can_skip");
 
         if (window.type == "question") {
             this.html = { include: "fragment_question.html" };
@@ -18,35 +19,19 @@ jqueryWidget: {
             this.html = { include: "fragment_answer.html" };
         }
 
+        var new_text = dget(this.options, "text");
+
         // TODO Communicating these through global vars is probably not the proper way
         if (this.phase == "start") {
-            window.text_thusfar = "";
-            window.text = ""; // to be overwritten below
+            window.text = new_text;
+            window.new_from_char = 0;
             window.question_highlights_thusfar = [];
             window.answer_highlights_thusfar = [];
             window.questions_thusfar = [];
+        } else if (new_text != "") {
+            window.new_from_char = window.text.length + 1;
+            window.text += " " + new_text;
         }
-
-        window.can_skip = dget(this.options, "can_skip");
-        var new_text = dget(this.options, "text");
-        window.increment = (new_text != "");
-
-        if (window.increment) {
-            if (window.text_thusfar != "") {
-                window.text_thusfar += " ";
-            }
-            if (window.text != undefined) {
-                window.text_thusfar += window.text;
-            }
-            window.text = new_text;
-        }
-
-
-//        console.log(window.text_thusfar)
-//        console.log(window.text)
-//        console.log(window.increment)
-//        console.log(window.can_skip)
-//        console.log("-----------")
 
         this.continueOnReturn = dget(this.options, "continueOnReturn", false);
         this.continueMessage = dget(this.options, "continueMessage", "Click here to continue");
@@ -209,7 +194,6 @@ properties: {
 });
 
 
-
 // Some more custom code:
 
 // Helper function for delayed hiding/showing
@@ -298,7 +282,7 @@ function getSelection(selector_field, selector_from_idx) {
 // Called whenever mouse is released, used only for grabbing selection
 document.onmouseup = document.onkeyup = function() {
 
-    var sel = getSelection(window.selector, window.selector_fromidx);
+    var sel = getSelection(window.selector, window.new_from_char);
     // Only do something if you've actually selected something (in the proper field):
     if ( sel != null ) {
 
@@ -363,62 +347,51 @@ colors_dimmed = ['#E2F1FD', '#ccff99', '#ffff99', '#ffad99', '#ffb3d9']
 
 async function init() {
 
-    console.log(question_highlights_thusfar);
-    console.log(answer_highlights_thusfar);
+    document.getElementById("fragment_selector").innerHTML = window.text;
+    document.getElementById("fragment_colorizer").innerHTML = '<font color="#888888">' + window.text.substring(0,window.new_from_char) + "</font>";
+    document.getElementById("fragment_highlighter").innerHTML = window.text;
 
-    if (window.text_thusfar != "") {
-        window.text_thusfar += " ";
-        document.getElementById("fragment_selector").innerHTML = window.text_thusfar;
-        document.getElementById("fragment_colorizer").innerHTML = '<font color="#888888">' + window.text_thusfar + "</font>";
-        document.getElementById("fragment_highlighter").innerHTML = window.text_thusfar;
-
-        document.getElementById("question_highlighter_prev").innerHTML = "";
-        var j = 0;
-        for (var i = 0; i < window.question_highlights_thusfar.length; i++) {
-            highlight = window.question_highlights_thusfar[i];
-            document.getElementById("question_highlighter_prev").innerHTML += window.text_thusfar.substring(j, highlight[0]);
-            document.getElementById("question_highlighter_prev").innerHTML += '<mark style="color: transparent; background-color: ' + colors_dimmed[0] + '">' + window.text_thusfar.substring(highlight[0], highlight[1]) + "</mark>"
-            j = highlight[1]
-        }
-        document.getElementById("question_highlighter_prev").innerHTML += window.text_thusfar.substring(j, text_thusfar.length+1);
-
+    // Scroll to the bottom unless it's the first item
+    if ( window.new_from_char > 0 ) {
+        document.getElementById("fragment_scroller").scrollTo(0,document.getElementById("fragment_scroller").scrollHeight);
     }
 
-    // Now load the rest of the fragment
-    document.getElementById("question_highlighter_prev").innerHTML += window.text;
-    document.getElementById("fragment_highlighter").innerHTML += window.text;
-    document.getElementById("fragment_selector").innerHTML += window.text;
-
-    var alltext = window.text_thusfar + window.text;
-
+    // Add previous highlights
+    document.getElementById("question_highlighter_prev").innerHTML = "";
+    var j = 0;
+    for (var i = 0; i < window.question_highlights_thusfar.length; i++) {
+        highlight = window.question_highlights_thusfar[i];
+        if (highlight[0] < window.new_from_char) {
+            highlightcolor = colors_dimmed[0];
+        } else {
+            highlightcolor = colors[0];
+        }
+        document.getElementById("question_highlighter_prev").innerHTML += window.text.substring(j, highlight[0]);
+        document.getElementById("question_highlighter_prev").innerHTML += '<mark style="color: transparent; background-color: ' + highlightcolor + '">' + window.text.substring(highlight[0], highlight[1]) + "</mark>"
+        j = highlight[1];
+    }
+    document.getElementById("question_highlighter_prev").innerHTML += window.text.substring(j, window.text.length+1);
 
     document.getElementById("answer_highlighter_prev").innerHTML = "";
     var j = 0;
     for (var i = 0; i < window.answer_highlights_thusfar.length; i++) {
         highlight = window.answer_highlights_thusfar[i];
-        if (highlight[0] < window.text_thusfar.length) {
+        if (highlight[0] < window.new_from_char) {
             highlightcolor = colors_dimmed[1];
         } else {
             highlightcolor = colors[1];
         }
-        document.getElementById("answer_highlighter_prev").innerHTML += alltext.substring(j, highlight[0]);
-        document.getElementById("answer_highlighter_prev").innerHTML += '<mark style="color: transparent; background-color: ' + highlightcolor + '">' + alltext.substring(highlight[0], highlight[1]) + "</mark>"
+        document.getElementById("answer_highlighter_prev").innerHTML += window.text.substring(j, highlight[0]);
+        document.getElementById("answer_highlighter_prev").innerHTML += '<mark style="color: transparent; background-color: ' + highlightcolor + '">' + window.text.substring(highlight[0], highlight[1]) + "</mark>"
         j = highlight[1];
     }
-    document.getElementById("answer_highlighter_prev").innerHTML += alltext.substring(j, alltext.length+1);
+    document.getElementById("answer_highlighter_prev").innerHTML += window.text.substring(j, window.text.length+1);
 
-    console.log(document.getElementById("answer_highlighter_prev").innerHTML);
-    console.log(document.getElementById("fragment_selector").innerHTML);
-
-    // Scroll to the bottom unless it's the first item
-    if ( window.text_thusfar != "" ) {
-        document.getElementById("fragment_scroller").scrollTo(0,document.getElementById("fragment_scroller").scrollHeight);
-    }
-
+    // Add readable text
     if (window.increment) {
-        await addTypedText(document.getElementById("fragment_colorizer"), window.text);
+        await addTypedText(document.getElementById("fragment_colorizer"), window.text.substring(window.new_from_char, window.text.length + 1));
     } else {
-        document.getElementById("fragment_colorizer").innerHTML += window.text;
+        document.getElementById("fragment_colorizer").innerHTML += window.text.substring(window.new_from_char, window.text.length + 1);
     }
 
     if (!window.increment) {    // Needed to avoid error due to following element not yet existing?!
