@@ -30,6 +30,9 @@ jqueryWidget: {
         } else if (new_text != "") {
             window.new_from_char = window.text.length + 1;
             window.text += " " + new_text;
+            window.increment = true;
+        } else {
+            window.increment = false;
         }
 
         if (this.type == "question") {
@@ -42,7 +45,6 @@ jqueryWidget: {
                 }
             }
         }
-
 
         this.continueOnReturn = dget(this.options, "continueOnReturn", false);
         this.continueMessage = dget(this.options, "continueMessage", "Click here to continue");
