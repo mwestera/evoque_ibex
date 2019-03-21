@@ -346,8 +346,10 @@ function isInArray(value, array) {
 }
 
 
-colors = ['#76bef8', '#66ff66', '#ffff00', '#ff471a', '#ff3399'];
-colors_dimmed = ['#E2F1FD', '#ccff99', '#ffff99', '#ffad99', '#ffb3d9']
+// colors = ['#76bef8', '#66ff66', '#ffff00', '#ff471a', '#ff3399'];
+// colors_dimmed = ['#E2F1FD', '#ccff99', '#ffff99', '#ffad99', '#ffb3d9']
+colors = ['#ffff66', '#66ff66', '#cc99ff', '#66ffff'];
+colors_dimmed = ['#ffffb3', '#b3ffb3', '#e6ccff', '#b3ffff'];
 
 function nextFreeColorIdx() {
     most_recent_positions = [99,99,99,99,99];
