@@ -418,7 +418,7 @@ async function init() {
     add_highlights(document.getElementById("answer_highlighter_prev"), window.answers_thusfar);
 
     // Add readable text
-    if (window.increment) {
+    if (window.phase == "start" || window.increment) {
         await addTypedText(document.getElementById("fragment_colorizer"), window.text.substring(window.new_from_char, window.text.length + 1));
     } else {
         document.getElementById("fragment_colorizer").innerHTML += window.text.substring(window.new_from_char, window.text.length + 1);
