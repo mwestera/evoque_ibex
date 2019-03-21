@@ -101,6 +101,7 @@ function quality_check() {
         }
 
         window.current_question_idx = window.questions_thusfar.length - 1;    // Always start counting from the most recent one
+        document.getElementById("question_index").value = window.current_question_idx;
 
         // Slowly scroll to top
         $("html, body").animate({ scrollTop: 0 }, "slow");
@@ -128,6 +129,8 @@ function quality_check() {
             </div>
         </div>
     <hr>
+
+    <input type="text" id="question_index" name="question_index" style="display:none"/>
 
 <div id="form" style="visibility: hidden; width:40em">
 

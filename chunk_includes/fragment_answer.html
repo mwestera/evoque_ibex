@@ -14,6 +14,7 @@ function revealForm() {
 
     // If unanswered question is available:
     if (window.current_question_idx >= 0 && !window.questions_thusfar[window.current_question_idx][4]) {
+        document.getElementById("question_index").value = window.current_question_idx;
         var prev_question = window.questions_thusfar[window.current_question_idx][3];
         document.getElementById("question_copy_for_display").innerHTML = prev_question;
         document.getElementById("div_containing_form_for_fragment_cont").style.visibility = "visible";
@@ -161,6 +162,7 @@ function quality_check() {
         </div>
     <hr>
 
+    <input type="text" id="question_index" name="question_index" style="display:none"/>
 
 <div id="div_containing_message_incase_no_question_was_evoked" style="position: relative; display: none">
     <p><b>You have finished with the current text.</b></p>
