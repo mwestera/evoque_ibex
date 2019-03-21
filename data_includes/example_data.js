@@ -46,7 +46,7 @@ var texts = [
      "Her voice sounded comforting, almost like an apology.",
      "Two months later, she left for good — laid her ring on the counter.",
      "Mine stayed on for two more years, pressing down, denting my skin, hoping."],
-    [[2,4], [1,3,5]]],
+    [[1,3,5], [2,4]]],
     [["Today when I arrived at my community garden plot, it actually looked like a garden.",
     "Not a weedy mess with maybe some stuff growing in it if you know where to look.",
     "We had hit the typical mid-summer mess of fast-growing weeds and no time to do anything about it.",
@@ -60,7 +60,7 @@ var texts = [
     "I've also got a few ideas for improving the garden next year.",
     "For one thing, the radishes fall down all over the place and make a mess when they go to seed, and they really could be removed once flea-beetle season has passed, which I didn't think to do this year.",
     "They're attracting cool butterflies, but I might be able to do that with some less floppy flowers."],
-    [[2,4,6,8,10], [1,3,5,7,9,11]]],
+    [[1,5,9], [2,6,10], [3,7,11], [4,8]]],
 ]
 
 function generate_items(texts, max_num_questions) {
