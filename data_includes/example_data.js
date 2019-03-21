@@ -9,7 +9,8 @@ var defaults = [
     "FragmentForm", {
         text: "",
         phase: "mid",
-        saveReactionTime: true
+        saveReactionTime: true,
+        continueOnReturn: true,
     },
     "Separator", {
         transfer: 1000,
