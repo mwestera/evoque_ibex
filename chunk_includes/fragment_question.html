@@ -100,7 +100,7 @@ function quality_check() {
             window.questions_thusfar.push([document.getElementById("selection_start").value, document.getElementById("selection_end").value, current_color_idx, document.getElementById("question").value, false]);
         }
 
-        window.current_question_idx = window.questions_thusfar.length;    // Always start counting from the most recent one
+        window.current_question_idx = window.questions_thusfar.length - 1;    // Always start counting from the most recent one
 
         // Slowly scroll to top
         $("html, body").animate({ scrollTop: 0 }, "slow");

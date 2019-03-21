@@ -37,11 +37,8 @@ jqueryWidget: {
         if (this.type == "question") {
             window.current_color_idx = nextFreeColorIdx();
         } else if (this.type == "answer") {
-            if (window.questions_thusfar.length > 0) {
-                window.current_question_idx = previous_unanswered_question_idx();
-                if (window.current_question_idx >= 0) {
-                    window.current_color_idx = window.questions_thusfar[window.current_question_idx][2];
-                }
+            if (window.current_question_idx >= 0) {
+                window.current_color_idx = window.questions_thusfar[window.current_question_idx][2];
             }
         }
 

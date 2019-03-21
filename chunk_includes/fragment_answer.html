@@ -12,10 +12,8 @@ function revealForm() {
     document.getElementById("question_display_field").style.backgroundColor = window.colors_dimmed[window.current_color_idx];
     document.getElementById("answer_field").style.backgroundColor = window.colors[window.current_color_idx];
 
-    // Show something different depending on whether a question was evoked.
-    if (window.questions_thusfar.length > 0 && window.current_question_idx >= 0) {
-        // Consider only the most recent question
-        // TODO Allow for multiple open questions
+    // If unanswered question is available:
+    if (window.current_question_idx >= 0 && !window.questions_thusfar[window.current_question_idx][4]) {
         var prev_question = window.questions_thusfar[window.current_question_idx][3];
         document.getElementById("question_copy_for_display").innerHTML = prev_question;
         document.getElementById("div_containing_form_for_fragment_cont").style.visibility = "visible";
@@ -162,7 +160,7 @@ function quality_check() {
 
 
 <div id="div_containing_message_incase_no_question_was_evoked" style="position: relative; display: none">
-    <p><b>Based on your responses we have no further questions about this fragment.</b></p>
+    <p><b>You have finished with the current text.</b></p>
 </div>
 
 <div id="div_containing_form_for_fragment_cont" style="visibility:hidden; width:40em">
