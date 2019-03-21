@@ -140,14 +140,14 @@ button::-moz-focus-inner {
 .r-pill__item input:hover ~ label,
 .r-pill__item label:hover {
 	background: #e8e8e8;
-	border-color: #444444;
+	border-color: #555555;
 }
 
 /* #2196f3
  #fff */
 .r-pill[disabled] .r-pill__item input:checked + label:hover,
 .r-pill__item input:checked + label {
-	background: #444444;
+	background: #555555;
 	color: #fff;
 }
 
@@ -178,7 +178,7 @@ button::-moz-focus-inner {
 
 /* #2196f3  */
 .r-pill__item input:focus ~ label:after  {
-	border-color: #444444;
+	border-color: #555555;
 	bottom: -.25em;
 	left: -.25em;
 	right: -.25em;
