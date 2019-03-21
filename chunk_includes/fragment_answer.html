@@ -69,6 +69,7 @@ function quality_check() {
         document.getElementById("selection_text").value = "";
         document.getElementById("selection_start").value = "";
         document.getElementById("selection_end").value = "";
+        window.current_question_idx--;
         return true;
     }
 
@@ -128,6 +129,8 @@ function quality_check() {
             window.answers_thusfar.push([document.getElementById("selection_start").value, document.getElementById("selection_end").value, current_color_idx, document.getElementById("answer").value]);
             window.questions_thusfar[window.current_question_idx][4] = true;
         }
+
+        window.current_question_idx--;
 
         // Slowly scroll to top
         $("html, body").animate({ scrollTop: 0 }, "slow");
