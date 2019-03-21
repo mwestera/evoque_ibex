@@ -98,10 +98,10 @@ function quality_check() {
         // Save some results for next screen
         if (document.getElementById("question").value != "") {
             window.questions_thusfar.push([document.getElementById("selection_start").value, document.getElementById("selection_end").value, current_color_idx, document.getElementById("question").value, false]);
+            document.getElementById("question_index").value = window.questions_thusfar.length - 1;
         }
 
         window.current_question_idx = window.questions_thusfar.length - 1;    // Always start counting from the most recent one
-        document.getElementById("question_index").value = window.current_question_idx;
 
         // Slowly scroll to top
         $("html, body").animate({ scrollTop: 0 }, "slow");
