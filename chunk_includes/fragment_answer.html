@@ -14,7 +14,6 @@ function revealForm() {
 
     // If unanswered question is available:
     if (window.current_question_idx >= 0 && !window.questions_thusfar[window.current_question_idx][4]) {
-        document.getElementById("question_index").value = window.current_question_idx;
         var prev_question = window.questions_thusfar[window.current_question_idx][3];
         document.getElementById("question_copy_for_display").innerHTML = prev_question;
         document.getElementById("div_containing_form_for_fragment_cont").style.visibility = "visible";
@@ -64,12 +63,16 @@ function quality_check() {
 
     // In case nothing further was required:
     if (document.getElementById("div_containing_form_for_fragment_cont").style.visibility != "visible") {
-        document.getElementById("answer").value = "";
-        document.getElementById("answered1").value = ""; // Ugly hack to ensure some value is submitted
-        document.getElementById("answered1").checked = true;
-        document.getElementById("selection_text").value = "";
-        document.getElementById("selection_start").value = "";
-        document.getElementById("selection_end").value = "";
+        document.getElementById("question_index").remove();
+        document.getElementById("answer").remove();
+        document.getElementById("answered1").remove();
+        document.getElementById("answered2").remove();
+        document.getElementById("answered3").remove();
+        document.getElementById("answered4").remove();
+        document.getElementById("answered5").remove();
+        document.getElementById("selection_text").remove();
+        document.getElementById("selection_start").remove()
+        document.getElementById("selection_end").remove();
         window.current_question_idx--;
         return true;
     }
@@ -119,17 +122,16 @@ function quality_check() {
     if (check) {
         // Clean up some garbage before sending to server
         if (document.getElementById("answered1").checked || document.getElementById("answered2").checked) {
-            document.getElementById("answer").value = "";
-            document.getElementById("selection_text").value = "";
-            document.getElementById("selection_start").value = "";
-            document.getElementById("selection_end").value = "";
-        }
-
-        // Save some results for next screen
-        if (document.getElementById("answer").value != "") {
+            document.getElementById("answer").remove();
+            document.getElementById("selection_text").remove();
+            document.getElementById("selection_start").remove();
+            document.getElementById("selection_end").remove();
+        } else {  // Save some results for next screen
             window.answers_thusfar.push([document.getElementById("selection_start").value, document.getElementById("selection_end").value, current_color_idx, document.getElementById("answer").value]);
             window.questions_thusfar[window.current_question_idx][4] = true;
         }
+
+        document.getElementById("question_index").value = window.current_question_idx;
 
         window.current_question_idx--;
 
@@ -151,7 +153,7 @@ function quality_check() {
 
 <div style="width: 40em">
     <hr>
-        <div id="fragment_scroller" style="overflow: auto; width: 480pt; height: 150pt">
+        <div id="fragment_scroller" style="overflow: auto; width: 480pt; height: 150pt" tabIndex="-1">
             <div style="position: relative; width: 90%">  <!-- TODO More principled way of choosing height -->
                 <div id="answer_highlighter_prev" style="color:transparent; position: absolute; display: inline-block"></div>
                 <div id="question_highlighter_prev" style="color:transparent; position: absolute; display: inline-block"></div>
