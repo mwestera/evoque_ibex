@@ -13,6 +13,10 @@ function revealForm() {
     document.getElementById("question_field").style.backgroundColor = window.colors[window.current_color_idx];
     document.getElementById("form").style.visibility = "visible";
 
+    if(window.questions_thusfar.length > 0) {
+        document.getElementById("other").innerHTML = "nother";
+    }
+
 }
 
 // For hiding/showing follow-up form fields depending on whether the fragment evokes a question
@@ -163,7 +167,7 @@ function quality_check() {
     </p> -->
 
     <p>
-        <b>&#9654; Does the text at this point evoke a question for you?</b><br>
+        <b>&#9654; Does the text at this point evoke a<span id="other"></span> question for you?</b><br>
         <!-- (List up to three questions; leave <i>blank</i> if it does not evoke any questions.) <br> -->
         <fieldset class="r-pill">
             <div class="r-pill__group">
