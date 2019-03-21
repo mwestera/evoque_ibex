@@ -363,18 +363,31 @@ function argMax(array) {
 }
 
 function add_highlights(element, highlights) {
+    // It's crucial that highlights is ordered by starting index...
+    highlights = jQuery.extend([], highlights);
+    highlights.sort(function(a, b) {
+        return a[0] - b[0];
+    });
+
     element.innerHTML = "";
     var j = 0;
     for (var i = 0; i < highlights.length; i++) {
         highlight = highlights[i];
-        if (highlight[0] < window.new_from_char) {
+        start = highlight[0];
+        end = highlight[1];
+        if (i < highlights.length-1) {  // there is a next element
+            if (highlights[i+1][0] < end) {
+                end = highlights[i+1][0];   // TODO This may suffice, though it will not work for nested highlights like [ [ ]   ]
+            }
+        }
+        if (start < window.new_from_char) {
             highlightcolor = colors_dimmed[highlight[2]];
         } else {
             highlightcolor = colors[highlight[2]];
         }
-        element.innerHTML += window.text.substring(j, highlight[0]);
-        element.innerHTML += '<mark style="color: transparent; background-color: ' + highlightcolor + '">' + window.text.substring(highlight[0], highlight[1]) + "</mark>"
-        j = highlight[1];
+        element.innerHTML += window.text.substring(j, start);
+        element.innerHTML += '<mark style="color: transparent; background-color: ' + highlightcolor + '">' + window.text.substring(start, end) + "</mark>"
+        j = end;
     }
     element.innerHTML += window.text.substring(j, window.text.length+1);
 }
