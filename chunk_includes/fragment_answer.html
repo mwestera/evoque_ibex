@@ -17,6 +17,11 @@ function revealForm() {
         var prev_question = window.questions_thusfar[window.current_question_idx][3];
         document.getElementById("question_copy_for_display").innerHTML = prev_question;
         document.getElementById("div_containing_form_for_fragment_cont").style.visibility = "visible";
+        if (window.current_question_idx == window.questions_thusfar.length-2) {
+            document.getElementById("you").innerHTML = "Earlier, you also";
+        } else if (window.current_question_idx < window.questions_thusfar.length-2) {
+            document.getElementById("you").innerHTML = "Even earlier, you";
+        }
     } else {
         if (window.phase != "end") {    // If this can be skipped if no further questions:
             document.getElementById("continue_link").click();
@@ -172,12 +177,12 @@ function quality_check() {
 
 <div id="div_containing_form_for_fragment_cont" style="visibility:hidden; width:40em">
 
-    <p><b>For you, the first part evoked the following question:</b>
+    <p><b><span id="you">You</span> entered the following question:</b>
         <div class="r-pill__group" style="background-color: #eeeeee" id="question_display_field"><div id="question_copy_for_display" style="width: 32em"></div></div>
         <!-- "width: 32em; background-color: #eeeeee; border: 1px solid darkgray; box-shadow: 1px 1px 1px 0 lightgray inset; margin-top: 5px; padding: 2px 3px" -->
     </p>
 
-    <p><b>&#9654; Was your question answered in the continuation?</b><br>
+    <p><b>&#9654; Was that question answered in the continuation?</b><br>
         <fieldset class="r-pill">
             <div class="r-pill__group">
                 <i>&nbsp;&nbsp;Not answered at all.</i>
@@ -215,7 +220,7 @@ function quality_check() {
         </p>
 
         <p>
-        <b>&#9654; In the fragment, <mark id="marker_in_question2" style="background:#76bef8">highlight</mark> the main phrase suggesting this answer.</b>
+        <b>&#9654; In the text, <mark id="marker_in_question2" style="background:#76bef8">highlight</mark> the main phrase suggesting this answer.</b>
         <b id="answer_highlighting_error" style="color: red; visibility: hidden"> *</b><br>
         <!-- <ul>
             <li>Please  a phrase in the new part of the fragment above.</li>
