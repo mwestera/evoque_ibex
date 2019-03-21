@@ -95,10 +95,12 @@ button::-moz-focus-inner {
 
 /*
 	Optional inner wrapper (<div>) to provide additional styling.
+	#fafafa
+	#083851
 */
 .r-pill__group {
 	background: #fafafa;
-	border: 1px solid #083851;
+	border: 1px solid #222222;
 	border-radius: 2em;
 	display: inline-block;
 	padding: .25em;
@@ -124,23 +126,28 @@ button::-moz-focus-inner {
 	z-index: 2;
 }
 
+/* #083851 */
 .r-pill__item label {
 	border-radius: 2em;
 	border: 2px solid transparent;
-	color: #083851;
+	color: #222222;
 	display: block;
 	padding: .25em .75em;
 }
 
+/* #E2F1FD
+#2196f3  */
 .r-pill__item input:hover ~ label,
 .r-pill__item label:hover {
-	background: #E2F1FD;
-	border-color: #2196f3;
+	background: #e8e8e8;
+	border-color: #444444;
 }
 
+/* #2196f3
+ #fff */
 .r-pill[disabled] .r-pill__item input:checked + label:hover,
 .r-pill__item input:checked + label {
-	background: #2196f3;
+	background: #444444;
 	color: #fff;
 }
 
@@ -169,8 +176,9 @@ button::-moz-focus-inner {
 	*/
 }
 
+/* #2196f3  */
 .r-pill__item input:focus ~ label:after  {
-	border-color: #2196f3;
+	border-color: #444444;
 	bottom: -.25em;
 	left: -.25em;
 	right: -.25em;
