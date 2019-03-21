@@ -410,7 +410,7 @@ async function init() {
     }
 
     if (!window.increment) {    // Needed to avoid error due to following element not yet existing?!
-        await sleep(300);
+        await sleep(100);
     }
 
     document.getElementById("div_containing_continue-link").style.visibility = "visible";
