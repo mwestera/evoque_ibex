@@ -1,6 +1,6 @@
 // var shuffleSequence = seq("sel", "intro", sepWith("sep", seq("practice", rshuffle("s1", "s2"))), sepWith("sep", rshuffle("q1", "q2")));
 //var shuffleSequence = seq("fragment", "sep", "fragment");   // For now, the only thing to test
-var shuffleSequence = seq("fragment");   // For now, the only thing to test
+var shuffleSequence = sepWith("sep", "fragment");   // For now, the only thing to test
 var practiceItemTypes = ["practice"];
 
 var globalBuffer = "INIT";
@@ -39,28 +39,77 @@ var defaults = [
     }
 ];
 
+var texts = [
+    [["Until I took it off, I never realized how much I noticed my wedding band (chiming quietly against utensils, loosening its grip when I showered, orbiting my finger secretly throughout the day).",
+     "There’s still an indentation where the ring sat for seven years, and I rub the smooth skin daily.",
+     "She told me she never took hers off, even when she spent the night with him.",
+     "Her voice sounded comforting, almost like an apology.",
+     "Two months later, she left for good — laid her ring on the counter.",
+     "Mine stayed on for two more years, pressing down, denting my skin, hoping."],
+    [[2,4], [1,3,5]]],
+    [["Today when I arrived at my community garden plot, it actually looked like a garden.",
+    "Not a weedy mess with maybe some stuff growing in it if you know where to look.",
+    "We had hit the typical mid-summer mess of fast-growing weeds and no time to do anything about it.",
+    "Plus all the rain had made a huge swamp and it was hard to get a moment to work when it wasn't actively pouring.",
+    "I put in a bunch of time this past week, and it's paying off.",
+    "Along with free-standing non-weed-choked plants, I have now re-planted three of the beds with salad greens, spinach, and chard.",
+    "And while the viability of the seeds was questionable, I accidentally unearthed some from the bed I planted 2 days ago and they had already started to sprout!",
+    "This marks the first time I have reclaimed the garden from a weed problem and turned it back into a productive garden.",
+    "Other years I've never managed to get the late summer planting done.",
+    "I would've liked to get salad greens in 3 weeks ago, to harvest baby greens for salads along the way, but I'm still pretty pleased.",
+    "I've also got a few ideas for improving the garden next year.",
+    "For one thing, the radishes fall down all over the place and make a mess when they go to seed, and they really could be removed once flea-beetle season has passed, which I didn't think to do this year.",
+    "They're attracting cool butterflies, but I might be able to do that with some less floppy flowers."],
+    [[2,4,6,8,10], [1,3,5,7,9,11]]],
+]
+
+function generate_items(texts, max_num_questions) {
+    var items = [];
+    for (var i = 0; i < texts.length; i++) {
+        sentences = texts[i][0];
+        cuttings = texts[i][1];
+        for (var j = 0; j < cuttings.length; j++) {
+            cuts = cuttings[j];
+            prev_cut = 0
+            item = [["fragment", i]]
+            for (var h = 0; h <= cuts.length; h++) {
+                var text = "";
+                if (h == cuts.length) {
+                    if (prev_cut < sentences.length) {
+                        text = sentences.slice(prev_cut, sentences.length).join(' ');
+                    }
+                } else if (cuts[h] > 0) {
+                    text = sentences.slice(prev_cut, cuts[h]).join(' ');
+                    prev_cut = cuts[h];
+                }
+                if (text != "") {
+                    if (h == 0) {   // If it's the first chunk
+                        item.push("FragmentForm");
+                        item.push({type: "question", phase: "start", text: text});
+                    } else { // If it's in the middle or end
+                        item.push("FragmentForm");
+                        item.push({type: "answer", text: text});
+                        for (var k=1; k < max_num_questions; k++) { // Permit space for older questions too
+                            item.push("FragmentForm");
+                            item.push({type: "answer"});
+                        }
+                        if (h != cuts.length) {     // Everywhere except last, ask for a new question.
+                            item.push("FragmentForm");
+                            item.push({type: "question"});
+                        }
+                    }
+                }
+            }
+            item.push("FragmentForm");
+            item.push({type: "answer", text: "", phase: "end"});  // TODO Maybe have a separate "end" form with some questions.
+            items.push(item);
+        }
+    }
+    return items;
+}
+
+
 var items = [
-    ["fragment", "FragmentForm", {
-                    type: "question",
-                    text: "Until I took it off, I never realized how much I noticed my wedding band (chiming quietly against utensils, loosening its grip when I showered, orbiting my finger secretly throughout the day).",
-                    phase: "start",
-                },
-                "FragmentForm", {
-                    type: "answer",
-                    text: "There’s still an indentation where the ring sat for seven years, and I rub the smooth skin daily. She told me she never took hers off, even when she spent the night with him.",
-                },
-                "FragmentForm", {
-                    type: "question",
-                },
-                "FragmentForm", {
-                    type: "answer",
-                    text: "Her voice sounded comforting, almost like an apology. Two months later, she left for good — laid her ring on the counter. Mine stayed on for two more years, pressing down, denting my skin, hoping.",
-                },
-                "FragmentForm", {
-                    type: "answer",
-                    phase: "end",
-                },
-    ],
 
     // New in Ibex 0.3-beta-9. You can now add a '__SendResults__' controller in your shuffle
     // sequence to send results before the experiment has finished. This is NOT intended to allow
@@ -93,95 +142,6 @@ var items = [
         }
     } ],
 
-    //
-    // Three practice items for self-paced reading (one with a comprehension question).
-    //
-    ["practice", "DashedSentence", {s: "This is a practice sentence to get you used to reading sentences like this."}],
-    ["practice", "DashedSentence", {s: "This is another practice sentence with a practice question following it."},
-                 "Question", {hasCorrect: false, randomOrder: false,
-                              q: "How would you like to answer this question?",
-                              as: ["Press 1 or click here for this answer.",
-                                   "Press 2 or click here for this answer.",
-                                   "Press 3 or click here for this answer."]}],
-    ["practice", "DashedSentence", {s: "This is the last practice sentence before the experiment begins."}],
-
-    //
-    // Two "real" (i.e. non-filler) self-paced reading items with corresponding acceptability judgment items.
-    // There are two conditions.
-    //
-
-    [["s1",1], "DashedSentence", {s: "The journalist interviewed an actress who he knew to be shy of publicity after meeting on a previous occasion."},
-               "Question",       {q: "The actress was:", as: ["shy", "publicity-seeking", "impatient"]}],
-    [["s2",1], "DashedSentence", {s: "The journalist interviewed an actress who after meeting on a previous occasion he knew to be shy of publicity."},
-               "Question",       {q: "The actress was:", as: ["shy", "publicity-seeking", "impatient"]}],
-
-    // The first question will be chosen if the first sentence from the previous two items is chosen;
-    // the second question will be chosen if the second sentence from the previous pair of items is chosen.
-    [["q1",[100,1]], "AcceptabilityJudgment", {s: "Which actress did the journalist interview after meeting her PA on a previous occasion?"}],
-    [["q2",[100,1]], "AcceptabilityJudgment", {s: "Which actress did the journalist interview her husband after meeting on a previous occasion?"}],
-
-    [["s1",2], "DashedSentence", {s: "The teacher helped struggling students who he encouraged to succeed without treating like idiots."},
-               "Question",       {q: "What did the teacher do?",
-                                  as: ["Encourage struggling students to succeed",
-                                       "Encourage his best students to succeed",
-                                       "Treat struffling students like idiots"]}],
-    [["s2",2], "DashedSentence", {s: "The teacher helped struggling students who without treating like idiots he encouraged to succeed."},
-               "Question",       {q: "What did the teacher do?", as: ["Encourage struggling students to succeed",
-                                                                      "Encourage his best students to succeed",
-                                                                      "Treat struggling students like idiots"]}],
-
-    [["q1",[200,2]], "AcceptabilityJudgment", {s: {html: "<b>Which struggling students</b> did the teacher encourage to succeed without treating their friends like idiots?"}}],
-    [["q2",[200,2]], "AcceptabilityJudgment", {s: {html: "<b>Which struggling students</b> did the teacher encourage their friends to succeed without treating like idiots?"}}],
-
-    //
-    // 10 self-paced-reading filler sentences.
-    //
-
-    ["f", "DashedSentence", {s: "The foreign spy that encoded the top-secret messages was given a new mission that required going to Japan."},
-          "Question",       {q: "The spy's mission required him to:", as: ["Go to Japan", "Destroy top-secret messages", "Bug a hotel room"]}],
-
-    ["f", "DashedSentence", {s: "The receptionist that the real estate company just hired immediately familiarized herself with all the phone numbers of their clients."},
-          "Question",       {q: "The receptionist familiarized herself with:",
-                             as: ["Some phone numbers",
-                                  "The health and safety regulations",
-                                  "Her boss"]}],
-
-    ["f", "DashedSentence", {s: "Only two specialized surgeons that work in the hospital could do this operation."},
-          "Question",       {q: "The operation can be performed by:",
-                             as: ["Two surgeons with specialist training",
-                                  "All the surgeons at the hospital",
-                                  "Three surgeons who are currently off sick"]}],
-
-    ["f", "DashedSentence", {s: "The gangsters that the local police officers tracked for years were represented by an inexperienced lawyer."},
-          "Question",       {q: "Who did the inexperienced lawyer represent?",
-                             as: ["Some gangsters", "Some local police officers", "A murder suspect"]}],
-
-    ["f", "DashedSentence", {s: "The woman that John had seen in the subway bought herself a pair of stunning shoes that cost a fortune."},
-          "Question",       {q: "Where did John see the woman?", as: ["In the subway", "On the bus", "In the shoe shop"]}],
-
-    ["f", "DashedSentence", {s: "If the award-winning chef had entered this competition, he surely would have won first prize."},
-          "Question",       {q: "Why didn't the chef win the competition?",
-                             as: ["Because he didn't enter it",
-                                  "Because his food wasn't good enough.",
-                                  "Because he was kicked out for cheating."]}],
-
-    ["f", "DashedSentence", {s: "If the organized secretary had filed the documents when she first received them, they would have been easy to find."},
-          "Question",       {q: "Why were the documents difficult to find?",
-                             as: ["Because the secretary hadn't filed them properly",
-                                  "Because a manager at the company had lost them",
-                                  "Because they had been stolen."]}],
-
-    ["f", "DashedSentence", {s: "If the homemade beer had been left to ferment more, it would have been drinkable."},
-          "Question",       {q: "Why wasn't the homemade beer drinkable?",
-                             as: ["It hadn't been left to ferment long enough",
-                                  "It had been left to ferment too long",
-                                  "The ingredients had been measured incorrectly."]}],
-
-    ["f", "DashedSentence", {s: "The cowboy that the bulls tried to trample injured himself getting off a horse."}],
-
-    ["f", "DashedSentence", {s: "The patient that was admitted to the hospital last month still suffers severe pain in his left leg."},
-          "Question",       {q: "Which of the following is true?",
-                             as: ["The patient still has severe pain in his left leg",
-                                  "The patient still has severe pain in his right leg",
-                                  "The patient no longer suffers from pain in his left leg"]}]
 ];
+
+items.push.apply(items, generate_items(texts, 3))
