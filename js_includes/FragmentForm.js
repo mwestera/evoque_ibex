@@ -238,6 +238,15 @@ async function addTypedText(e, s) {
     }
 }
 
+// From https://stackoverflow.com/a/11762728/11056813
+function getElementIndex(node) {
+    var index = 0;
+    while ( (node = node.previousElementSibling) ) {
+        index++;
+    }
+    return index;
+}
+
 // returns selection, but only when it exists wholly inside the "selector" field, and later than from_idx
 function getSelection(selector_field, selector_from_idx) {
 
@@ -245,10 +254,15 @@ function getSelection(selector_field, selector_from_idx) {
 
     if (selection.anchorNode == null) return null;
 
+    anchorIndex = getElementIndex(selection.anchorNode)
+    focusIndex = getElementIndex(selection.focusNode)
+    // Consider using this: https://jsfiddle.net/sohaybh/3LhL3jok/
+
     if (
         selection.anchorNode.parentNode == selector_field &&
         selection.focusNode.parentNode == selector_field &&
-        selection.anchorOffset != selection.focusOffset
+        (anchorIndex != focusIndex ||
+        selection.anchorOffset != selection.focusOffset)
     ) {
 
         // determine start and end character based on anchor (where you click) and focus (where you release)
