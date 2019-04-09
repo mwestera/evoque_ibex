@@ -12,12 +12,6 @@ jqueryWidget: {
         this.type = dget(this.options, "type");
         window.phase = dget(this.options, "phase");
 
-        if (this.type == "question") {
-            this.html = { include: "fragment_question.html" };
-        } else if (this.type == "answer") {
-            this.html = { include: "fragment_answer.html" };
-        }
-
         var new_text = dget(this.options, "text");
 
         // TODO Communicating these through global vars is probably not the proper way
@@ -40,6 +34,12 @@ jqueryWidget: {
             if (window.current_question_idx >= 0) {
                 window.current_color_idx = window.questions_thusfar[window.current_question_idx][2];
             }
+        }
+
+        if (this.type == "question") {
+            this.html = { include: "fragment_question.html" };
+        } else if (this.type == "answer") {
+            this.html = { include: "fragment_answer.html" };
         }
 
         this.continueOnReturn = dget(this.options, "continueOnReturn", false);
