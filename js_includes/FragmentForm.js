@@ -241,8 +241,15 @@ async function addTypedText(e, s) {
 // From https://stackoverflow.com/a/11762728/11056813
 function getElementIndex(node) {
     var index = 0;
-    while ( (node = node.previousElementSibling) ) {
+    var num_chars = 0;
+    while ( node = node.previousElementSibling ) {
         index++;
+        if (node instanceof HTMLBRElement) {    // Not used
+            length = 4;   // <br> is 4 characters
+        } else {
+            length = node.nodeValue.length;
+        }
+        num_chars += length;
     }
     return index;
 }
@@ -258,19 +265,33 @@ function getSelection(selector_field, selector_from_idx) {
     focusIndex = getElementIndex(selection.focusNode)
     // Consider using this: https://jsfiddle.net/sohaybh/3LhL3jok/
 
+    var text = selector_field.innerHTML;
+
+    lines = text.split("<br>")
+    anchorlines = lines.slice(0,anchorIndex).join('<br>')
+    focuslines = lines.slice(0,focusIndex).join('<br>')
+    if (anchorlines != "") {
+        anchorlines += "<br>"
+    }
+    if (focuslines != "") {
+        focuslines += "<br>"
+    }
+
+    var anchorOffset = selection.anchorOffset + anchorlines.length;
+    var focusOffset = selection.focusOffset + focuslines.length;
+
     if (
         selection.anchorNode.parentNode == selector_field &&
         selection.focusNode.parentNode == selector_field &&
-        (anchorIndex != focusIndex ||
-        selection.anchorOffset != selection.focusOffset)
+        anchorOffset != focusOffset
     ) {
 
         // determine start and end character based on anchor (where you click) and focus (where you release)
-        start = Math.min(selection.anchorOffset, selection.focusOffset)+1;
-        end = Math.max(selection.anchorOffset, selection.focusOffset)-1;
+        start = Math.min(anchorOffset, focusOffset)+1;
+        end = Math.max(anchorOffset, focusOffset)-1;
 
         // Select only whole words.
-        var text = selector_field.innerHTML;
+
         while (start > 0) {
             if (text[start-1] == " " || text[start-1] == "’") {
                 break;
@@ -290,6 +311,9 @@ function getSelection(selector_field, selector_from_idx) {
         } else if (selection.empty) {
             selection.empty();
         }
+
+        // take ElementIndex into account:
+
 
         // Select only in appropriate region.
         if (start < selector_from_idx) {
