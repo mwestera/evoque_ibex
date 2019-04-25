@@ -17,25 +17,17 @@ jqueryWidget: {
         // TODO Communicating these through global vars is probably not the proper way
         if (window.phase == "start") {
             window.text = new_text;
-//            window.new_from_char = 0;
             window.new_from_idx = 0
             window.answers_thusfar = [];
             window.questions_thusfar = [];
             window.increment = false;
         } else if (new_text.length != 0) {
-//            window.new_from_char = window.text.length + 1;
-            console.log("INCREMENT!", new_text)
             window.new_from_idx = window.text.length;
             window.text = window.text.concat(new_text);
             window.increment = true;
         } else {
             window.increment = false;
         }
-
-
-        console.log(window.phase, this.type, window.increment, window.new_from_idx)
-        console.log(window.text)
-        console.log(new_text)
 
         if (this.type == "question") {
             window.current_color_idx = nextFreeColorIdx();
@@ -263,54 +255,58 @@ function getElementIndex(node) {
 }
 
 // returns selection, but only when it exists wholly inside the "selector" field, and later than from_idx
-function getSelection(selector_field, selector_from_idx) {
+function getSelection() {
 
     var selection = document.getSelection();
 
     if (selection.anchorNode == null) return null;
 
-    var text = selector_field.innerHTML;
+    anchorParent = selection.anchorNode.parentNode
+    anchorParentId = anchorParent.id
+    focusParent = selection.focusNode.parentNode
+    focusParentId = focusParent.id
 
-    // Hacky code to deal with linebreaks: 'manually' count number of characters from all previous
-    // lines, and add them to current selection offsets:
-    anchorIndex = getElementIndex(selection.anchorNode)
-    focusIndex = getElementIndex(selection.focusNode)
-    lines = text.split("<br>")
-    anchorlines = lines.slice(0,anchorIndex).join('<br>')
-    focuslines = lines.slice(0,focusIndex).join('<br>')
-    if (anchorlines != "") {
-        anchorlines += "<br>"
-    }
-    if (focuslines != "") {
-        focuslines += "<br>"
-    }
-    var anchorOffset = selection.anchorOffset + anchorlines.length;
-    var focusOffset = selection.focusOffset + focuslines.length;
-
-    // Now that that's done, check if it's an appropriate selection:
+    // Check if it's an appropriate selection:
     if (
-        selection.anchorNode.parentNode == selector_field &&
-        selection.focusNode.parentNode == selector_field &&
-        anchorOffset != focusOffset
+        anchorParentId.startsWith("selector") && focusParentId.startsWith("selector") &&
+        (anchorParent != focusParent || selection.anchorOffset != selection.focusOffset)
     ) {
 
+        anchorParentId = Number(anchorParentId.substring(8, anchorParentId.length));
+        focusParentId = Number(focusParentId.substring(8, focusParentId.length));
+
         // determine start and end character based on anchor (where you click) and focus (where you release)
-        start = Math.min(anchorOffset, focusOffset)+1;
-        end = Math.max(anchorOffset, focusOffset)-1;
+        startParent = anchorParent;
+        startOffset = selection.anchorOffset;
+        startParentId = anchorParentId;
+        endParent = focusParent;
+        endOffset = selection.focusOffset;
+        endParentId = focusParentId;
+        if (anchorParentId > focusParentId) {
+            endParent = anchorParent;
+            endOffset = selection.anchorOffset;
+            endParentId = anchorParentId;
+            startParent = focusParent;
+            startOffset = selection.focusOffset;
+            startParentId = focusParentId;
+        }
 
         // Select only whole words.
-
-        while (start > 0) {
-            if (text[start-1] == " " || text[start-1] == "’") {
+        startOffset += 1;
+        while (startOffset > 0) {
+            character = startParent.innerHTML[startOffset-1]
+            if (character == " " || character == "’") {
                 break;
             }
-            start -= 1;
+            startOffset -= 1;
         }
-        while (end < text.length) {
-            if (text[end] == " " || text[end] == "," || text[end] == "." || text[end] == ";" || text[end] == ":" || text[end] == ")" || text[end] == "'" || text[end] == '"' || text[end] == "’" || text[end] == "”") {
+        endOffset -= 1;
+        while (endOffset < endParent.innerHTML[endOffset].length) {
+            character = endParent.innerHTML[endOffset]
+            if (character == " " || character == "," || character == "." || character == ";" || character == ":" || character == ")" || character == "'" || character == '"' || character == "’" || character == "”") {
                 break;
             }
-            end += 1;
+            endOffset += 1;
         }
 
         // clear selection:
@@ -321,11 +317,11 @@ function getSelection(selector_field, selector_from_idx) {
         }
 
         // Select only in appropriate region.
-        if (start < selector_from_idx) {
+        if (startParentId < window.new_from_idx) {
             return null;
         };
 
-        return [start, end];
+        return [startParentId, startOffset, endParentId, endOffset];
 
     }
     return null;
@@ -334,7 +330,7 @@ function getSelection(selector_field, selector_from_idx) {
 // Called whenever mouse is released, used only for grabbing selection
 document.onmouseup = document.onkeyup = function() {
 
-    var sel = getSelection(window.selector, window.new_from_idx);
+    var sel = getSelection();
     // Only do something if you've actually selected something (in the proper field):
     if ( sel != null ) {
 
@@ -448,11 +444,12 @@ function previous_unanswered_question_idx() {
 async function init() {
 
     for (var i=0; i < window.text.length; i++) {
-        document.getElementById("fragment_selector").innerHTML += window.text[i];
+
+        document.getElementById("fragment_selector").innerHTML += '<span id="selector'+i+'">' + window.text[i] + '</span>';
+        document.getElementById("fragment_highlighter").innerHTML += '<span id="highlighter'+i+'">' + window.text[i] + '</span>';
         if (i < window.new_from_idx) {
-            document.getElementById("fragment_colorizer").innerHTML += '<font color="#888888">' + window.text[i] + "</font>";
+            document.getElementById("fragment_colorizer").innerHTML += '<span id="colorizer'+i+'" style="color:#888888">' + window.text[i] + "</span>";
         }
-        document.getElementById("fragment_highlighter").innerHTML += window.text[i];
 
         // Scroll to the bottom unless it's the first item
         if ( window.phase != "start" ) {
@@ -466,10 +463,11 @@ async function init() {
 
     // Add readable text
     for (var i = window.new_from_idx; i < window.text.length; i++) {
+        document.getElementById("fragment_colorizer").innerHTML += '<span id="colorizer'+i+'"></span>'
         if (window.phase == "start" || window.increment) {
-            await addTypedText(document.getElementById("fragment_colorizer"), window.text[i]);
+            await addTypedText(document.getElementById("colorizer"+i), window.text[i]);
         } else {
-            document.getElementById("fragment_colorizer").innerHTML += window.text[i];
+            document.getElementById("colorizer"+i).innerHTML = window.text[i];
         }
     }
 
