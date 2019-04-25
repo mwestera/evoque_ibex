@@ -234,7 +234,13 @@ async function addTypedText(e, s) {
             e.innerHTML += " ";
         }
         e.innerHTML += split_string[i];
-        await sleep(20);
+        // pause only for pre-last items
+        if (i < split_string.length - 1) {
+            if (split_string[i].endsWith("<br>")) { // extra pause for linebreak
+                await sleep(50);
+            }
+            await sleep(20);
+        }
     }
 }
 
