@@ -14,15 +14,6 @@ jqueryWidget: {
 
         var new_text = dget(this.options, "text");
 
-        if (new_text.length > 0) {
-            if (new_text[0].startsWith("##")) {
-                new_text = new_text.join('<br>').split("##0##").join('  - ').split("##1##").join('  - ') + '<br>'
-            } else {
-                new_text = new_text.join(' ');
-            }
-        } else {
-            new_text = '';
-        }
 
         // TODO Communicating these through global vars is probably not the proper way
         if (window.phase == "start") {
@@ -32,7 +23,7 @@ jqueryWidget: {
             window.questions_thusfar = [];
         } else if (new_text != "") {
             window.new_from_char = window.text.length + 1;
-            window.text += " " + new_text;
+            window.text.concat(new_text);
             window.increment = true;
         } else {
             window.increment = false;
@@ -447,6 +438,8 @@ function previous_unanswered_question_idx() {
 }
 
 async function init() {
+
+    // loop over window.text here.
 
     document.getElementById("fragment_selector").innerHTML = window.text;
     document.getElementById("fragment_colorizer").innerHTML = '<font color="#888888">' + window.text.substring(0,window.new_from_char) + "</font>";
