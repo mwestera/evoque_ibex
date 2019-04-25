@@ -14,20 +14,28 @@ jqueryWidget: {
 
         var new_text = dget(this.options, "text");
 
-
         // TODO Communicating these through global vars is probably not the proper way
         if (window.phase == "start") {
             window.text = new_text;
-            window.new_from_char = 0;
+//            window.new_from_char = 0;
+            window.new_from_idx = 0
             window.answers_thusfar = [];
             window.questions_thusfar = [];
-        } else if (new_text != "") {
-            window.new_from_char = window.text.length + 1;
-            window.text.concat(new_text);
+            window.increment = false;
+        } else if (new_text.length != 0) {
+//            window.new_from_char = window.text.length + 1;
+            console.log("INCREMENT!", new_text)
+            window.new_from_idx = window.text.length;
+            window.text = window.text.concat(new_text);
             window.increment = true;
         } else {
             window.increment = false;
         }
+
+
+        console.log(window.phase, this.type, window.increment, window.new_from_idx)
+        console.log(window.text)
+        console.log(new_text)
 
         if (this.type == "question") {
             window.current_color_idx = nextFreeColorIdx();
@@ -326,7 +334,7 @@ function getSelection(selector_field, selector_from_idx) {
 // Called whenever mouse is released, used only for grabbing selection
 document.onmouseup = document.onkeyup = function() {
 
-    var sel = getSelection(window.selector, window.new_from_char);
+    var sel = getSelection(window.selector, window.new_from_idx);
     // Only do something if you've actually selected something (in the proper field):
     if ( sel != null ) {
 
@@ -439,26 +447,30 @@ function previous_unanswered_question_idx() {
 
 async function init() {
 
-    // loop over window.text here.
+    for (var i=0; i < window.text.length; i++) {
+        document.getElementById("fragment_selector").innerHTML += window.text[i];
+        if (i < window.new_from_idx) {
+            document.getElementById("fragment_colorizer").innerHTML += '<font color="#888888">' + window.text[i] + "</font>";
+        }
+        document.getElementById("fragment_highlighter").innerHTML += window.text[i];
 
-    document.getElementById("fragment_selector").innerHTML = window.text;
-    document.getElementById("fragment_colorizer").innerHTML = '<font color="#888888">' + window.text.substring(0,window.new_from_char) + "</font>";
-    document.getElementById("fragment_highlighter").innerHTML = window.text;
-
-    // Scroll to the bottom unless it's the first item
-    if ( window.new_from_char > 0 ) {
-        document.getElementById("fragment_scroller").scrollTo(0,document.getElementById("fragment_scroller").scrollHeight);
+        // Scroll to the bottom unless it's the first item
+        if ( window.phase != "start" ) {
+            document.getElementById("fragment_scroller").scrollTo(0,document.getElementById("fragment_scroller").scrollHeight);
+        }
     }
 
-    // Add previous highlights
-    add_highlights(document.getElementById("question_highlighter_prev"), window.questions_thusfar);
-    add_highlights(document.getElementById("answer_highlighter_prev"), window.answers_thusfar);
+    // TODO Add previous highlights
+    // add_highlights(document.getElementById("question_highlighter_prev"), window.questions_thusfar);
+    // add_highlights(document.getElementById("answer_highlighter_prev"), window.answers_thusfar);
 
     // Add readable text
-    if (window.phase == "start" || window.increment) {
-        await addTypedText(document.getElementById("fragment_colorizer"), window.text.substring(window.new_from_char, window.text.length + 1));
-    } else {
-        document.getElementById("fragment_colorizer").innerHTML += window.text.substring(window.new_from_char, window.text.length + 1);
+    for (var i = window.new_from_idx; i < window.text.length; i++) {
+        if (window.phase == "start" || window.increment) {
+            await addTypedText(document.getElementById("fragment_colorizer"), window.text[i]);
+        } else {
+            document.getElementById("fragment_colorizer").innerHTML += window.text[i];
+        }
     }
 
     if (!window.increment) {    // Needed to avoid error due to following element not yet existing?!
