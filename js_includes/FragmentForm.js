@@ -282,7 +282,10 @@ function getSelection() {
         endParent = focusParent;
         endOffset = selection.focusOffset;
         endParentId = focusParentId;
-        if (anchorParentId > focusParentId) {
+        if (anchorParentId == focusParentId) {
+            startOffset = Math.min(selection.anchorOffset, selection.focusOffset);
+            endOffset = Math.max(selection.anchorOffset, selection.focusOffset);
+        } else if (anchorParentId > focusParentId) {
             endParent = anchorParent;
             endOffset = selection.anchorOffset;
             endParentId = anchorParentId;
@@ -301,7 +304,7 @@ function getSelection() {
             startOffset -= 1;
         }
         endOffset -= 1;
-        while (endOffset < endParent.innerHTML[endOffset].length) {
+        while (endOffset < endParent.innerHTML.length) {
             character = endParent.innerHTML[endOffset]
             if (character == " " || character == "," || character == "." || character == ";" || character == ":" || character == ")" || character == "'" || character == '"' || character == "’" || character == "”") {
                 break;
@@ -336,15 +339,25 @@ document.onmouseup = document.onkeyup = function() {
 
         var text = window.selector.innerHTML;
 
-        document.getElementById("selection_start").value = sel[0];
-        document.getElementById("selection_end").value = sel[1];
-        document.getElementById("selection_text").value = text.substring(sel[0], sel[1]);
+        document.getElementById("selection_start").value = sel[0] + "," + sel[1];
+        document.getElementById("selection_end").value = sel[2] + "," + sel[3];
 
-        // Add highlighting, store in "highlighter" field displayed behind the "selector".
-        document.getElementById("fragment_highlighter").innerHTML =
-            text.substring(0, sel[0]) +
-            '<mark style="color: transparent; background-color: '+ colors[window.current_color_idx] + '">' + text.substring(sel[0], sel[1]) + "</mark>" +
-            text.substring(sel[1], text.length);
+        // Clear all previous highlighting
+        for (var i=0; i < window.text.length; i++) {
+            document.getElementById("highlighter"+i).innerHTML = window.text[i]
+        }
+        // Add new highlighting
+        var selector0 = document.getElementById("selector"+sel[0])
+        if (sel[0] == sel[2]) {
+            document.getElementById("highlighter"+sel[0]).innerHTML = window.text[sel[0]].substring(0, sel[1]) + '<mark style="color: transparent; background-color: '+ colors[window.current_color_idx] + '">' + window.text[sel[0]].substring(sel[1], sel[3]) + "</mark>" + window.text[sel[0]].substring(sel[3], window.text[sel[0]].length);
+        } else {
+            document.getElementById("highlighter"+sel[0]).innerHTML = window.text[sel[0]].substring(0, sel[1]) + '<mark style="color: transparent; background-color: '+ colors[window.current_color_idx] + '">' + window.text[sel[0]].substring(sel[1], window.text[sel[0]].length) + "</mark>";
+            for (var i=sel[0]+1; i < sel[2]; i++) {
+                document.getElementById("highlighter"+i).innerHTML = '<mark style="color: transparent; background-color: '+ colors[window.current_color_idx] + '">' + window.text[i] + "</mark>"
+            }
+            document.getElementById("highlighter"+sel[2]).innerHTML = '<mark style="color: transparent; background-color: '+ colors[window.current_color_idx] + '">' + window.text[sel[2]].substring(0, sel[3]) + "</mark>" + window.text[sel[2]].substring(sel[3], window.text[sel[2]].length);
+        }
+
 
     }
 };
