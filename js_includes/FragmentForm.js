@@ -422,33 +422,37 @@ function argMax(array) {
 }
 
 function add_highlights(element, highlights) {
+
+    console.log(element, highlights)
+
     // It's crucial that highlights is ordered by starting index...
     highlights = jQuery.extend([], highlights);
     highlights.sort(function(a, b) {
-        return a[0] - b[0];
+        return (100*(a[0] - b[0]) + 1*(a[1] - b[1]));
     });
 
-    element.innerHTML = "";
-    var j = 0;
-    for (var i = 0; i < highlights.length; i++) {
-        highlight = highlights[i];
-        start = highlight[0];
-        end = highlight[1];
-        if (i < highlights.length-1) {  // there is a next element
-            if (highlights[i+1][0] < end) {
-                end = highlights[i+1][0];   // TODO This may suffice, though it will not work for nested highlights like [ [ ]   ]
-            }
-        }
-        if (start < window.new_from_char) {
-            highlightcolor = colors_dimmed[highlight[2]];
-        } else {
-            highlightcolor = colors[highlight[2]];
-        }
-        element.innerHTML += window.text.substring(j, start);
-        element.innerHTML += '<mark style="color: transparent; background-color: ' + highlightcolor + '">' + window.text.substring(start, end) + "</mark>"
-        j = end;
-    }
-    element.innerHTML += window.text.substring(j, window.text.length+1);
+// TODO COMMENTED OUT TO AVOID CRASH
+//    element.innerHTML = "";
+//    var j = 0;
+//    for (var i = 0; i < highlights.length; i++) {
+//        highlight = highlights[i];
+//        start = highlight[0];
+//        end = highlight[1];
+//        if (i < highlights.length-1) {  // there is a next element
+//            if (highlights[i+1][0] < end) {
+//                end = highlights[i+1][0];   // TODO This may suffice, though it will not work for nested highlights like [ [ ]   ]
+//            }
+//        }
+//        if (start < window.new_from_char) {
+//            highlightcolor = colors_dimmed[highlight[2]];
+//        } else {
+//            highlightcolor = colors[highlight[2]];
+//        }
+//        element.innerHTML += window.text.substring(j, start);
+//        element.innerHTML += '<mark style="color: transparent; background-color: ' + highlightcolor + '">' + window.text.substring(start, end) + "</mark>"
+//        j = end;
+//    }
+//    element.innerHTML += window.text.substring(j, window.text.length+1);
 }
 
 function previous_unanswered_question_idx() {
@@ -476,8 +480,8 @@ async function init() {
     }
 
     // TODO Add previous highlights
-    // add_highlights(document.getElementById("question_highlighter_prev"), window.questions_thusfar);
-    // add_highlights(document.getElementById("answer_highlighter_prev"), window.answers_thusfar);
+    add_highlights(document.getElementById("question_highlighter_prev"), window.questions_thusfar);
+    add_highlights(document.getElementById("answer_highlighter_prev"), window.answers_thusfar);
 
     // Add readable text
     for (var i = window.new_from_idx; i < window.text.length; i++) {
