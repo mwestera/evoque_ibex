@@ -132,7 +132,7 @@ function quality_check() {
             document.getElementById("selection_start").remove();
             document.getElementById("selection_end").remove();
         } else {  // Save some results for next screen
-            window.answers_thusfar.push([document.getElementById("selection_start").value, document.getElementById("selection_end").value, current_color_idx, document.getElementById("answer").value]);
+            window.answers_thusfar.push([Number(document.getElementById("selection_start").value), Number(document.getElementById("selection_end").value), current_color_idx, document.getElementById("answer").value]);
             window.questions_thusfar[window.current_question_idx][4] = true;
         }
 

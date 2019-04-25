@@ -99,7 +99,7 @@ function quality_check() {
             document.getElementById("selection_start").remove();
             document.getElementById("selection_end").remove();
         } else {    // Save some results for next screen
-            window.questions_thusfar.push([document.getElementById("selection_start").value, document.getElementById("selection_end").value, current_color_idx, document.getElementById("question").value, false]);
+            window.questions_thusfar.push([Number(document.getElementById("selection_start").value), Number(document.getElementById("selection_end").value), current_color_idx, document.getElementById("question").value, false]);
             document.getElementById("question_index").value = window.questions_thusfar.length - 1;
         }
 
