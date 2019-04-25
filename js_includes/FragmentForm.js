@@ -347,17 +347,22 @@ document.onmouseup = document.onkeyup = function() {
             document.getElementById("highlighter"+i).innerHTML = window.text[i]
         }
         // Add new highlighting
-        var selector0 = document.getElementById("selector"+sel[0])
+        var selector0 = document.getElementById("selector"+sel[0]);
         if (sel[0] == sel[2]) {
+            selected_text = window.text[sel[0]].substring(sel[1], sel[3]);
             document.getElementById("highlighter"+sel[0]).innerHTML = window.text[sel[0]].substring(0, sel[1]) + '<mark style="color: transparent; background-color: '+ colors[window.current_color_idx] + '">' + window.text[sel[0]].substring(sel[1], sel[3]) + "</mark>" + window.text[sel[0]].substring(sel[3], window.text[sel[0]].length);
         } else {
+            selected_text = window.text[sel[0]].substring(sel[1], window.text[sel[0]].length);
             document.getElementById("highlighter"+sel[0]).innerHTML = window.text[sel[0]].substring(0, sel[1]) + '<mark style="color: transparent; background-color: '+ colors[window.current_color_idx] + '">' + window.text[sel[0]].substring(sel[1], window.text[sel[0]].length) + "</mark>";
             for (var i=sel[0]+1; i < sel[2]; i++) {
                 document.getElementById("highlighter"+i).innerHTML = '<mark style="color: transparent; background-color: '+ colors[window.current_color_idx] + '">' + window.text[i] + "</mark>"
+                selected_text += ' '  + window.text[i];
             }
             document.getElementById("highlighter"+sel[2]).innerHTML = '<mark style="color: transparent; background-color: '+ colors[window.current_color_idx] + '">' + window.text[sel[2]].substring(0, sel[3]) + "</mark>" + window.text[sel[2]].substring(sel[3], window.text[sel[2]].length);
+            selected_text += ' ' + window.text[sel[2]].substring(0, sel[3])
         }
 
+        document.getElementById("selection_text").value = selected_text;
 
     }
 };
