@@ -7,7 +7,7 @@ var globalBuffer = "INIT";
 
 var defaults = [
     "FragmentForm", {
-        text: "",
+        text: [],
         phase: "mid",
         saveReactionTime: true,
         continueOnReturn: true,
@@ -40,15 +40,15 @@ var defaults = [
 ];
 
 var texts = [
-    [["  - Where are you going? Motel’s that way.<br>", "  - Would you believe me if I told you I know a shortcut?<br>", "  - So, there’s this party tonight…<br>", "  - August, no!<br>", "  - But it’s perfect! It’s my last night in Aberdeen! I’ll never be in this town again!<br>"],
+    [["##0## Where are you going? Motel’s that way.", "##1## Would you believe me if I told you I know a shortcut?", "##0## So, there’s this party tonight…", "##1## August, no!", "##0## But it’s perfect! It’s my last night in Aberdeen! I’ll never be in this town again!"],
       [[1, 3]]],
-    [["  - You saved my life, you know.<br>", "  - But the problem with that is that I wanted to die.<br>", "  - Look, I… No, I know.<br>", "  - I get why you did it.<br>", "  - I would have jumped in after someone, too.<br>", "  - But what I don’t understand is how it all went down.<br>", "  - What do you mean?<br>", "  - You weren’t just some random person walking down the street who saw me jump.<br>", "  - You’re August’s brother.<br>", "  - We’re connected through him.<br>", "  - How did you know I was going to be there?<br>"],
-      [[1, 4, 7, 10], [2, 5, 8]]],
-    [["  - You we're talking about uh Bad Manners at the weekend but I'm uh in work all weekend<br>", "  - Are you Why Sure you won't be able to get a bus in and out of Downpatrick<br>", "  - And we we're started 2 sylls Well I'm still working I'm still on duty<br>", "  - Are you not going out for a drink<br>", "  - I won't be able to<br>", "  - At all<br>", "  - Well not really Well I'm working Saturday and Sunday but uhm Saturday Sunday Monday Tuesday Wednesday Thursday and then Friday I'm away But the fact is we're moving sort of half moving back in now Most of the work's finished<br>", "  - Ah Aye did you get much done last Sunday<br>", "  - Uhm yeah a good bit yeah<br>", "  - Dragged out of our beds<br>", "  - I got shouted at like all day that oh you were here sure Ah I got a good bit done like but we're we're sort of moving back in so<br>", "  - Was Leslie pissed off<br>", "  - Don't know Why<br>", "  - Did you not see him<br>"],
+    [["##0## You saved my life, you know. But the problem with that is that I wanted to die.", "##1## Look, I…"],
+      []],
+    [["##0## You we're talking about uh Bad Manners at the weekend but I'm uh in work all weekend", "##1## Are you Why Sure you won't be able to get a bus in and out of Downpatrick", "##0## And we we're started 2 sylls Well I'm still working I'm still on duty", "##1## Are you not going out for a drink", "##0## I won't be able to", "##1## At all", "##0## Well not really Well I'm working Saturday and Sunday but uhm Saturday Sunday Monday Tuesday Wednesday Thursday and then Friday I'm away But the fact is we're moving sort of half moving back in now Most of the work's finished", "##1## Ah Aye did you get much done last Sunday", "##0## Uhm yeah a good bit yeah", "##1## Dragged out of our beds", "##0## I got shouted at like all day that oh you were here sure Ah I got a good bit done like but we're we're sort of moving back in so", "##1## Was Leslie pissed off", "##0## Don't know Why", "##1## Did you not see him"],
       [[1, 4, 7, 10, 13], [2, 5, 8, 11], [3, 6, 9, 12]]],
-    [["  - So I'm just going to like have a drink here and then go up afterwards<br>", "  - Right<br>", "  - What about you<br>", "  - Well Bad Manners are playing tomorrow night<br>", "  - Oh yes Yes Saoirse was saying Jessie's going Are you going as well<br>", "  - And I love them Jessie's not going<br>", "  - Oh is she not<br>", "  - Not as far as I know<br>", "  - Oh I must 've got confused between you and Jessie<br>", "  - Cos Jessie uhm was saying she wants to go on a binge on Saint Paddy's Day all day So she wants to save herself Saturday night<br>", "  - Oh yeah that's right Ah<br>", "  - Which is just nonsense<br>", "  - It kind of is isn't it<br>", "  - Yeah But Bad Manners is on and then Crescent Arts is on after that<br>", "  - I know it is I know and I was just torn between<br>", "  - Mm and I was hoping you 'd go<br>"],
+    [["##0## So I'm just going to like have a drink here and then go up afterwards", "##1## Right", "##0## What about you", "##1## Well Bad Manners are playing tomorrow night", "##0## Oh yes Yes Saoirse was saying Jessie's going Are you going as well", "##1## And I love them Jessie's not going", "##0## Oh is she not", "##1## Not as far as I know", "##0## Oh I must 've got confused between you and Jessie", "##1## Cos Jessie uhm was saying she wants to go on a binge on Saint Paddy's Day all day So she wants to save herself Saturday night", "##0## Oh yeah that's right Ah", "##1## Which is just nonsense", "##0## It kind of is isn't it", "##1## Yeah But Bad Manners is on and then Crescent Arts is on after that", "##0## I know it is I know and I was just torn between", "##1## Mm and I was hoping you 'd go"],
       [[1, 5, 9, 13], [2, 6, 10, 14], [3, 7, 11, 15]]],
-    [["  - Yeah Where<br>", "  - We went to the second-hand shop in Stillorgan You know that one that uhm that's does the debs dresses<br>", "  - Where is it<br>", "  - It's in Stillorgan<br>", "  - No I don't think I know it<br>", "  - Well Rosemary and I went in for a look and uhm I found a lovely red dress And I was like delighted with it and everything And I brought mum up to see it and she totally ditched it<br>", "  - Yeah Yeah Why<br>", "  - She said it looked like she was you she was saying it didn't do anything for my hips It made my hips look big and like my you know my bum and hips and everything I was really excited cos I had the dress and then I just<br>"],
+    [["##0## Yeah Where", "##1## We went to the second-hand shop in Stillorgan You know that one that uhm that's does the debs dresses", "##0## Where is it", "##1## It's in Stillorgan", "##0## No I don't think I know it", "##1## Well Rosemary and I went in for a look and uhm I found a lovely red dress And I was like delighted with it and everything And I brought mum up to see it and she totally ditched it", "##0## Yeah Yeah Why", "##1## She said it looked like she was you she was saying it didn't do anything for my hips It made my hips look big and like my you know my bum and hips and everything I was really excited cos I had the dress and then I just"],
       [[1, 3, 5, 7], [2, 4, 6], [3, 5, 7]]],
     [["I am new here so I dont know if this has been posted but me and my father bought iPhone 3G's then two weeks later he went swimming with his.", "So he wanted to get another one but didnt want to pay the $400.", "So we went to at&t and we told them what happened and they said with an iPhone you are always eligable for an upgrade and you can get a new iPhone at the same price but you just have to restart your 2yr agreement.", "Since we only had the phones for 2weeks restarting the 2yrs was nothing.", "So we went to the apple store and told them we had water damage they said we need a new phone.", "So we went like we were getting a phone and we got a new phone for the same 199 and restarted our contract.", "Then sold the water damged one for 400 on ebay."],
       [[1, 3, 5], [2, 4, 6]]],
@@ -99,10 +99,10 @@ function generate_items(texts, max_num_questions) {
                 var text = "";
                 if (h == cuts.length) {
                     if (prev_cut < sentences.length) {
-                        text = sentences.slice(prev_cut, sentences.length).join(' ');
+                        text = sentences.slice(prev_cut, sentences.length);
                     }
                 } else if (cuts[h] > 0) {
-                    text = sentences.slice(prev_cut, cuts[h]).join(' ');
+                    text = sentences.slice(prev_cut, cuts[h]);
                     prev_cut = cuts[h];
                 }
                 if (text != "") {
@@ -124,7 +124,7 @@ function generate_items(texts, max_num_questions) {
                 }
             }
             item.push("FragmentForm");
-            item.push({type: "answer", text: "", phase: "end"});  // TODO Maybe have a separate "end" form with some questions.
+            item.push({type: "answer", phase: "end"});  // TODO Maybe have a separate "end" form with some questions.
             items.push(item);
         }
     }

@@ -14,6 +14,16 @@ jqueryWidget: {
 
         var new_text = dget(this.options, "text");
 
+        if (new_text.length > 0) {
+            if (new_text[0].startsWith("##")) {
+                new_text = new_text.join('<br>').split("##0##").join('  - ').split("##1##").join('  - ') + '<br>'
+            } else {
+                new_text = new_text.join(' ');
+            }
+        } else {
+            new_text = '';
+        }
+
         // TODO Communicating these through global vars is probably not the proper way
         if (window.phase == "start") {
             window.text = new_text;
