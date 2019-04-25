@@ -241,15 +241,8 @@ async function addTypedText(e, s) {
 // From https://stackoverflow.com/a/11762728/11056813
 function getElementIndex(node) {
     var index = 0;
-    var num_chars = 0;
     while ( node = node.previousElementSibling ) {
         index++;
-        if (node instanceof HTMLBRElement) {    // Not used
-            length = 4;   // <br> is 4 characters
-        } else {
-            length = node.nodeValue.length;
-        }
-        num_chars += length;
     }
     return index;
 }
@@ -261,12 +254,12 @@ function getSelection(selector_field, selector_from_idx) {
 
     if (selection.anchorNode == null) return null;
 
-    anchorIndex = getElementIndex(selection.anchorNode)
-    focusIndex = getElementIndex(selection.focusNode)
-    // Consider using this: https://jsfiddle.net/sohaybh/3LhL3jok/
-
     var text = selector_field.innerHTML;
 
+    // Hacky code to deal with linebreaks: 'manually' count number of characters from all previous
+    // lines, and add them to current selection offsets:
+    anchorIndex = getElementIndex(selection.anchorNode)
+    focusIndex = getElementIndex(selection.focusNode)
     lines = text.split("<br>")
     anchorlines = lines.slice(0,anchorIndex).join('<br>')
     focuslines = lines.slice(0,focusIndex).join('<br>')
@@ -276,10 +269,10 @@ function getSelection(selector_field, selector_from_idx) {
     if (focuslines != "") {
         focuslines += "<br>"
     }
-
     var anchorOffset = selection.anchorOffset + anchorlines.length;
     var focusOffset = selection.focusOffset + focuslines.length;
 
+    // Now that that's done, check if it's an appropriate selection:
     if (
         selection.anchorNode.parentNode == selector_field &&
         selection.focusNode.parentNode == selector_field &&
@@ -311,9 +304,6 @@ function getSelection(selector_field, selector_from_idx) {
         } else if (selection.empty) {
             selection.empty();
         }
-
-        // take ElementIndex into account:
-
 
         // Select only in appropriate region.
         if (start < selector_from_idx) {
