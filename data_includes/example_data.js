@@ -124,7 +124,7 @@ function generate_items(texts, max_num_questions) {
                 }
             }
             item.push("FragmentForm");
-            item.push({type: "answer", phase: "end"});  // TODO Maybe have a separate "end" form with some questions.
+            item.push({type: "end", phase: "end"});  // TODO Maybe have a separate "end" form with some questions.
             items.push(item);
         }
     }

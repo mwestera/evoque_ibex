@@ -59,6 +59,8 @@ jqueryWidget: {
             this.html = { include: "fragment_question.html" };
         } else if (this.type == "answer") {
             this.html = { include: "fragment_answer.html" };
+        } else if (this.type == "end") {
+            this.html = { include: "fragment_end.html" };
         }
 
         this.continueOnReturn = dget(this.options, "continueOnReturn", false);
