@@ -33,7 +33,7 @@ jqueryWidget: {
             window.current_color_idx = nextFreeColorIdx();
         } else if (this.type == "answer") {
             if (window.current_question_idx >= 0) {
-                window.current_color_idx = window.questions_thusfar[window.current_question_idx][2];
+                window.current_color_idx = window.questions_thusfar[window.current_question_idx][4];
             }
         }
 
@@ -411,7 +411,7 @@ colors_dimmed = ['#ffffb3', '#b3ffb3', '#e6ccff', '#b3ffff'];
 function nextFreeColorIdx() {
     most_recent_positions = [99,99,99,99,99];
     for (var i = window.questions_thusfar.length - 1; i >= 0; i--) {
-        color = window.questions_thusfar[i][2];
+        color = window.questions_thusfar[i][4];
         most_recent_positions[color] = i;
     }
     return argMax(most_recent_positions);
@@ -421,38 +421,73 @@ function argMax(array) {
   return array.map((x, i) => [x, i]).reduce((r, a) => (a[0] > r[0] ? a : r))[1];
 }
 
-function add_highlights(element, highlights) {
-
-    console.log(element, highlights)
+function add_highlights(id, highlights) {
 
     // It's crucial that highlights is ordered by starting index...
     highlights = jQuery.extend([], highlights);
     highlights.sort(function(a, b) {
-        return (100*(a[0] - b[0]) + 1*(a[1] - b[1]));
+        return (1000*(a[0] - b[0]) + 1*(a[1] - b[1]));
     });
 
-// TODO COMMENTED OUT TO AVOID CRASH
-//    element.innerHTML = "";
-//    var j = 0;
-//    for (var i = 0; i < highlights.length; i++) {
-//        highlight = highlights[i];
-//        start = highlight[0];
-//        end = highlight[1];
-//        if (i < highlights.length-1) {  // there is a next element
-//            if (highlights[i+1][0] < end) {
-//                end = highlights[i+1][0];   // TODO This may suffice, though it will not work for nested highlights like [ [ ]   ]
-//            }
-//        }
-//        if (start < window.new_from_char) {
-//            highlightcolor = colors_dimmed[highlight[2]];
-//        } else {
-//            highlightcolor = colors[highlight[2]];
-//        }
-//        element.innerHTML += window.text.substring(j, start);
-//        element.innerHTML += '<mark style="color: transparent; background-color: ' + highlightcolor + '">' + window.text.substring(start, end) + "</mark>"
-//        j = end;
-//    }
-//    element.innerHTML += window.text.substring(j, window.text.length+1);
+    var charindex = 0;
+    var fieldindex = 0;
+    for (var i = 0; i < highlights.length; i++) {
+        highlight = highlights[i];
+
+        startfield = highlight[0]
+        start = highlight[1];
+        endfield = highlight[2];
+        end = highlight[3];
+
+        if (i < highlights.length-1) {  // there is a next element
+            if (highlights[i+1][0] < endfield || (highlights[i+1][0] == endfield && highlights[i+1][1] < start)) {
+                endfield = highlights[i+1][0];
+                end = highlights[i+1][1];   // TODO This may suffice, though it will not work for nested highlights like [ [ ]   ]
+            }
+        }
+        if (startfield < window.new_from_idx) {
+            highlightcolor = colors_dimmed[highlight[4]];
+        } else {
+            highlightcolor = colors[highlight[4]];
+        }
+
+        // First add any normal text up to this highlight
+        console.log(window.text)
+
+        if (fieldindex == startfield) {
+            document.getElementById(id+fieldindex).innerHTML += window.text[fieldindex].substring(charindex, start);
+        } else {
+            document.getElementById(id+fieldindex).innerHTML += window.text[fieldindex].substring(charindex, window.text[fieldindex].length);
+            fieldindex++;
+            for (var j = fieldindex; j < startfield; j++) {
+                document.getElementById(id+j).innerHTML = window.text[j];
+                fieldindex++;
+            }
+            document.getElementById(id+fieldindex).innerHTML += window.text[fieldindex].substring(0, start);
+        }
+
+        // Now add highlight
+        if (startfield == endfield) {
+            document.getElementById(id+startfield).innerHTML += '<mark style="color: transparent; background-color: '+ highlightcolor + '">' + window.text[startfield].substring(start, end) + "</mark>";
+        } else {
+            document.getElementById(id+startfield).innerHTML += '<mark style="color: transparent; background-color: '+ highlightcolor + '">' + window.text[startfield].substring(start, window.text[startfield].length) + "</mark>";
+            fieldindex++;
+            for (var j = fieldindex; j < endfield; j++) {
+                document.getElementById(id+j).innerHTML = '<mark style="color: transparent; background-color: '+ highlightcolor + '">' + window.text[j] + "</mark>"
+                fieldindex++;
+            }
+            document.getElementById(id+endfield).innerHTML = '<mark style="color: transparent; background-color: '+ highlightcolor + '">' + window.text[endfield].substring(0,end) + "</mark>"
+        }
+        charindex = end;
+    }
+
+    // Add remaining unhighlighted text:
+    document.getElementById(id+fieldindex).innerHTML += window.text[fieldindex].substring(charindex, window.text[fieldindex].length);
+    fieldindex++;
+    for (var j = fieldindex; j < window.text.length; j++) {
+        document.getElementById(id+j).innerHTML = window.text[j];
+        fieldindex++;
+    }
 }
 
 function previous_unanswered_question_idx() {
@@ -469,6 +504,8 @@ async function init() {
 
         document.getElementById("fragment_selector").innerHTML += '<span id="selector'+i+'">' + window.text[i] + '</span>';
         document.getElementById("fragment_highlighter").innerHTML += '<span id="highlighter'+i+'">' + window.text[i] + '</span>';
+        document.getElementById("question_highlighter_prev").innerHTML += '<span id="qhighlighter'+i+'"></span>'
+        document.getElementById("answer_highlighter_prev").innerHTML += '<span id="ahighlighter'+i+'"></span>'
         if (i < window.new_from_idx) {
             document.getElementById("fragment_colorizer").innerHTML += '<span id="colorizer'+i+'" style="color:#888888">' + window.text[i] + "</span>";
         }
@@ -480,8 +517,8 @@ async function init() {
     }
 
     // TODO Add previous highlights
-    add_highlights(document.getElementById("question_highlighter_prev"), window.questions_thusfar);
-    add_highlights(document.getElementById("answer_highlighter_prev"), window.answers_thusfar);
+    add_highlights('qhighlighter', window.questions_thusfar);
+    add_highlights('ahighlighter', window.answers_thusfar);
 
     // Add readable text
     for (var i = window.new_from_idx; i < window.text.length; i++) {
