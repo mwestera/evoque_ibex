@@ -23,14 +23,7 @@ function revealForm() {
             document.getElementById("you").innerHTML = "Even earlier, you";
         }
     } else {
-        if (window.phase != "end") {    // If this can be skipped if no further questions:
-            document.getElementById("continue_link").click();
-        } else {
-            document.getElementById("div_containing_message_incase_no_question_was_evoked").style.display = "block";
-            document.getElementById("div_containing_form_for_fragment_cont").style.visibility = "hidden";
-            document.getElementById("div_containing_form_for_fragment_cont").style.display = "none";
-            document.getElementById("fragment_highlighter").style.visibility = "hidden";
-        }
+        document.getElementById("continue_link").click(); // skip this page
     }
 
 };
@@ -173,9 +166,6 @@ function quality_check() {
 
     <input type="text" id="question_index" name="question_index" style="display:none"/>
 
-<div id="div_containing_message_incase_no_question_was_evoked" style="position: relative; display: none">
-    <p><b>You have finished with the current text.</b></p>
-</div>
 
 <div id="div_containing_form_for_fragment_cont" style="visibility:hidden; width:40em">
 
