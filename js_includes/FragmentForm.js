@@ -452,8 +452,6 @@ function add_highlights(id, highlights) {
         }
 
         // First add any normal text up to this highlight
-        console.log(window.text)
-
         if (fieldindex == startfield) {
             document.getElementById(id+fieldindex).innerHTML += window.text[fieldindex].substring(charindex, start);
         } else {
