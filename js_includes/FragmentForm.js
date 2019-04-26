@@ -571,6 +571,7 @@ async function init() {
         document.getElementById("fragment_colorizer").innerHTML += '<'+fieldtype+' id="colorizer'+i+'"></'+fieldclose+'>'
         if (window.phase == "start" || window.increment) {
             if (fieldclose == 'div') {
+                await sleep(100);
                 document.getElementById("ahighlighter"+i).style.backgroundColor = "#e0e0e0"
             }
             await addTypedText(document.getElementById("colorizer"+i), window.text[i]);
