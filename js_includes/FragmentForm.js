@@ -538,7 +538,7 @@ async function init() {
         if (i < window.new_from_idx) {
             document.getElementById("fragment_colorizer").innerHTML += '<'+fieldtype+' id="colorizer'+i+'" style="color:#888888">' + window.text[i] + '</'+fieldclose+'>';
             if (fieldclose == 'div') {
-                document.getElementById("ahighlighter"+i).style.backgroundColor = "#efefef"
+                document.getElementById("ahighlighter"+i).style.backgroundColor = "#f3f3f3"
             }
         }
 
