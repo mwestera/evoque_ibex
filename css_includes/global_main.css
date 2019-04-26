@@ -228,3 +228,17 @@ button::-moz-focus-inner {
 		text-decoration: none
 	}
 }
+
+/* For dialogue presentation: */
+div.dialeft {
+    border-radius: 5pt;
+    padding: 10px;
+    margin-top:5pt;
+    margin-right:120pt;
+}
+div.diaright {
+    border-radius: 5pt;
+    padding: 10px;
+    margin:5pt;
+    margin-left:120pt;
+}

@@ -14,9 +14,26 @@ jqueryWidget: {
 
         var new_text = dget(this.options, "text");
 
+        var new_speakers = []
+
+        // get speaker attributes if present
+        for (var i = 0; i < new_text.length; i++) {
+            if (new_text[i].startsWith("##0##")) {
+                new_speakers.push(0);
+                new_text[i] = new_text[i].substring(6, new_text[i].length)
+            } else if (new_text[i].startsWith("##1##")) {
+                new_speakers.push(1);
+                new_text[i] = new_text[i].substring(6, new_text[i].length)
+            } else {
+                new_speakers.push(-1);
+                new_text[i] = new_text[i] + ' ';
+            }
+        }
+
         // TODO Communicating these through global vars is probably not the proper way
         if (window.phase == "start") {
             window.text = new_text;
+            window.speakers = new_speakers;
             window.new_from_idx = 0
             window.answers_thusfar = [];
             window.questions_thusfar = [];
@@ -24,6 +41,7 @@ jqueryWidget: {
         } else if (new_text.length != 0) {
             window.new_from_idx = window.text.length;
             window.text = window.text.concat(new_text);
+            window.speakers = window.speakers.concat(new_speakers);
             window.increment = true;
         } else {
             window.increment = false;
@@ -500,12 +518,28 @@ async function init() {
 
     for (var i=0; i < window.text.length; i++) {
 
-        document.getElementById("fragment_selector").innerHTML += '<span id="selector'+i+'">' + window.text[i] + '</span>';
-        document.getElementById("fragment_highlighter").innerHTML += '<span id="highlighter'+i+'">' + window.text[i] + '</span>';
-        document.getElementById("question_highlighter_prev").innerHTML += '<span id="qhighlighter'+i+'"></span>'
-        document.getElementById("answer_highlighter_prev").innerHTML += '<span id="ahighlighter'+i+'"></span>'
+        if (window.speakers[i] == -1) {
+            var fieldtype = 'span';   // no dialogue
+            var fieldclose = 'span';
+        } else {
+            var fieldtype = 'div';
+            var fieldclose = 'div';
+            if (window.speakers[i] == 0) {
+                fieldtype += ' class=dialeft';
+            } else {
+                fieldtype += ' class=diaright';
+            }
+        }
+
+        document.getElementById("fragment_selector").innerHTML += '<'+fieldtype+' id="selector'+i+'">' + window.text[i] + '</'+fieldclose+'>';
+        document.getElementById("fragment_highlighter").innerHTML += '<'+fieldtype+' id="highlighter'+i+'">' + window.text[i] + '</'+fieldclose+'>';
+        document.getElementById("question_highlighter_prev").innerHTML += '<'+fieldtype+' id="qhighlighter'+i+'"></'+fieldclose+'>'
+        document.getElementById("answer_highlighter_prev").innerHTML += '<'+fieldtype+' id="ahighlighter'+i+'"></'+fieldclose+'>'
         if (i < window.new_from_idx) {
-            document.getElementById("fragment_colorizer").innerHTML += '<span id="colorizer'+i+'" style="color:#888888">' + window.text[i] + "</span>";
+            document.getElementById("fragment_colorizer").innerHTML += '<'+fieldtype+' id="colorizer'+i+'" style="color:#888888">' + window.text[i] + '</'+fieldclose+'>';
+            if (fieldclose == 'div') {
+                document.getElementById("ahighlighter"+i).style.backgroundColor = "#efefef"
+            }
         }
 
         // Scroll to the bottom unless it's the first item
@@ -520,11 +554,31 @@ async function init() {
 
     // Add readable text
     for (var i = window.new_from_idx; i < window.text.length; i++) {
-        document.getElementById("fragment_colorizer").innerHTML += '<span id="colorizer'+i+'"></span>'
+
+        if (window.speakers[i] == -1) {
+            var fieldtype = 'span';   // no dialogue
+            var fieldclose = 'span';
+        } else {
+            var fieldtype = 'div';
+            var fieldclose = 'div';
+            if (window.speakers[i] == 0) {
+                fieldtype += ' class=dialeft';
+            } else {
+                fieldtype += ' class=diaright';
+            }
+        }
+
+        document.getElementById("fragment_colorizer").innerHTML += '<'+fieldtype+' id="colorizer'+i+'"></'+fieldclose+'>'
         if (window.phase == "start" || window.increment) {
+            if (fieldclose == 'div') {
+                document.getElementById("ahighlighter"+i).style.backgroundColor = "#e0e0e0"
+            }
             await addTypedText(document.getElementById("colorizer"+i), window.text[i]);
         } else {
             document.getElementById("colorizer"+i).innerHTML = window.text[i];
+            if (fieldclose == 'div') {
+                document.getElementById("ahighlighter"+i).style.backgroundColor = "#e0e0e0"
+            }
         }
     }
 
