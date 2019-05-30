@@ -1,6 +1,6 @@
 // var shuffleSequence = seq("sel", "intro", sepWith("sep", seq("practice", rshuffle("s1", "s2"))), sepWith("sep", rshuffle("q1", "q2")));
 //var shuffleSequence = seq("fragment", "sep", "fragment");   // For now, the only thing to test
-var shuffleSequence = sepWith("sep", "fragment");   // For now, the only thing to test
+var shuffleSequence = seq("intro",sepWith("sep", "fragment"));   // For now, the only thing to test
 var practiceItemTypes = ["practice"];
 
 var globalBuffer = "INIT";
@@ -36,7 +36,12 @@ var defaults = [
         hideProgressBar: true,
         continueOnReturn: true,
         saveReactionTime: true
-    }
+    },
+    "TweakedForm", {
+        hideProgressBar: true,
+        continueOnReturn: true,
+        saveReactionTime: true
+    },
 ];
 
 var texts = [
@@ -114,10 +119,10 @@ var items = [
     // NOTE: You could also use the 'Message' controller for the experiment intro (this provides a simple
     // consent checkbox).
 
-    ["intro", "Form", {
-        html: { include: "example_intro.html" },
+    ["intro", "TweakedForm", {
+        html: { include: "intro.html" },
         validators: {
-            age: function (s) { if (s.match(/^\d+$/)) return true; else return "Bad value for \u2018age\u2019"; }
+            age: function (s) { console.log(s); if (s.match(/^\d+$/)) return true; else return "*"; },
         }
     } ],
 
