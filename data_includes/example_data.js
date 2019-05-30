@@ -38,7 +38,7 @@ var defaults = [
         saveReactionTime: true
     },
     "TweakedForm", {
-        hideProgressBar: true,
+        hideProgressBar: false,
         continueOnReturn: true,
         saveReactionTime: true
     },
@@ -119,12 +119,17 @@ var items = [
     // NOTE: You could also use the 'Message' controller for the experiment intro (this provides a simple
     // consent checkbox).
 
-    ["intro", "TweakedForm", {
-        html: { include: "intro.html" },
-        validators: {
-            age: function (s) { console.log(s); if (s.match(/^\d+$/)) return true; else return "*"; },
-        }
-    } ],
+    ["intro", 
+    "TweakedForm", {
+            html: { include: "consent.html" },
+        },
+    "TweakedForm", {
+            html: { include: "intro.html" },
+            validators: {
+                age: function (s) { console.log(s); if (s.match(/^\d+$/)) return true; else return "*"; },
+            }
+        },
+    ],
 
 ];
 
