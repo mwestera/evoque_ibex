@@ -5,6 +5,10 @@ var practiceItemTypes = ["practice"];
 
 var globalBuffer = "INIT";
 
+var numQuestionsDone = 0;
+var numAnswersDone = 0;
+var numTextsDone = 0;
+
 var defaults = [
     "FragmentForm", {
         text: [],
@@ -30,7 +34,7 @@ var defaults = [
         hasCorrect: true
     },
     "Message", {
-        hideProgressBar: true
+        hideProgressBar: false
     },
     "Form", {
         hideProgressBar: true,
@@ -120,7 +124,7 @@ var items = [
     // consent checkbox).
 
     ["intro", 
-    "TweakedForm", {
+    "Message", {
             html: { include: "consent.html" },
         },
     "TweakedForm", {
