@@ -1,5 +1,5 @@
-//var shuffleSequence = seq("setcounter", "consent", "introform", sepWith("sep", "fragment"));     // Without randomize, more reliable
-var shuffleSequence = seq("setcounter", sepWith("sep", "fragment"));    // Without intro
+var shuffleSequence = seq("setcounter", "consent", "introform", sepWith("sep", "fragment"));     // Without randomize, more reliable
+//var shuffleSequence = seq("setcounter", sepWith("sep", "fragment"));    // Without intro
 var practiceItemTypes = ["practice"];
 
 var globalBuffer = "INIT";
