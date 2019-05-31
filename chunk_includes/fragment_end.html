@@ -43,6 +43,8 @@ function quality_check() {
 
     if (!check) flashMessage(document.getElementById("div_for_last_error_message"));
 
+    if (check) window.numTextsDone++;
+
     return check;
 }
 
@@ -68,6 +70,13 @@ function quality_check() {
     <hr>
 
     <input type="text" id="question_index" name="question_index" style="display:none"/>
+
+    <p class="instruction">The text fragment has now been completely revealed.
+        Thanks for all your work so far!<br>
+        <br>
+        We have only a few more general questions left, before you can move on to a new fragment.
+    </p>
+
 
 <div id="div_containing_message_incase_no_question_was_evoked" style="position: relative; display: none">
     <p><b id="naturalness-explanation">&#9654; Does this excerpt seem natural, like something a person could have said or written?</b><br>
@@ -134,8 +143,12 @@ function quality_check() {
 
 
     <p>
-    <b>&#9654; Any comments about this excerpt or your responses?</b><br>
+    <b>&#9654; Any comments about this excerpt, or about your responses?</b><br>
     <div class="r-pill__group" id="comment_field"><input name="comment" id="comment" type="text" style="width: 33em; border-style:none; background-color:transparent" /></div>
+    </p>
+
+    <p class="instruction">This last field is optional.
+        You can use it to let us know if something went wrong, or (for instance) if you were particularly annoyed or inspired by the text fragment.
     </p>
 
 </div>
@@ -144,5 +157,10 @@ function quality_check() {
 <div id="div_for_last_error_message" style="color: red; visibility: hidden">
 Please complete the form first.
 </div>
+
+
+    <p class="instruction">We have no further questions about this text fragment.
+        By clicking below, you will be presented with an entirely new text.
+    </p>
 
 </div>

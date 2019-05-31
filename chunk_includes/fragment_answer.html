@@ -131,6 +131,8 @@ function quality_check() {
             window.questions_thusfar[window.current_question_idx][6] = true;
         }
 
+        if (check) window.numAnswersDone++;
+
         document.getElementById("question_index").value = window.current_question_idx;
 
         window.current_question_idx--;
@@ -152,6 +154,13 @@ function quality_check() {
 <center><button onclick="clearSelection()">clear highlighting</button></center> -->
 
 <div style="width: 40em">
+
+    <p class="instruction" id="instruction1"><b>The first few items will contain instructions like this, in green italics.</b>
+    After that, you'll be on your own.<br>
+    <br>
+    You will read a number of (fragments of) texts, ask questions about them, and look for answers.
+    <b>Each text fragment is revealed piece by piece</b>. Please read each new piece carefully:</p>
+
     <hr>
         <div id="fragment_scroller" style="overflow: auto; width: 480pt; height: 200pt">
             <div style="position: relative; width: 90%">  <!-- TODO More principled way of choosing height -->
@@ -169,12 +178,16 @@ function quality_check() {
 
 <div id="div_containing_form_for_fragment_cont" style="visibility:hidden; width:40em">
 
+    <p class="instruction">The new piece of text may (or may not) contain information that helps answer questions you entered before.
+        This is what we are interested in.
+    </p>
+
     <p><b><span id="you">You</span> entered the following question:</b>
         <div class="r-pill__group" style="background-color: #eeeeee" id="question_display_field"><div id="question_copy_for_display" style="width: 32em"></div></div>
         <!-- "width: 32em; background-color: #eeeeee; border: 1px solid darkgray; box-shadow: 1px 1px 1px 0 lightgray inset; margin-top: 5px; padding: 2px 3px" -->
     </p>
 
-    <p><b>&#9654; Was that question answered in the continuation?</b><br>
+    <p><b>&#9654; Was that question answered in the new piece of text?</b><br>
         <fieldset class="r-pill">
             <div class="r-pill__group">
                 <i>&nbsp;&nbsp;Not answered at all.</i>
@@ -205,21 +218,34 @@ function quality_check() {
         </fieldset>
     </p>
 
+    <p class="instruction">As before, we are interested in your subjective assessment.<br>
+        <br>
+    </p>
+
     <div id="div_containing_items_6_and_7"><p>
         <b>&#9654; Enter the (complete/partial) answer in your own words:</b><br>
         <div class="r-pill__group" id="answer_field"><input name="answer" id="answer" type="text" style="width: 33em; border-style:none; background-color:transparent" /></div><b id="answer_error" style="color: red; visibility: hidden"> *</b>
         <div id="hidden_field_for_storing_answer" style="display: none"></div>
         </p>
 
+        <p class="instruction">This item applies only if your question was at least somewhat answered (3 or higher).<br>
+            <br>
+            Please try to use <b>correct grammar and spelling</b>, and prefer full sentences over single words.<br>
+        <br></p>
+
         <p>
-        <b>&#9654; In the text, <mark id="marker_in_question2" style="background:#76bef8">highlight</mark> the main phrase suggesting this answer.</b>
+        <b>&#9654; In the new piece of text, <mark id="marker_in_question2" style="background:#76bef8">highlight</mark> the main phrase suggesting this answer.</b>
         <b id="answer_highlighting_error" style="color: red; visibility: hidden"> *</b><br>
-        <!-- <ul>
-            <li>Please  a phrase in the new part of the fragment above.</li>
-            <li>To change the highlighting just make a new selection.</li>
-            <li>There's also a button to <i>clear</i> the current highlighting.</li>
-            <li>If no phrase seems suitable for marking, do not select anything.</li>
-        </ul> -->
+        <p class="instruction">Highlighting works only if your question was at least somewhat answered (3 or higher).
+            You highlight text by cursor selection: <b>click-and-drag on the text</b>.<br>
+            <br>
+            A question can be answered by a single word, by a phrase or by a whole sentence.
+            <b>Highlight the words that you find most clearly provide the answer.</b><br>
+            <br>
+            <b>You can highlight text only in the newest piece of text.</b>
+            If you made a mistake and your question was in fact already answered by an earlier excerpt, click 1 or 2 above.
+        </p>
+
 <!-- below are invisible form fields to which the selection is saved. -->
         <div style="display: none">
         Selected text:
@@ -233,7 +259,9 @@ function quality_check() {
     <div id="div_for_last_error_message" style="color: red; visibility: hidden">
     Please complete the form first.
     </div>
-
+<p class="instruction"><br>Again, you can change your responses above as much as you like.
+    Click below when you are satisfied.
+    That will reveal a new piece of the text.</p>
 </div>
 
 </div>

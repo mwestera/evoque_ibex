@@ -105,6 +105,8 @@ function quality_check() {
             document.getElementById("question_index").value = window.questions_thusfar.length - 1;
         }
 
+        if (check) window.numQuestionsDone++;
+
         window.current_question_idx = window.questions_thusfar.length - 1;    // Always start counting from the most recent one
 
         // Slowly scroll to top
@@ -122,6 +124,13 @@ function quality_check() {
 <center><button onclick="clearSelection()">clear highlighting</button></center> -->
 
 <div style="width: 40em">
+
+    <p id="instruction1" class="instruction"><b>The first few items will contain instructions like this, in green italics.</b>
+    After that, you'll be on your own.<br>
+    <br>
+    You will read a number of (fragments of) texts, ask questions about them, and look for answers.
+    <b>Each text fragment is revealed piece by piece</b>. Please read each new piece carefully:</p>
+
     <hr>
         <div id="fragment_scroller" style="overflow: auto; width: 480pt; height: 200pt">
             <div style="position: relative; width: 90%">  <!-- TODO More principled way of choosing height -->
@@ -138,38 +147,13 @@ function quality_check() {
 
 <div id="form" style="visibility: hidden; width:40em">
 
-    <!-- <p>
-        <b>1. Is this fragment comprehensible to you?</b><br>
-        <fieldset class="r-pill">
-            <div class="r-pill__group">
-                <i>&nbsp;&nbsp;Incomprehensible.</i>
-                <span class="r-pill__item">
-                    <input type="radio" id="coherence1" name="coherence" value="1">
-                    <label for="coherence1">1</label>
-                </span>
-                <span class="r-pill__item">
-                    <input type="radio" id="coherence2" name="coherence" value="2">
-                    <label for="coherence2">2</label>
-                </span>
-                <span class="r-pill__item">
-                    <input type="radio" id="coherence3" name="coherence" value="3">
-                    <label for="coherence3">3</label>
-                </span>
-                <span class="r-pill__item">
-                    <input type="radio" id="coherence4" name="coherence" value="4">
-                    <label for="coherence4">4</label>
-                </span>
-                <span class="r-pill__item">
-                    <input type="radio" id="coherence5" name="coherence" value="5">
-                    <label for="coherence5">5</label>
-                </span>
-                <i>Comprehensible.&nbsp;&nbsp;</i>
-            </div><b id="coherence_error" style="color: red; visibility: hidden"> *</b>
-        </fieldset>
-    </p> -->
+    <p class="instruction">Reading the text above may <b>evoke a question</b> for you.
+        That is, you may be left wondering about something.
+        This is what we are interested in.
+    </p>
 
     <p>
-        <b>&#9654; Does the excerpt at this point evoke a<span id="other"></span> question for you?</b><br>
+        <b>&#9654; Does the text at this point evoke a<span id="other"></span> question for you?</b><br>
         <!-- (List up to three questions; leave <i>blank</i> if it does not evoke any questions.) <br> -->
         <fieldset class="r-pill">
             <div class="r-pill__group">
@@ -190,15 +174,21 @@ function quality_check() {
         <input name="q3" type="text" style="width: 40em"></input><br> -->
     </p>
 
+    <p class="instruction">Which question a given text evokes for you is completely subjective; <b>there is no right or wrong answer.</b><br>
+        <br>
+        If you cannot think of a question right away, <b>you can re-read the fragment</b> and ponder a bit.
+        If it still evokes no question for you, simply click "No".<br>
+        <br></p>
+
     <div id="div_containing_item_4"><p>
-        <b>&#9654; In the excerpt, <mark id="marker_in_question" style="background:#76bef8">highlight</mark> the main phrase that evokes this question.</b>
+        <b>&#9654; In the text, <mark id="marker_in_question" style="background:#76bef8">highlight</mark> the main phrase that evokes this question.</b>
         <b id="question_highlighting_error" style="color: red; visibility: hidden"> *</b>
-        <!-- <ul>
-            <li>Please  a phrase in the fragment above (cursor selection).</li>
-            <li>To change the highlighting just make a new selection.</li>
-            <li>There's also a button to <i>clear</i> the current highlighting.</li>
-            <li>If no phrase seems suitable for marking, do not select anything.</li>
-        </ul>-->
+        <p class="instruction">
+        Highlighting text works only if you clicked "yes".
+        You highlight text by cursor selection: <b>click-and-drag on the text</b>.<br>
+        <br>
+        A question can be evoked by a single word, by a phrase or even by a whole sentence.
+        <b>Highlight the words that you find the most important for evoking the question.</b></p>
 <!-- below are invisible form fields to which the selection is saved. -->
         <div style="display: none">
         Selected text:
@@ -213,5 +203,8 @@ function quality_check() {
     <div id="div_for_first_error_message" style="color: red; visibility: hidden">
         Please complete the form first.
     </div>
+<p class="instruction"><br>You can change your mind and change your responses above as much as you like.
+    Click below when you are satisfied.
+    That will reveal a new piece of the text.</p>
 </div>
 </div>
