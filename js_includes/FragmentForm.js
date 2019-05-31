@@ -58,12 +58,12 @@ jqueryWidget: {
         window.showFirstInstructions = false;
         if (this.type == "question") {
             this.html = { include: "fragment_question.html" };
-            window.showInstructions = (window.numQuestionsDone < 3);
-            window.showFirstInstructions = ((window.numQuestionsDone < 3) || (window.numAnswersDone < 3));
+            window.showInstructions = (window.numQuestionsDone < 2);
+            window.showFirstInstructions = ((window.numQuestionsDone < 2) && (window.numAnswersDone < 2));
         } else if (this.type == "answer") {
             this.html = { include: "fragment_answer.html" };
-            window.showInstructions = (window.numAnswersDone < 3);
-            window.showFirstInstructions = ((window.numQuestionsDone < 3) || (window.numAnswersDone < 3));
+            window.showInstructions = (window.numAnswersDone < 2);
+            window.showFirstInstructions = ((window.numQuestionsDone < 2) && (window.numAnswersDone < 2));
         } else if (this.type == "end") {
             this.html = { include: "fragment_end.html" };
             window.showInstructions = (window.numTextsDone < 1);
@@ -532,6 +532,8 @@ async function init() {
     }
     if (window.showFirstInstructions) {
         document.getElementById("instruction1").style.display = "block";
+    } else {
+        document.getElementById("instruction1").style.display = "none";
     }
 
     for (var i=0; i < window.text.length; i++) {
