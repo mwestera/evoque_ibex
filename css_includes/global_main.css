@@ -242,3 +242,10 @@ div.diaright {
     margin:5pt;
     margin-left:120pt;
 }
+
+.instruction {
+   color: #448844;
+/*   font-style: italic; */
+   font-size: 11pt;
+   display: none;
+}

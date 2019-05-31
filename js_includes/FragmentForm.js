@@ -55,12 +55,18 @@ jqueryWidget: {
             }
         }
 
+        window.showFirstInstructions = false;
         if (this.type == "question") {
             this.html = { include: "fragment_question.html" };
+            window.showInstructions = (window.numQuestionsDone < 3);
+            window.showFirstInstructions = ((window.numQuestionsDone < 3) || (window.numAnswersDone < 3));
         } else if (this.type == "answer") {
             this.html = { include: "fragment_answer.html" };
+            window.showInstructions = (window.numAnswersDone < 3);
+            window.showFirstInstructions = ((window.numQuestionsDone < 3) || (window.numAnswersDone < 3));
         } else if (this.type == "end") {
             this.html = { include: "fragment_end.html" };
+            window.showInstructions = (window.numTextsDone < 1);
         }
 
         this.continueOnReturn = dget(this.options, "continueOnReturn", false);
@@ -423,22 +429,21 @@ function isInArray(value, array) {
 }
 
 
-// colors = ['#76bef8', '#66ff66', '#ffff00', '#ff471a', '#ff3399'];
-// colors_dimmed = ['#E2F1FD', '#ccff99', '#ffff99', '#ffad99', '#ffb3d9']
-colors = ['#ffff66', '#66ff66', '#cc99ff', '#66ffff'];
-colors_dimmed = ['#ffffb3', '#b3ffb3', '#e6ccff', '#b3ffff'];
+// yellow, green, purple, teal, red, blue
+colors = ['#ffff66', '#66ff66', '#cc99ff', '#66ffff', '#ff8080', '#3399ff'];
+colors_dimmed = ['#ffffb3', '#b3ffb3', '#e6ccff', '#ccffff', '#ffcccc', '#99ccff'];
 
 function nextFreeColorIdx() {
-    most_recent_positions = [99,99,99,99,99];
-    for (var i = window.questions_thusfar.length - 1; i >= 0; i--) {
+    most_recent_positions = [-1,-1,-1,-1,-1,-1];
+    for (var i = 0; i < window.questions_thusfar.length; i++) {
         color = window.questions_thusfar[i][4];
         most_recent_positions[color] = i;
     }
-    return argMax(most_recent_positions);
+    return argMin(most_recent_positions);
 }
 
-function argMax(array) {
-  return array.map((x, i) => [x, i]).reduce((r, a) => (a[0] > r[0] ? a : r))[1];
+function argMin(array) {
+  return array.map((x, i) => [x, i]).reduce((r, a) => (a[0] < r[0] ? a : r))[1];
 }
 
 function add_highlights(id, highlights) {
@@ -517,6 +522,17 @@ function previous_unanswered_question_idx() {
 }
 
 async function init() {
+
+    // show instructions
+    if (window.showInstructions) {
+        $('body').scrollTop(0);     // needed because pages are longer with instructions
+        $(".instruction").each(function(){
+            this.style.display = "block";
+        })
+    }
+    if (window.showFirstInstructions) {
+        document.getElementById("instruction1").style.display = "block";
+    }
 
     for (var i=0; i < window.text.length; i++) {
 
