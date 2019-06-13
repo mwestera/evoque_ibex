@@ -12,6 +12,10 @@ jqueryWidget: {
         this.type = dget(this.options, "type");
         window.phase = dget(this.options, "phase");
 
+        window.excerpt_id = dget(this.options, "excerpt_id");
+        window.cutoff_points = dget(this.options, "cutoff_points");
+        window.current_chunk = dget(this.options, "current_chunk");
+
         var new_text = dget(this.options, "text");
 
         var new_speakers = []
@@ -524,17 +528,22 @@ function previous_unanswered_question_idx() {
 async function init() {
 
     // show instructions
-    if (window.showInstructions) {
-        $('body').scrollTop(0);     // needed because pages are longer with instructions
-        $(".instruction").each(function(){
-            this.style.display = "block";
-        })
-    }
-    if (window.showFirstInstructions) {
-        document.getElementById("instruction1").style.display = "block";
-    } else {
-        document.getElementById("instruction1").style.display = "none";
-    }
+//    if (window.showInstructions) {
+//        $('body').scrollTop(0);     // needed because pages are longer with instructions
+//        $(".instruction").each(function(){
+//            this.style.display = "block";
+//        })
+//    }
+//    if (window.showFirstInstructions) {
+//        document.getElementById("instruction1").style.display = "block";
+//    } else {
+//        document.getElementById("instruction1").style.display = "none";
+//    }
+
+    // store excerpt id etc.
+    document.getElementById("excerpt_id").value = window.excerpt_id;
+    document.getElementById("cutoff_points").value = window.cutoff_points;
+    document.getElementById("current_chunk").value = window.current_chunk;
 
     for (var i=0; i < window.text.length; i++) {
 

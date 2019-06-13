@@ -71,6 +71,9 @@ function quality_check() {
         document.getElementById("selection_text").remove();
         document.getElementById("selection_start").remove()
         document.getElementById("selection_end").remove();
+        document.getElementById("excerpt_id").remove();
+        document.getElementById("cutoff_points").remove();
+        document.getElementById("current_chunk").remove();
         window.current_question_idx--;
         return true;
     }
@@ -174,7 +177,9 @@ function quality_check() {
     <hr>
 
     <input type="text" id="question_index" name="question_index" style="display:none"/>
-
+    <input type="text" id="excerpt_id" name="excerpt_id" style="display:none"/>
+    <input type="text" id="cutoff_points" name="cutoff_points" style="display:none"/>
+    <input type="text" id="current_chunk" name="current_chunk" style="display:none"/>
 
 <div id="div_containing_form_for_fragment_cont" style="visibility:hidden; width:40em">
 

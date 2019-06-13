@@ -24,6 +24,7 @@
     });
 
 
+    // Makes sure selection field is properly saved as form input
     function saveEducation() {
         document.getElementById("education_hidden").value = document.getElementById("education").value;
     }
@@ -139,15 +140,15 @@
             <td><fieldset class="r-pill">
                 <div class="r-pill__group">
                     <span class="r-pill__item">
-                        <input type="radio" id="autism_no" name="autism" value="1" class="obligatory" />
+                        <input type="radio" id="autism_no" name="autism" value="no" class="obligatory" />
                         <label for="autism_no">No, never</label>
                     </span><br>
                     <span class="r-pill__item">
-                        <input type="radio" id="autism_child" name="autism" value="2" class="obligatory" />
+                        <input type="radio" id="autism_child" name="autism" value="as_child" class="obligatory" />
                         <label for="autism_child">Yes, as a child</label>
                     </span><br>
                     <span class="r-pill__item">
-                        <input type="radio" id="autism_adult" name="autism" value="3" class="obligatory" />
+                        <input type="radio" id="autism_adult" name="autism" value="as_adult" class="obligatory" />
                         <label for="autism_adult">Yes, only as an adult</label>
                     </span>
                 </div>
@@ -166,19 +167,19 @@
             <td><fieldset class="r-pill">
                 <div class="r-pill__group">
                     <span class="r-pill__item">
-                        <input type="radio" id="r_fiction1" name="r_fiction" value="1" class="obligatory" />
+                        <input type="radio" id="r_fiction1" name="r_fiction" value="0" class="obligatory" />
                         <label for="r_fiction1">none</label>
                     </span>
                     <span class="r-pill__item">
-                        <input type="radio" id="r_fiction2" name="r_fiction" value="2" class="obligatory" />
+                        <input type="radio" id="r_fiction2" name="r_fiction" value="30" class="obligatory" />
                         <label for="r_fiction2">30 mins</label>
                     </span>
                     <span class="r-pill__item">
-                        <input type="radio" id="r_fiction3" name="r_fiction" value="3" class="obligatory" />
+                        <input type="radio" id="r_fiction3" name="r_fiction" value="60" class="obligatory" />
                         <label for="r_fiction3">1 hour</label>
                     </span>
                     <span class="r-pill__item">
-                        <input type="radio" id="r_fiction4" name="r_fiction" value="4" class="obligatory" />
+                        <input type="radio" id="r_fiction4" name="r_fiction" value="120" class="obligatory" />
                         <label for="r_fiction4">2+ hours</label>
                     </span>
                 </div>
@@ -191,19 +192,19 @@
             <td><fieldset class="r-pill">
                 <div class="r-pill__group">
                     <span class="r-pill__item">
-                        <input type="radio" id="r_magnews1" name="r_magnews" value="1" class="obligatory" />
+                        <input type="radio" id="r_magnews1" name="r_magnews" value="0" class="obligatory" />
                         <label for="r_magnews1">none</label>
                     </span>
                     <span class="r-pill__item">
-                        <input type="radio" id="r_magnews2" name="r_magnews" value="2" class="obligatory" />
+                        <input type="radio" id="r_magnews2" name="r_magnews" value="30" class="obligatory" />
                         <label for="r_magnews2">30 mins</label>
                     </span>
                     <span class="r-pill__item">
-                        <input type="radio" id="r_magnews3" name="r_magnews" value="3" class="obligatory" />
+                        <input type="radio" id="r_magnews3" name="r_magnews" value="60" class="obligatory" />
                         <label for="r_magnews3">1 hour</label>
                     </span>
                     <span class="r-pill__item">
-                        <input type="radio" id="r_magnews4" name="r_magnews" value="4" class="obligatory" />
+                        <input type="radio" id="r_magnews4" name="r_magnews" value="120" class="obligatory" />
                         <label for="r_magnews4">2+ hours</label>
                     </span>
                 </div>
@@ -216,19 +217,19 @@
             <td><fieldset class="r-pill">
                 <div class="r-pill__group">
                     <span class="r-pill__item">
-                        <input type="radio" id="r_social1" name="r_social" value="1" class="obligatory" />
+                        <input type="radio" id="r_social1" name="r_social" value="0" class="obligatory" />
                         <label for="r_social1">none</label>
                     </span>
                     <span class="r-pill__item">
-                        <input type="radio" id="r_social2" name="r_social" value="2" class="obligatory" />
+                        <input type="radio" id="r_social2" name="r_social" value="30" class="obligatory" />
                         <label for="r_social2">30 mins</label>
                     </span>
                     <span class="r-pill__item">
-                        <input type="radio" id="r_social3" name="r_social" value="3" class="obligatory" />
+                        <input type="radio" id="r_social3" name="r_social" value="60" class="obligatory" />
                         <label for="r_social3">1 hour</label>
                     </span>
                     <span class="r-pill__item">
-                        <input type="radio" id="r_social4" name="r_social" value="4" class="obligatory" />
+                        <input type="radio" id="r_social4" name="r_social" value="120" class="obligatory" />
                         <label for="r_social4">2+ hours</label>
                     </span>
                 </div>
@@ -241,19 +242,19 @@
             <td><fieldset class="r-pill">
                 <div class="r-pill__group">
                     <span class="r-pill__item">
-                        <input type="radio" id="r_other1" name="r_other" value="1" class="obligatory" />
+                        <input type="radio" id="r_other1" name="r_other" value="0" class="obligatory" />
                         <label for="r_other1">none</label>
                     </span>
                     <span class="r-pill__item">
-                        <input type="radio" id="r_other2" name="r_other" value="2" class="obligatory" />
+                        <input type="radio" id="r_other2" name="r_other" value="30" class="obligatory" />
                         <label for="r_other2">30 mins</label>
                     </span>
                     <span class="r-pill__item">
-                        <input type="radio" id="r_other3" name="r_other" value="3" class="obligatory" />
+                        <input type="radio" id="r_other3" name="r_other" value="60" class="obligatory" />
                         <label for="r_other3">1 hour</label>
                     </span>
                     <span class="r-pill__item">
-                        <input type="radio" id="r_other4" name="r_other" value="4" class="obligatory" />
+                        <input type="radio" id="r_other4" name="r_other" value="120" class="obligatory" />
                         <label for="r_other4">2+ hours</label>
                     </span>
                 </div>
@@ -270,19 +271,19 @@
             <td><fieldset class="r-pill">
                 <div class="r-pill__group">
                     <span class="r-pill__item">
-                        <input type="radio" id="w_fiction1" name="w_fiction" value="1" class="obligatory" />
+                        <input type="radio" id="w_fiction1" name="w_fiction" value="0" class="obligatory" />
                         <label for="w_fiction1">none</label>
                     </span>
                     <span class="r-pill__item">
-                        <input type="radio" id="w_fiction2" name="w_fiction" value="2" class="obligatory" />
+                        <input type="radio" id="w_fiction2" name="w_fiction" value="30" class="obligatory" />
                         <label for="w_fiction2">30 mins</label>
                     </span>
                     <span class="r-pill__item">
-                        <input type="radio" id="w_fiction3" name="w_fiction" value="3" class="obligatory" />
+                        <input type="radio" id="w_fiction3" name="w_fiction" value="60" class="obligatory" />
                         <label for="w_fiction3">1 hour</label>
                     </span>
                     <span class="r-pill__item">
-                        <input type="radio" id="w_fiction4" name="w_fiction" value="4" class="obligatory" />
+                        <input type="radio" id="w_fiction4" name="w_fiction" value="120" class="obligatory" />
                         <label for="w_fiction4">2+ hours</label>
                     </span>
                 </div>
@@ -295,19 +296,19 @@
             <td><fieldset class="r-pill">
                 <div class="r-pill__group">
                     <span class="r-pill__item">
-                        <input type="radio" id="w_magnews1" name="w_magnews" value="1" class="obligatory" />
+                        <input type="radio" id="w_magnews1" name="w_magnews" value="0" class="obligatory" />
                         <label for="w_magnews1">none</label>
                     </span>
                     <span class="r-pill__item">
-                        <input type="radio" id="w_magnews2" name="w_magnews" value="2" class="obligatory" />
+                        <input type="radio" id="w_magnews2" name="w_magnews" value="30" class="obligatory" />
                         <label for="w_magnews2">30 mins</label>
                     </span>
                     <span class="r-pill__item">
-                        <input type="radio" id="w_magnews3" name="w_magnews" value="3" class="obligatory" />
+                        <input type="radio" id="w_magnews3" name="w_magnews" value="60" class="obligatory" />
                         <label for="w_magnews3">1 hour</label>
                     </span>
                     <span class="r-pill__item">
-                        <input type="radio" id="w_magnews4" name="w_magnews" value="4" class="obligatory" />
+                        <input type="radio" id="w_magnews4" name="w_magnews" value="120" class="obligatory" />
                         <label for="w_magnews4">2+ hours</label>
                     </span>
                 </div>
@@ -320,19 +321,19 @@
             <td><fieldset class="r-pill">
                 <div class="r-pill__group">
                     <span class="r-pill__item">
-                        <input type="radio" id="w_social1" name="w_social" value="1" class="obligatory" />
+                        <input type="radio" id="w_social1" name="w_social" value="0" class="obligatory" />
                         <label for="w_social1">none</label>
                     </span>
                     <span class="r-pill__item">
-                        <input type="radio" id="w_social2" name="w_social" value="2" class="obligatory" />
+                        <input type="radio" id="w_social2" name="w_social" value="30" class="obligatory" />
                         <label for="w_social2">30 mins</label>
                     </span>
                     <span class="r-pill__item">
-                        <input type="radio" id="w_social3" name="w_social" value="3" class="obligatory" />
+                        <input type="radio" id="w_social3" name="w_social" value="60" class="obligatory" />
                         <label for="w_social3">1 hour</label>
                     </span>
                     <span class="r-pill__item">
-                        <input type="radio" id="w_social4" name="w_social" value="4" class="obligatory" />
+                        <input type="radio" id="w_social4" name="w_social" value="120" class="obligatory" />
                         <label for="w_social4">2+ hours</label>
                     </span>
                 </div>
@@ -345,19 +346,19 @@
             <td><fieldset class="r-pill">
                 <div class="r-pill__group">
                     <span class="r-pill__item">
-                        <input type="radio" id="w_other1" name="w_other" value="1" class="obligatory" />
+                        <input type="radio" id="w_other1" name="w_other" value="0" class="obligatory" />
                         <label for="w_other1">none</label>
                     </span>
                     <span class="r-pill__item">
-                        <input type="radio" id="w_other2" name="w_other" value="2" class="obligatory" />
+                        <input type="radio" id="w_other2" name="w_other" value="30" class="obligatory" />
                         <label for="w_other2">30 mins</label>
                     </span>
                     <span class="r-pill__item">
-                        <input type="radio" id="w_other3" name="w_other" value="3" class="obligatory" />
+                        <input type="radio" id="w_other3" name="w_other" value="60" class="obligatory" />
                         <label for="w_other3">1 hour</label>
                     </span>
                     <span class="r-pill__item">
-                        <input type="radio" id="w_other4" name="w_other" value="4" class="obligatory" />
+                        <input type="radio" id="w_other4" name="w_other" value="120" class="obligatory" />
                         <label for="w_other4">2+ hours</label>
                     </span>
                 </div>
