@@ -12,15 +12,17 @@ function revealForm() {
     document.getElementById("question_display_field").style.backgroundColor = window.colors_dimmed[window.current_color_idx];
     document.getElementById("answer_field").style.backgroundColor = window.colors[window.current_color_idx];
 
-    // If unanswered question is available:
-    if (window.current_question_idx >= 0 && !window.questions_thusfar[window.current_question_idx][6]) {
+    //// If unanswered question is available:
+    // if (window.current_question_idx >= 0 && !window.questions_thusfar[window.current_question_idx][6]) {
+    // Variant where question must be sufficiently recent:
+    if (window.current_question_idx >= 0 && !window.questions_thusfar[window.current_question_idx][6] && window.questions_thusfar[window.current_question_idx][7] >= window.current_chunk - 4) {
         var prev_question = window.questions_thusfar[window.current_question_idx][5];
         document.getElementById("question_copy_for_display").innerHTML = prev_question;
         document.getElementById("div_containing_form_for_fragment_cont").style.visibility = "visible";
         if (window.current_question_idx == window.questions_thusfar.length-2) {
             document.getElementById("you").innerHTML = "Earlier, you also";
         } else if (window.current_question_idx < window.questions_thusfar.length-2) {
-            document.getElementById("you").innerHTML = "Even earlier, you";
+            document.getElementById("you").innerHTML = "Before, you also";
         }
     } else {
         document.getElementById("continue_link").click(); // skip this page
