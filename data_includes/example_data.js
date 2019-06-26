@@ -17,6 +17,7 @@ var defaults = [
         phase: "mid",
         saveReactionTime: true,
         continueOnReturn: true,
+        hideProgressBar: true,
         excerpt_id: "",
         cutoff_points: [],
         current_chunk: -1,
@@ -39,7 +40,7 @@ var defaults = [
         hasCorrect: true
     },
     "Message", {
-        hideProgressBar: false
+        hideProgressBar: true
     },
     "Form", {
         hideProgressBar: true,
@@ -47,7 +48,7 @@ var defaults = [
         saveReactionTime: true
     },
     "TweakedForm", {
-        hideProgressBar: false,
+        hideProgressBar: true,
         continueOnReturn: true,
         saveReactionTime: true
     },
