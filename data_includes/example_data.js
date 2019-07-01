@@ -1,5 +1,5 @@
-//var shuffleSequence = seq("consent", "introform", sepWith("sep", "fragment"), "submit", "thanks");
-var shuffleSequence = seq(sepWith("sep", "fragment"), "submit", "thanks");    // Without intro
+var shuffleSequence = seq("consent", "introform", sepWith("sep", "fragment"), "submit", "thanks");
+//var shuffleSequence = seq(sepWith("sep", "fragment"), "submit", "thanks");    // Without intro
 //var shuffleSequence = seq("setcounter", sepWith("sep", "fragment"));    // Without intro, with counter
 var practiceItemTypes = ["practice"];
 
