@@ -1,4 +1,4 @@
-var shuffleSequence = seq("consent", "introform", sepWith("sep", "fragment"), "submit", "thanks");
+var shuffleSequence = seq("consent", "introform", "warning", sepWith("sep", "fragment"), "submit", "thanks");
 //var shuffleSequence = seq(sepWith("sep", "fragment"), "submit", "thanks");    // Without intro
 //var shuffleSequence = seq("setcounter", sepWith("sep", "fragment"));    // Without intro, with counter
 var practiceItemTypes = ["practice"];
@@ -40,7 +40,8 @@ var defaults = [
         hasCorrect: true
     },
     "Message", {
-        hideProgressBar: true
+        hideProgressBar: true,
+        saveReactionTime: true
     },
     "Form", {
         hideProgressBar: true,
@@ -90,8 +91,13 @@ var items = [
     ["thanks",
     "Message", {
         html: "<b>The results were successfully sent to the server. Thank you!</b><br><br><b>Your completion code for Mechanical Turk is: <mark style='font-size: 18pt'>sharkbubbles</mark></b>",
-        hideProgressBar: false,
         transfer: null,
+        },
+    ],
+
+    ["warning",
+    "Message", {
+        html: "<div style='font-size: 18pt'><b>A (friendly) warning:</b></div><br><br><div style='font-size: 14pt'>The quality of your responses is crucial for our research.<br><br>This means reading the texts carefully and sometimes taking some time to ponder.<br><br>To detect non-serious submissions we measure a number of variables and we inspect your responses.</div><br><br><div style='font-size: 14pt'>Do we pay too little to expect serious work? Or is the task unclear? Let us know at <a href='mailto:langAnalysis@gmail.com'>langAnalysis@gmail.com</a>.</div><br>",
         },
     ],
 
