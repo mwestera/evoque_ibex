@@ -58,8 +58,12 @@ function quality_check() {
 
 <div style="width: 40em">
     <hr>
+
+        <div id="speaker_labels" style="display: none"><div style="margin-right: 50pt; float: right; color: black; font-size: small">Person B:</div>
+        <div style="margin-left: 20pt; color: black; font-size: small">Person A:</div></div>
+
         <div id="fragment_scroller" style="overflow: auto; width: 480pt; height: 200pt">
-            <div style="position: relative; width: 90%">  <!-- TODO More principled way of choosing height -->
+            <div style="margin-left: 5%; position: relative; width: 90%">  <!-- TODO More principled way of choosing height -->
                 <div id="answer_highlighter_prev" style="color:transparent; position: absolute; display: inline-block; width:95%"></div>
                 <div id="question_highlighter_prev" style="color:transparent; position: absolute; display: inline-block; width:95%"></div>
                 <div id="fragment_highlighter" style="color:transparent; position: absolute; display: inline-block; width:95%"></div>
