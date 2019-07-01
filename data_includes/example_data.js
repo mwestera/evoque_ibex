@@ -90,7 +90,7 @@ var items = [
 
     ["thanks",
     "Message", {
-        html: "<b>The results were successfully sent to the server. Thank you!</b><br><br><b>Your completion code for Mechanical Turk is: <mark style='font-size: 18pt'>sharkbubbles</mark></b>",
+        html: "<b>The results were successfully sent to the server. Thank you!</b><br><br><b>Your completion code for Mechanical Turk is: <mark style='font-size: 18pt'>kalesnail</mark></b>",
         transfer: null,
         },
     ],
