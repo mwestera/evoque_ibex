@@ -77,6 +77,8 @@ function quality_check() {
     <input type="text" id="excerpt_id" name="excerpt_id" style="display:none"/>
     <input type="text" id="cutoff_points" name="cutoff_points" style="display:none"/>
     <input type="text" id="current_chunk" name="current_chunk" style="display:none"/>
+    <input type="text" id="pasted" name="pasted" style="display:none"/>
+    <input type="text" id="focused" name="focused" style="display:none" value="0" />
 
     <p class="instruction">The text fragment has now been completely revealed.
         Thanks for all your work so far!<br>
@@ -151,7 +153,7 @@ function quality_check() {
 
     <p>
     <b>&#9654; Any comments about this excerpt, or about your responses?</b><br>
-    <div class="r-pill__group" id="comment_field"><input name="comment" id="comment" type="text" style="width: 33em; border-style:none; background-color:transparent" /></div>
+    <div class="r-pill__group" id="comment_field"><input name="comment" id="comment" type="text" style="width: 33em; border-style:none; background-color:transparent" onpaste="pasted('comment')"/></div>
     </p>
 
     <p class="instruction">This last field is optional.

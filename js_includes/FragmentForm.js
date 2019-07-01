@@ -525,7 +525,19 @@ function previous_unanswered_question_idx() {
     }
 }
 
+
+function pasted(s) {
+    if (document.getElementById("pasted").value != '') {
+        document.getElementById("pasted").value += ',';
+    }
+    document.getElementById("pasted").value += s;
+}
+
 async function init() {
+
+    window.onfocus = function() {
+        document.getElementById("focused").value = Number(document.getElementById("focused").value) + 1;
+    }
 
     // show instructions
 //    if (window.showInstructions) {
