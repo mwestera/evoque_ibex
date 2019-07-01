@@ -102,6 +102,8 @@ function quality_check() {
             end = document.getElementById("selection_end").value.split(",")
             window.questions_thusfar.push([Number(start[0]), Number(start[1]), Number(end[0]), Number(end[1]), current_color_idx, document.getElementById("question").value, false, window.current_chunk]);
             document.getElementById("question_index").value = window.questions_thusfar.length - 1;
+            document.getElementById("evoked_yes").remove();
+            document.getElementById("evoked_no").remove();
         }
 
         if (check) window.numQuestionsDone++;
@@ -132,8 +134,8 @@ function quality_check() {
 
     <hr>
 
-        <div id="speaker_labels" style="display: none"><div style="margin-right: 50pt; float: right; color: black; font-size: small">Person B:</div>
-        <div style="margin-left: 20pt; color: black; font-size: small">Person A:</div></div>
+        <div id="speaker_labels" style="display: none"><div style="margin-right: 70pt; float: right; color: black; font-size: small">Person B:</div>
+        <div style="margin-left: 40pt; color: black; font-size: small">Person A:</div></div>
 
         <div id="fragment_scroller" style="overflow: auto; width: 480pt; height: 200pt">
             <div style="margin-left: 5%; position: relative; width: 90%">  <!-- TODO More principled way of choosing height -->
@@ -159,8 +161,7 @@ function quality_check() {
     </p>
 
     <p>
-        <b>&#9654; Does the text at this point evoke a<span id="other"></span> question for you?</b><br>
-        <!-- (List up to three questions; leave <i>blank</i> if it does not evoke any questions.) <br> -->
+<div style="display: none"><b>&#9654; Does the text at this point evoke a<span id="other"></span> question for you?</b><br>
         <fieldset class="r-pill">
             <div class="r-pill__group">
                 <span class="r-pill__item">
@@ -173,8 +174,13 @@ function quality_check() {
                 </span>
             </div>
         </fieldset>
-        <div style="position:absolute; margin-left: 8em; margin-top:-52px"><div id="enter_your_question" style="font-size: small">Your question:</div>
-            <div class="r-pill__group" id="question_field"><input name="question" id="question" type="text" style="width: 25em; border-style:none; background-color:transparent"/></div><b id="question_error" style="color: red; visibility: hidden;"> *</b></div>
+</div>
+    <b>&#9654; Please enter a<span id="other"></span> question the text evokes for you at this point.</b><br>
+        <!--<div style="position:absolute; margin-left: 8em; margin-top:-52px"><div id="enter_your_question" style="font-size: small">Your question:</div>-->
+    <div class="r-pill__group" id="question_field">
+        <input name="question" id="question" type="text" style="width: 25em; border-style:none; background-color:transparent"/>
+    </div>
+    <b id="question_error" style="color: red; visibility: hidden;"> *</b>
     <div id="hidden_field_for_storing_question" style="display: none"></div>
         <!-- <input name="q2" type="text" style="width: 40em"></input><br>
         <input name="q3" type="text" style="width: 40em"></input><br> -->
