@@ -545,6 +545,10 @@ async function init() {
     document.getElementById("cutoff_points").value = window.cutoff_points;
     document.getElementById("current_chunk").value = window.current_chunk;
 
+    if (window.speakers[0] != -1) {
+        document.getElementById("speaker_labels").style.display = "block";
+    }
+
     for (var i=0; i < window.text.length; i++) {
 
         if (window.speakers[i] == -1) {
@@ -553,7 +557,7 @@ async function init() {
         } else {
             var fieldtype = 'div';
             var fieldclose = 'div';
-            if (window.speakers[i] == 0) {
+            if (window.speakers[i] == window.speakers[0]) {
                 fieldtype += ' class=dialeft';
             } else {
                 fieldtype += ' class=diaright';
@@ -590,7 +594,7 @@ async function init() {
         } else {
             var fieldtype = 'div';
             var fieldclose = 'div';
-            if (window.speakers[i] == 0) {
+            if (window.speakers[i] == window.speakers[0]) {
                 fieldtype += ' class=dialeft';
             } else {
                 fieldtype += ' class=diaright';
