@@ -97,7 +97,7 @@ var items = [
 
     ["warning",
     "Message", {
-        html: "<div style='font-size: 18pt'><b>A (friendly) warning:</b></div><br><br><div style='font-size: 14pt'>The quality of your responses is crucial for our research.<br><br>This means reading the texts carefully and sometimes taking some time to ponder.<br><br>To detect non-serious submissions we measure a number of variables and we inspect your responses.</div><br><br><div style='font-size: 14pt'>Do we pay too little to expect serious work? Or is the task unclear? Let us know at <a href='mailto:langAnalysis@gmail.com'>langAnalysis@gmail.com</a>.</div><br>",
+        html: "<div style='font-size: 16pt'><b>A (friendly) warning:</b></div><br><br><div style='font-size: 12pt'>The quality of your responses is crucial for our research.<br><br>This means reading the texts carefully and sometimes taking some time to ponder.<br><br>To detect non-serious submissions we measure a number of variables and we inspect your responses.</div><br><br><div style='font-size: 12pt'>Do we pay too little to expect serious work? Or is the task unclear? Let us know at <a href='mailto:langAnalysis@gmail.com'>langAnalysis@gmail.com</a>.</div><br>",
         },
     ],
 
