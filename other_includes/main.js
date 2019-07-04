@@ -436,12 +436,12 @@ function updateProgressBar() {
 }
 function hideProgressBar() {
     if (conf_showProgressBar) {
-        showProgress.css('visibility', "hidden");
+        showProgress.css('display', "none");
     }
 }
 function showProgressBar() {
     if (conf_showProgressBar) {
-        showProgress.css('visibility', "visible");
+        showProgress.css('display', "block");
     }
 }
 
