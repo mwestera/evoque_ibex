@@ -536,7 +536,17 @@ function pasted(s) {
 async function init() {
 
     window.onfocus = function() {
-        document.getElementById("focused").value = Number(document.getElementById("focused").value) + 1;
+        var d = new Date();
+        var endblur = d.getTime();
+        if (document.getElementById("blurred").value != '') {
+            document.getElementById("blurred").value += ',';
+        }
+        document.getElementById("blurred").value += window.startblur + '-' + endblur;
+    }
+
+    window.onblur = function() {
+        var d = new Date();
+        window.startblur = d.getTime();
     }
 
     // show instructions
