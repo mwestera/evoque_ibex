@@ -182,6 +182,8 @@ function quality_check() {
                 <div id="fragment_selector" style="color:transparent; position: absolute; display: inline-block; width:95%"></div>
             </div>
         </div>
+
+    <p id="highlight_error" style="color: red; visibility: hidden;">You can highlight <i>at most ten</i> words; choose the most important part.</p>
     <hr>
 
     <input type="text" id="question_index" name="question_index" style="display:none"/>
@@ -249,7 +251,7 @@ function quality_check() {
         <br></p>
 
         <p>
-        <b>&#9654; In the new piece of text, <mark id="marker_in_question2" style="background:#76bef8">highlight</mark> the main phrase suggesting this answer.</b>
+        <b>&#9654; In the new piece of text, <mark id="marker_in_question2" style="background:#76bef8">highlight</mark> the main word or short phrase suggesting this answer.</b>
         <b id="answer_highlighting_error" style="color: red; visibility: hidden"> *</b><br>
         <p class="instruction">Highlighting works only if your question was at least somewhat answered (3 or higher).
             You highlight text by cursor selection: <b>click-and-drag on the text</b>.<br>

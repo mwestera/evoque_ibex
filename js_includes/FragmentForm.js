@@ -302,6 +302,8 @@ function getSelection() {
         (anchorParent != focusParent || selection.anchorOffset != selection.focusOffset)
     ) {
 
+        document.getElementById("highlight_error").style.visibility = "hidden";
+
         anchorParentId = Number(anchorParentId.substring(8, anchorParentId.length));
         focusParentId = Number(focusParentId.substring(8, focusParentId.length));
 
@@ -359,7 +361,24 @@ function getSelection() {
             return null;
         };
 
-        return [startParentId, startOffset, endParentId, endOffset];
+        var sel = [startParentId, startOffset, endParentId, endOffset]
+
+        if (sel[0] == sel[2]) {
+            selected_text = window.text[sel[0]].substring(sel[1], sel[3]);
+        } else {
+            selected_text = window.text[sel[0]].substring(sel[1], window.text[sel[0]].length);
+            for (var i=sel[0]+1; i < sel[2]; i++) {
+                selected_text += ' '  + window.text[i];
+            }
+            selected_text += ' ' + window.text[sel[2]].substring(0, sel[3])
+        }
+
+        if (selected_text.split(" ").length > 10) {
+            flashMessage(document.getElementById("highlight_error"));
+            return null;
+        };
+
+        return sel;
 
     }
     return null;

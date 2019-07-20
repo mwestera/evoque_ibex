@@ -146,6 +146,9 @@ function quality_check() {
                 <div id="fragment_selector" style="color:transparent; position: absolute; display: inline-block; width:95%"></div>
             </div>
         </div>
+
+    <p id="highlight_error" style="color: red; visibility: hidden;">You can highlight <i>at most ten</i> words; choose the most important part.</p>
+
     <hr>
 
     <input type="text" id="question_index" name="question_index" style="display:none"/>
@@ -154,7 +157,6 @@ function quality_check() {
     <input type="text" id="current_chunk" name="current_chunk" style="display:none"/>
     <input type="text" id="pasted" name="pasted" style="display:none"/>
     <input type="text" id="blurred" name="blurred" style="display:none"/>
-
 
 <div id="form" style="visibility: hidden; width:40em">
 
@@ -196,7 +198,7 @@ function quality_check() {
         <br></p>
 
     <div id="div_containing_item_4"><p>
-        <b>&#9654; In the text, <mark id="marker_in_question" style="background:#76bef8">highlight</mark> the main phrase that evokes this question.</b>
+        <b>&#9654; In the text, <mark id="marker_in_question" style="background:#76bef8">highlight</mark> the main word or short phrase that evokes this question.</b>
         <b id="question_highlighting_error" style="color: red; visibility: hidden"> *</b>
         <p class="instruction">
         Highlighting text works only if you clicked "yes".
