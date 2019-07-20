@@ -354,6 +354,11 @@ function getSelection() {
             return null;
         };
 
+        // Weird case (found once in pre-pilot_2):
+        if (startParentId > endParentId || (startParentId == endParentId && startOffset >= endOffset)) {
+            return null;
+        };
+
         return [startParentId, startOffset, endParentId, endOffset];
 
     }
