@@ -16,6 +16,8 @@ jqueryWidget: {
         window.cutoff_points = dget(this.options, "cutoff_points");
         window.current_chunk = dget(this.options, "current_chunk");
 
+        window.training = dget(this.options, "training");
+
         var new_text = dget(this.options, "text");
 
         var new_speakers = []
@@ -593,6 +595,10 @@ async function init() {
 
     if (window.speakers[0] != -1) {
         document.getElementById("speaker_labels").style.display = "block";
+    }
+
+    if (window.training) {
+        document.getElementById("training").style.display = "block";
     }
 
     for (var i=0; i < window.text.length; i++) {
