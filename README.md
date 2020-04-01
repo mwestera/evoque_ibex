@@ -1,3 +1,13 @@
+# Ibex experiment for eliciting questions evoked by discourse #
+By Matthijs Westera and Hannah Rohde
+
+Example: http://spellout.net/ibexexps/mwestera/evoque/experiment.html
+
+This code has been used for the TED-Q dataset: https://github.com/amore-upf/ted-q
+
+-------------------------
+## Original readme of Ibex: ##
+
 User documentation at https://github.com/addrummond/ibex/blob/master/docs/manual.md
 
 The following are some notes intended for developers.
