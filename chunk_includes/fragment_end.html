@@ -10,7 +10,7 @@ function revealForm() {
 
     document.getElementById("div_containing_message_incase_no_question_was_evoked").style.display = "block";
     document.getElementById("fragment_highlighter").style.visibility = "hidden";
-    if (window.speakers[0] != -1) {
+    if (window.my.speakers[0] != -1) {
         document.getElementById("naturalness-explanation").innerHTML = "&#9654; Does this excerpt seem natural, like a dialog that could happen in the real world (face-to-face, messaging, ...)?";
     }
 };
@@ -42,7 +42,7 @@ function quality_check() {
 
     if (!check) flashMessage(document.getElementById("div_for_last_error_message"));
 
-    if (check) window.numTextsDone++;
+    if (check) window.my.numTextsDone++;
 
     return check;
 }

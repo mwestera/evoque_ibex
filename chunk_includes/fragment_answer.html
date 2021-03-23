@@ -8,20 +8,20 @@ init();
 
 function revealForm() {
 
-    document.getElementById("marker_in_question2").style.backgroundColor = window.colors[window.current_color_idx];
-    document.getElementById("question_display_field").style.backgroundColor = window.colors_dimmed[window.current_color_idx];
-    document.getElementById("answer_field").style.backgroundColor = window.colors[window.current_color_idx];
+    document.getElementById("marker_in_question2").style.backgroundColor = window.colors[window.my.current_color_idx];
+    document.getElementById("question_display_field").style.backgroundColor = window.colors_dimmed[window.my.current_color_idx];
+    document.getElementById("answer_field").style.backgroundColor = window.colors[window.my.current_color_idx];
 
     //// If unanswered question is available:
-    // if (window.current_question_idx >= 0 && !window.questions_thusfar[window.current_question_idx][6]) {
+    // if (window.my.current_question_idx >= 0 && !window.my.questions_thusfar[window.my.current_question_idx][6]) {
     // Variant where question must be sufficiently recent:
-    if (window.current_question_idx >= 0 && !window.questions_thusfar[window.current_question_idx][6] && window.questions_thusfar[window.current_question_idx][7] >= window.current_chunk - 4) {
-        var prev_question = window.questions_thusfar[window.current_question_idx][5];
+    if (window.my.current_question_idx >= 0 && !window.my.questions_thusfar[window.my.current_question_idx][6] && window.my.questions_thusfar[window.my.current_question_idx][7] >= window.my.current_chunk - 4) {
+        var prev_question = window.my.questions_thusfar[window.my.current_question_idx][5];
         document.getElementById("question_copy_for_display").innerHTML = prev_question;
         document.getElementById("div_containing_form_for_fragment_cont").style.visibility = "visible";
-        if (window.current_question_idx == window.questions_thusfar.length-2) {
+        if (window.my.current_question_idx == window.my.questions_thusfar.length-2) {
             document.getElementById("you").innerHTML = "Earlier, you also";
-        } else if (window.current_question_idx < window.questions_thusfar.length-2) {
+        } else if (window.my.current_question_idx < window.my.questions_thusfar.length-2) {
             document.getElementById("you").innerHTML = "Before, you also";
         }
     } else {
@@ -40,9 +40,9 @@ function toggleAnswerRadio(element) {
         document.getElementById("div_containing_items_6_and_7").style.color = "#888888";
         document.getElementById("answer_error").style.visibility = "hidden";
         document.getElementById("answer_highlighting_error").style.visibility = "hidden";
-        document.getElementById("marker_in_question2").style.backgroundColor = window.colors_dimmed[window.current_color_idx];
+        document.getElementById("marker_in_question2").style.backgroundColor = window.colors_dimmed[window.my.current_color_idx];
         document.getElementById("marker_in_question2").style.color = "#888888";
-        document.getElementById("answer_field").style.backgroundColor = window.colors_dimmed[window.current_color_idx];
+        document.getElementById("answer_field").style.backgroundColor = window.colors_dimmed[window.my.current_color_idx];
     } else {
         if ( document.getElementById("answer").disabled == true ) {
             document.getElementById("answer").disabled = false;
@@ -51,9 +51,9 @@ function toggleAnswerRadio(element) {
             document.getElementById("div_containing_items_6_and_7").style.color = "#000000";
             document.getElementById("answer_error").style.visibility = "hidden";
             document.getElementById("answer_highlighting_error").style.visibility = "hidden";
-            document.getElementById("marker_in_question2").style.backgroundColor = window.colors[window.current_color_idx];
+            document.getElementById("marker_in_question2").style.backgroundColor = window.colors[window.my.current_color_idx];
             document.getElementById("marker_in_question2").style.color = "#000000";
-            document.getElementById("answer_field").style.backgroundColor = window.colors[window.current_color_idx];
+            document.getElementById("answer_field").style.backgroundColor = window.colors[window.my.current_color_idx];
         }
     };
 };
@@ -78,7 +78,7 @@ function quality_check() {
         document.getElementById("current_chunk").remove();
         document.getElementById("pasted").remove();
         document.getElementById("blurred").remove();
-        window.current_question_idx--;
+        window.my.current_question_idx--;
         return true;
     }
 
@@ -134,15 +134,15 @@ function quality_check() {
         } else {  // Save some results for next screen
             start = document.getElementById("selection_start").value.split(",")
             end = document.getElementById("selection_end").value.split(",")
-            window.answers_thusfar.push([Number(start[0]), Number(start[1]), Number(end[0]), Number(end[1]), current_color_idx, document.getElementById("answer").value]);
-            window.questions_thusfar[window.current_question_idx][6] = true;
+            window.my.answers_thusfar.push([Number(start[0]), Number(start[1]), Number(end[0]), Number(end[1]), window.my.current_color_idx, document.getElementById("answer").value]);
+            window.my.questions_thusfar[window.my.current_question_idx][6] = true;
         }
 
-        if (check) window.numAnswersDone++;
+        if (check) window.my.numAnswersDone++;
 
-        document.getElementById("question_index").value = window.current_question_idx;
+        document.getElementById("question_index").value = window.my.current_question_idx;
 
-        window.current_question_idx--;
+        window.my.current_question_idx--;
 
         // Slowly scroll to top
         $("html, body").animate({ scrollTop: 0 }, "slow");
