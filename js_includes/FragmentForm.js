@@ -375,10 +375,10 @@ function getSelection() {
             selected_text += ' ' + window.text[sel[2]].substring(0, sel[3])
         }
 
-        if (selected_text.split(" ").length > 10) {
-            flashMessage(document.getElementById("highlight_error"));
-            return null;
-        };
+        // if (selected_text.split(" ").length > 10) {
+        //     flashMessage(document.getElementById("highlight_error"));
+        //     return null;
+        // };
 
         return sel;
 
