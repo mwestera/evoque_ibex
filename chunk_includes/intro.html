@@ -29,6 +29,8 @@
         document.getElementById("education_hidden").value = document.getElementById("education").value;
     }
 
+    document.getElementById("code_hidden").value = urlParams["code"];
+
 </script>
 
 
@@ -42,16 +44,12 @@
 
     <hr>
 
+    <div style="display: none">Code from crowdsource framework:
+        <input id="code_hidden" name="code" type="text" style="width: 32em" class="obligatory">
+    </div>
+
     <p><b>&#9654; Please enter your basic personal information:<br></b></p>
     <table>
-        <tr>
-            <td style="width:18em">Mturk ID:</td>
-            <td style="width:20em"><div class="r-pill__group">
-                <input name="id" id="id" type="text" maxlength="20" style="width: 20em; border-style:none; background-color:transparent" class="obligatory" />
-                </div>
-            </td>
-            <td style="width:2em"><label class="error" for="id" style="color:red"></label></td>
-        </tr>
         <tr>
             <td>Age:</td>
             <td><div class="r-pill__group">
@@ -100,7 +98,7 @@
             <td><label class="error" for="education" style="color:red"></label></td>
         </tr>
 
-        <tr>
+<!--        <tr>
             <td>Do you have normal hearing?</td>
             <td><fieldset class="r-pill">
                 <div class="r-pill__group">
@@ -134,7 +132,6 @@
             <td><label class="error" for="eyesight" style="color:red"></label></td>
         </tr>
 
-
 	<tr style="vertical-align: top;">
             <td>Have you ever been diagnosed with <i>Autism Spectrum Disorder</i>, by a medical professional?</td>
             <td><fieldset class="r-pill">
@@ -156,10 +153,12 @@
             <td><label class="error" for="autism" style="color:red"></label></td>
         </tr>
 
+-->
+
     </table>
 
 
-    <p><b>&#9654; On an average day, how much time would you spend <i><mark>reading</mark></i>:<br></b></p>
+    <p><b>&#9654; On an average day (consider both weekdays and weekends), how much time would you spend <i><mark>reading</mark></i>:<br></b></p>
     <table>
 
         <tr>
@@ -264,7 +263,7 @@
 
     </table>
 
-    <p><b>&#9654; And how much time would you spend <i><mark>writing</mark></i>:<br></b></p>
+    <p><b>&#9654; And how much time on an average day would you spend <i><mark>writing</mark></i>:<br></b></p>
     <table>
         <tr>
             <td style="width: 15em;"> ...fiction</td>
