@@ -285,7 +285,7 @@ $.each(items, function(_, it) {
     ++itemNumber;
  });
 
-var runningOrder = myRestore('runningOrder') || 
+var runningOrder = myRestore('runningOrder') ||
   runShuffleSequence(mungGroups(listOfElementSets, counter), conf_shuffleSequence);
 assert(runningOrder.length > 0 && runningOrder[0].length > 0,
        "There must be some items in the running order!");
@@ -438,6 +438,8 @@ if (conf_showProgressBar) {
 
     showProgress.append(barContainer).append(p);
     $("body").prepend(thingToPrependToBody);
+    currentProgressBarWidth = myRestore('currentProgressBarWidth') || 0;
+    bar.css('width', currentProgressBarWidth + 'px');
 }
 
 function updateProgressBar() {
@@ -529,6 +531,7 @@ function finishedCallback(resultsLines) {
     mySave('posInRunningOrder', posInRunningOrder);
     mySave('posInCurrentElementSet', posInCurrentElementSet);
     mySave('window.my', window.my);
+    mySave('currentProgressBarWidth', currentProgressBarWidth);
 
     currentElement = runningOrder[posInRunningOrder][posInCurrentElementSet];
 
@@ -580,7 +583,7 @@ if (localStorage['hasData']) {
         window.location.reload();
     }
 }
-  
+
 var pForElement = $(document.createElement("p")).css('clear', 'both');
 inner.append(pForElement);
 currentUtilsInstance = new Utils({});
