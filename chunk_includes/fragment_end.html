@@ -47,6 +47,8 @@ function quality_check() {
     return check;
 }
 
+document.getElementById("code_hidden").value = urlParams["code"];
+document.getElementById("mode_hidden").value = urlParams["mode"];
 
 </script>
 
@@ -163,6 +165,14 @@ function quality_check() {
     <p class="instruction">This last field is optional.
         You can use it to let us know if something went wrong, or (for instance) if you were particularly annoyed or inspired by the text fragment.
     </p>
+
+    <div style="display: none">Code from crowdsource framework:
+        <input id="code_hidden" name="code" type="text" style="width: 32em" class="obligatory">
+    </div>
+
+    <div style="display: none">Mode (obligatory questions or not):
+        <input id="mode_hidden" name="mode" type="text" style="width: 32em" class="obligatory">
+    </div>
 
 </div>
 
