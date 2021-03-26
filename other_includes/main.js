@@ -6,6 +6,16 @@ for (var _ in { }) {
     assert(false, "ERROR: The JavaScript object namespace has been polluted (perhaps by a library such as prototype.js?)");
 }
 
+function mySave(key, value) {
+    localStorage.setItem('hasData', true);
+    localStorage.setItem(key, JSON.stringify(value));
+}
+
+function myRestore(key) {
+    var value = localStorage[key];
+    if (value) return JSON.parse(value);
+}
+
 $(document).ready(function () {
 
 // Preload chunks.
@@ -199,6 +209,7 @@ $.widget("ui.__SendResults__", {
         sendResults(allResults,
 		    function() {
                         RESULTS_HAVE_ALREADY_BEEN_SENT = true;
+                        localStorage.clear();
                         spinSpanShouldBeSpinning = false;
 			t.element.empty().append($("<div>").addClass("sending-results").text(conf_completionMessage));
 			t.options._finishedCallback();
@@ -274,7 +285,8 @@ $.each(items, function(_, it) {
     ++itemNumber;
  });
 
-var runningOrder = runShuffleSequence(mungGroups(listOfElementSets, counter), conf_shuffleSequence);
+var runningOrder = myRestore('runningOrder') ||
+  runShuffleSequence(mungGroups(listOfElementSets, counter), conf_shuffleSequence);
 assert(runningOrder.length > 0 && runningOrder[0].length > 0,
        "There must be some items in the running order!");
 
@@ -426,6 +438,8 @@ if (conf_showProgressBar) {
 
     showProgress.append(barContainer).append(p);
     $("body").prepend(thingToPrependToBody);
+    currentProgressBarWidth = myRestore('currentProgressBarWidth') || 0;
+    bar.css('width', currentProgressBarWidth + 'px');
 }
 
 function updateProgressBar() {
@@ -445,12 +459,13 @@ function showProgressBar() {
     }
 }
 
-var posInRunningOrder = 0;
-var posInCurrentElementSet = 0;
+var posInRunningOrder = myRestore('posInRunningOrder') || 0;
+var posInCurrentElementSet = myRestore('posInCurrentElementSet') || 0;
+if (!window.my) window.my = myRestore('window.my') || {};
 var currentUtilsInstance = null;
 var currentElementOptions = null;
 // A list of result lines.
-var allResults = [];
+var allResults = myRestore('allResults') || [];
 // Array for column names.
 var columnNamesArray = ["Controller name", "Item number", "Element number", "Type", "Group"];
 
@@ -491,6 +506,7 @@ function finishedCallback(resultsLines) {
                 preamble.push(resultsLines[i][j]);
             }
             allResults.push(preamble);
+            mySave('allResults', allResults);
         }
     }
 
@@ -512,6 +528,10 @@ function finishedCallback(resultsLines) {
         }
         posInCurrentElementSet = 0;
     }
+    mySave('posInRunningOrder', posInRunningOrder);
+    mySave('posInCurrentElementSet', posInCurrentElementSet);
+    mySave('window.my', window.my);
+    mySave('currentProgressBarWidth', currentProgressBarWidth);
 
     currentElement = runningOrder[posInRunningOrder][posInCurrentElementSet];
 
@@ -553,18 +573,29 @@ function finishedCallback(resultsLines) {
         showProgressBar();
 }
 
+var firstElement = runningOrder[0][0];
+if (localStorage['hasData']) {
+    if (confirm("Would you like to continue the experiment from where you left it?")) {
+        firstElement = runningOrder[myRestore('posInRunningOrder')][myRestore('posInCurrentElementSet')];
+    }
+    else {
+        localStorage.clear();
+        window.location.reload();
+    }
+}
+
 var pForElement = $(document.createElement("p")).css('clear', 'both');
 inner.append(pForElement);
 currentUtilsInstance = new Utils({});
-var os = runningOrder[0][0].options;
+var os = firstElement.options;
 os._finishedCallback = finishedCallback;
 os._utils = currentUtilsInstance;
-os._cssPrefix = runningOrder[0][0].controller + "-";
+os._cssPrefix = firstElement.controller + "-";
 os._controllerDefaults = ht_defaults;
 os._utilsClass = Utils;
 currentElementOptions = os;
-addSafeBindMethodPair(runningOrder[0][0].controller);
-pForElement[runningOrder[0][0].controller](os);
+addSafeBindMethodPair(firstElement.controller);
+pForElement[firstElement.controller](os);
 // Should we show the progress bar with the first item?
 if (currentElementOptions.hideProgressBar)
     hideProgressBar();

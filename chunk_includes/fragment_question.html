@@ -14,11 +14,11 @@ function revealForm() {
         document.getElementById("evokeornope").style.display = 'none';
     }
 
-    document.getElementById("marker_in_question").style.backgroundColor = window.colors[window.current_color_idx];
-    document.getElementById("question_field").style.backgroundColor = window.colors[window.current_color_idx];
+    document.getElementById("marker_in_question").style.backgroundColor = window.colors[window.my.current_color_idx];
+    document.getElementById("question_field").style.backgroundColor = window.colors[window.my.current_color_idx];
     document.getElementById("form").style.visibility = "visible";
 
-    if(window.questions_thusfar.length > 0) {
+    if(window.my.questions_thusfar.length > 0) {
         document.getElementById("other").innerHTML = "nother";
     }
 
@@ -33,10 +33,10 @@ function toggleQuestionRadio(element) {
         document.getElementById("fragment_highlighter").style.visibility = "hidden";
         document.getElementById("div_containing_item_4").style.color = "#888888";
         document.getElementById("question_field").style.color = "#888888";
-        document.getElementById("marker_in_question").style.backgroundColor = colors_dimmed[current_color_idx];
+        document.getElementById("marker_in_question").style.backgroundColor = colors_dimmed[window.my.current_color_idx];
         document.getElementById("marker_in_question").style.color = "#888888";
         document.getElementById("question_highlighting_error").style.visibility = "hidden";
-        document.getElementById("question_field").style.backgroundColor = window.colors_dimmed[window.current_color_idx];
+        document.getElementById("question_field").style.backgroundColor = window.colors_dimmed[window.my.current_color_idx];
     } else {
         if ( document.getElementById("question").disabled = true ) {
             document.getElementById("question").disabled = false;
@@ -44,11 +44,11 @@ function toggleQuestionRadio(element) {
             document.getElementById("hidden_field_for_storing_question").innerHTML = "";
             document.getElementById("fragment_highlighter").style.visibility = "visible";
             document.getElementById("div_containing_item_4").style.color = "#000000";
-            document.getElementById("marker_in_question").style.backgroundColor = colors[current_color_idx];
+            document.getElementById("marker_in_question").style.backgroundColor = colors[window.my.current_color_idx];
             document.getElementById("marker_in_question").style.color = "#000000";
             document.getElementById("question_field").style.color = "#000000";
             document.getElementById("question_highlighting_error").style.visibility = "hidden";
-            document.getElementById("question_field").style.backgroundColor = window.colors[window.current_color_idx];
+            document.getElementById("question_field").style.backgroundColor = window.colors[window.my.current_color_idx];
         }
     };
 };
@@ -106,15 +106,15 @@ function quality_check() {
         } else {    // Save some results for next screen
             start = document.getElementById("selection_start").value.split(",")
             end = document.getElementById("selection_end").value.split(",")
-            window.questions_thusfar.push([Number(start[0]), Number(start[1]), Number(end[0]), Number(end[1]), current_color_idx, document.getElementById("question").value, false, window.current_chunk]);
-            document.getElementById("question_index").value = window.questions_thusfar.length - 1;
+            window.my.questions_thusfar.push([Number(start[0]), Number(start[1]), Number(end[0]), Number(end[1]), window.my.current_color_idx, document.getElementById("question").value, false, window.my.current_chunk]);
+            document.getElementById("question_index").value = window.my.questions_thusfar.length - 1;
             document.getElementById("evoked_yes").remove();
             document.getElementById("evoked_no").remove();
         }
 
-        if (check) window.numQuestionsDone++;
+        if (check) window.my.numQuestionsDone++;
 
-        window.current_question_idx = window.questions_thusfar.length - 1;    // Always start counting from the most recent one
+        window.my.current_question_idx = window.my.questions_thusfar.length - 1;    // Always start counting from the most recent one
 
         // Slowly scroll to top
         $("html, body").animate({ scrollTop: 0 }, "slow");
