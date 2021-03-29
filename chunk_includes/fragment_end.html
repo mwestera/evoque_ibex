@@ -20,13 +20,23 @@ function quality_check() {
 
     var check = true;
     // Naturalness
-    if ( !document.getElementById("natural1").checked &&
-         !document.getElementById("natural2").checked &&
-         !document.getElementById("natural3").checked &&
-         !document.getElementById("natural4").checked &&
-         !document.getElementById("natural5").checked
+    // if ( !document.getElementById("natural1").checked &&
+//         !document.getElementById("natural2").checked &&
+//         !document.getElementById("natural3").checked &&
+//         !document.getElementById("natural4").checked &&
+//         !document.getElementById("natural5").checked
+//       ) {
+//        flashMessage(document.getElementById("natural_error"));
+//        check = false;
+//    }
+    // Familiarity
+    if ( !document.getElementById("familiar1").checked &&
+         !document.getElementById("familiar2").checked &&
+         !document.getElementById("familiar3").checked &&
+         !document.getElementById("familiar4").checked &&
+         !document.getElementById("familiar5").checked
        ) {
-        flashMessage(document.getElementById("natural_error"));
+        flashMessage(document.getElementById("familiar_error"));
         check = false;
     }
     // Coherence
@@ -47,6 +57,8 @@ function quality_check() {
     return check;
 }
 
+document.getElementById("code_hidden").value = urlParams["code"];
+document.getElementById("mode_hidden").value = urlParams["mode"];
 
 </script>
 
@@ -92,12 +104,10 @@ function quality_check() {
 
 
 <div id="div_containing_message_incase_no_question_was_evoked" style="position: relative; display: none">
-    <p><b id="naturalness-explanation">&#9654; Did this excerpt seem natural, like something a person could have said or written?</b><br>
+    <!-- <p><b id="naturalness-explanation">&#9654; Did this excerpt seem natural, like something a person could have said or written?</b><br>
         <fieldset class="r-pill">
             <div class="r-pill__group">
                 <i>&nbsp;&nbsp;Very unnatural.</i>
-                <!-- Ugly way of having default value empty string for radio buttons: TODO field ended up twice in results... -->
-                <!-- <input type="text" id="answered0" name="answered" value="" style="display:none"/> -->
                 <span class="r-pill__item">
                     <input type="radio" id="natural1" name="natural" value="1"/>
                     <label for="natural1">1</label>
@@ -121,7 +131,7 @@ function quality_check() {
                 <i>Very natural. &nbsp;&nbsp;</i>
             </div><b id="natural_error" style="color: red; visibility: hidden"> *</b>
         </fieldset>
-    </p>
+    </p> -->
 
         <p><b>&#9654; Was this excerpt comprehensible to you?</b><br>
         <fieldset class="r-pill">
@@ -154,6 +164,37 @@ function quality_check() {
         </fieldset>
     </p>
 
+    <p><b id="familiar-explanation">&#9654; Before reading the text, were you already familiar with the topics it covers?</b><br>
+        <fieldset class="r-pill">
+            <div class="r-pill__group">
+                <i>&nbsp;&nbsp;Very familiar.</i>
+                <!-- Ugly way of having default value empty string for radio buttons: TODO field ended up twice in results... -->
+                <!-- <input type="text" id="answered0" name="answered" value="" style="display:none"/> -->
+                <span class="r-pill__item">
+                    <input type="radio" id="familiar1" name="familiar" value="1"/>
+                    <label for="familiar1">1</label>
+                </span>
+                <span class="r-pill__item">
+                    <input type="radio" id="familiar2" name="familiar" value="2"/>
+                    <label for="familiar2">2</label>
+                </span>
+                <span class="r-pill__item">
+                    <input type="radio" id="familiar3" name="familiar" value="3"/>
+                    <label for="familiar3">3</label>
+                </span>
+                <span class="r-pill__item">
+                    <input type="radio" id="familiar4" name="familiar" value="4"/>
+                    <label for="familiar4">4</label>
+                </span>
+                <span class="r-pill__item">
+                    <input type="radio" id="familiar5" name="familiar" value="5"/>
+                    <label for="familiar5">5</label>
+                </span>
+                <i>Very unfamiliar. &nbsp;&nbsp;</i>
+            </div><b id="familiar_error" style="color: red; visibility: hidden"> *</b>
+        </fieldset>
+    </p>
+
 
     <p>
     <b>&#9654; Any comments about this excerpt, or about your responses?</b><br>
@@ -163,6 +204,14 @@ function quality_check() {
     <p class="instruction">This last field is optional.
         You can use it to let us know if something went wrong, or (for instance) if you were particularly annoyed or inspired by the text fragment.
     </p>
+
+    <div style="display: none">Code from crowdsource framework:
+        <input id="code_hidden" name="code" type="text" style="width: 32em" class="obligatory">
+    </div>
+
+    <div style="display: none">Mode (obligatory questions or not):
+        <input id="mode_hidden" name="mode" type="text" style="width: 32em" class="obligatory">
+    </div>
 
 </div>
 

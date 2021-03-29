@@ -33,8 +33,17 @@ if (typeof(completionErrorMessage) != "undefined")
     conf_completionErrorMessage = completionErrorMessage;
 if (typeof(pageTitle) != "undefined")
     conf_pageTitle = pageTitle;
-if (typeof(shuffleSequence) != "undefined")
+if (typeof(shuffleSequence) != "undefined") {
+    var shuffleSequence;
+    if (urlParams['phase'] == "intro") {
+        shuffleSequence = seq("consent", "introform", "training", "submit", "thanks");
+    }
+    else if (urlParams['phase'] == 'experiment') {
+        shuffleSequence = seq("welcomeback", sepWith("sep", "fragment"), "submit", "thanks");
+    }
     conf_shuffleSequence = shuffleSequence;
+}
+
 if (typeof(showProgressBar) != "undefined")
     conf_showProgressBar = showProgressBar;
 if (typeof(progressBarText) != "undefined")

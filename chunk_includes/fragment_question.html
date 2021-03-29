@@ -8,6 +8,12 @@ init();
 
 function revealForm() {
 
+    if (urlParams['mode'] == "qopt") {
+        document.getElementById("evokeornope").style.display = 'block';
+    } else {
+        document.getElementById("evokeornope").style.display = 'none';
+    }
+
     document.getElementById("marker_in_question").style.backgroundColor = window.colors[window.my.current_color_idx];
     document.getElementById("question_field").style.backgroundColor = window.colors[window.my.current_color_idx];
     document.getElementById("form").style.visibility = "visible";
@@ -26,7 +32,7 @@ function toggleQuestionRadio(element) {
         document.getElementById("question").value = "";
         document.getElementById("fragment_highlighter").style.visibility = "hidden";
         document.getElementById("div_containing_item_4").style.color = "#888888";
-        document.getElementById("enter_your_question").style.color = "#888888";
+        document.getElementById("question_field").style.color = "#888888";
         document.getElementById("marker_in_question").style.backgroundColor = colors_dimmed[window.my.current_color_idx];
         document.getElementById("marker_in_question").style.color = "#888888";
         document.getElementById("question_highlighting_error").style.visibility = "hidden";
@@ -40,7 +46,7 @@ function toggleQuestionRadio(element) {
             document.getElementById("div_containing_item_4").style.color = "#000000";
             document.getElementById("marker_in_question").style.backgroundColor = colors[window.my.current_color_idx];
             document.getElementById("marker_in_question").style.color = "#000000";
-            document.getElementById("enter_your_question").style.color = "#000000";
+            document.getElementById("question_field").style.color = "#000000";
             document.getElementById("question_highlighting_error").style.visibility = "hidden";
             document.getElementById("question_field").style.backgroundColor = window.colors[window.my.current_color_idx];
         }
@@ -166,7 +172,7 @@ function quality_check() {
     </p>
 
     <p>
-<div style="display: none"><b>&#9654; Does the text at this point evoke a<span id="otherOld"></span> question for you?</b><br>
+<div id="evokeornope" style="display: none"><b>&#9654; Does the text at this point evoke a<span id="otherOld"></span> question for you?</b><br>
         <fieldset class="r-pill">
             <div class="r-pill__group">
                 <span class="r-pill__item">
