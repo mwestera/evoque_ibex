@@ -7,12 +7,12 @@ for (var _ in { }) {
 }
 
 function mySave(key, value) {
-    localStorage.setItem('hasData', true);
-    localStorage.setItem(key, JSON.stringify(value));
+    localStorage.setItem(meta_info+'_hasData', true);
+    localStorage.setItem(meta_info+'_'+key, JSON.stringify(value));
 }
 
 function myRestore(key) {
-    var value = localStorage[key];
+    var value = localStorage[meta_info+'_'+key];
     if (value) return JSON.parse(value);
 }
 
@@ -574,7 +574,7 @@ function finishedCallback(resultsLines) {
 }
 
 var firstElement = runningOrder[0][0];
-if (localStorage['hasData']) {
+if (myRestore('hasData')) {
     if (confirm("Would you like to continue the experiment from where you left it?")) {
         firstElement = runningOrder[myRestore('posInRunningOrder')][myRestore('posInCurrentElementSet')];
     }
