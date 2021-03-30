@@ -111,6 +111,7 @@ if (typeof(counterOverride) != "undefined") {
     assert(! isNaN(parseInt(counterOverride)), "Bad value for 'counterOverride' config variable.");
     counter = parseInt(counterOverride);
 }
+meta_info += "_" + counter.toString();
 
 // Convert the "defaults" variable to a hash.
 var ht_defaults = { };
