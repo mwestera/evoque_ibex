@@ -1,5 +1,4 @@
-# You may need to add a #! line at the beginning of this file, eg.:
-#     #!/usr/bin/python
+#!/usr/bin/env python
 
 #
 # You may need to edit this.
