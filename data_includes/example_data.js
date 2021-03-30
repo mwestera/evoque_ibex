@@ -3,7 +3,7 @@
 //var shuffleSequence = seq("setcounter", sepWith("sep", "fragment"));    // Without intro, with counter
 var shuffleSequence = seq("oops");  // WARNING: Overwritten by conf.js depending on url args
 
-var urlParams;
+var urlParams = {};
 (window.onpopstate = function () {
     var match,
         pl     = /\+/g,  // Regex for replacing addition symbol with a space
@@ -15,8 +15,10 @@ var urlParams;
     while (match = search.exec(query))
        urlParams[decode(match[1])] = decode(match[2]);
 })();
+var correct_args = ('ses' in urlParams & "phase" in urlParams & "mode" in urlParams & "src" in urlParams & (urlParams["phase"] == "experiment" | urlParams["phase"] == "intro") & (urlParams["mode"] == "qmand" | urlParams["mode"] == "qopt") & "012345".indexOf(urlParams['src']) !== -1)
 
-var meta_info = urlParams['phase'] + urlParams['run'] + urlParams['code'] + urlParams['withsquare']
+var meta_info = (!correct_args) ? "OOPS" : (urlParams['phase'] + urlParams['src'] + urlParams['ses'] + ("withsquare" in urlParams ? urlParams['withsquare'] : "random"))
+console.log(meta_info)
 
 var practiceItemTypes = ["practice"];
 
@@ -247,4 +249,4 @@ var items = [
     // Taken from: https://tmalsburg.github.io/latin-squares-with-ibex.html
     ["setcounter", "__SetCounter__", { }],
 
-].concat(items_per_run[urlParams['run']]);
+].concat((urlParams['src'] in items_per_run) ? items_per_run[urlParams['src']] : []);

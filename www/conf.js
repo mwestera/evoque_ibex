@@ -35,11 +35,17 @@ if (typeof(pageTitle) != "undefined")
     conf_pageTitle = pageTitle;
 if (typeof(shuffleSequence) != "undefined") {
     var shuffleSequence;
-    if (urlParams['phase'] == "intro") {
-        shuffleSequence = seq("consent", "introform", "training", "submit", "thanks");
-    }
-    else if (urlParams['phase'] == 'experiment') {
-        shuffleSequence = seq("welcomeback", sepWith("sep", "fragment"), "submit", "thanks");
+    if (correct_args) {
+        if (urlParams['phase'] == "intro") {
+            shuffleSequence = seq("consent", "introform", "training", "submit", "thanks");
+        }
+        else if (urlParams['phase'] == 'experiment') {
+            if ('withsquare' in urlParams) {
+                shuffleSequence = seq("welcomeback", sepWith("sep", "fragment"), "submit", "thanks");
+            } else {
+                shuffleSequence = seq("setcounter", "welcomeback", sepWith("sep", "fragment"), "submit", "thanks");
+            }
+        }
     }
     conf_shuffleSequence = shuffleSequence;
 }
