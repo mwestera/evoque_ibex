@@ -17,7 +17,7 @@ IBEX_WORKING_DIR = "../"
 #
 # Note that the value of this variable can be overridden by the
 # "-m" command line option.
-SERVER_MODE = "toy"
+SERVER_MODE = "cgi"
 
 # The port the server will run on if running in stand-alone
 # mode.
